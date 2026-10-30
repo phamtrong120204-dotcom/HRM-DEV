@@ -106,41 +106,54 @@ export function PayrollDashboardPage() {
   }, []);
 
   return (
-    <div className="dash-root min-h-screen pb-16 bg-[var(--dash-bg)] text-[var(--dash-ink)]">
+    <div className="min-h-screen pb-16 bg-zinc-50 text-zinc-950">
       {/* Cảnh báo Demo Mode bắt buộc */}
       <DemoBanner />
 
-      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 pt-5 space-y-6">
-        {/* Header Dashboard dạng Pill & Controls gọn gàng cho Mobile/Tablet/Desktop */}
-        <div className="bg-[var(--dash-surface)] rounded-[var(--dash-radius-lg)] p-4 sm:p-5 shadow-[var(--dash-shadow)] flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 space-y-5">
+        {/* Header Dashboard chuẩn shadcn-admin + Metadata Strip */}
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
           <div>
             <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--dash-ink)]">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950">
                 Tổng Quan Quỹ Lương & Nhân Sự
               </h1>
               <TenantSwitcher currentRole="OWNER" />
             </div>
-            <p className="text-[var(--dash-muted)] mt-1 text-xs sm:text-sm">
+            <p className="text-zinc-500 mt-1 text-xs sm:text-sm">
               Thống kê toàn diện chi phí nhân sự, trích nộp thuế TNCN và bảo hiểm bắt buộc theo kỳ lương
             </p>
+            {/* Dải Metadata Strip mảnh thay thế Hero Banner màu tím */}
+            <div className="mt-2.5 inline-flex flex-wrap items-center gap-2 rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-600">
+              <span className="inline-flex items-center gap-1.5 font-medium text-zinc-900">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
+                Kỳ lương {selectedMonth.split('-')[1]}/{selectedMonth.split('-')[0]}
+              </span>
+              <span className="text-zinc-300">·</span>
+              <span className="font-medium text-zinc-900 tabular-nums">{payrollList.length} Nhân sự</span>
+              <span className="text-zinc-300">·</span>
+              <span>Anti-IDOR Multi-Tenant</span>
+              <span className="text-zinc-300">·</span>
+              <span className="tabular-nums">Giảm trừ 11M / 4.4M</span>
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <label className="bg-[var(--dash-bg)] border border-[var(--dash-line)] text-[var(--dash-ink)] flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold shadow-xs">
-              <Calendar className="text-[var(--dash-lilac-strong)] h-3.5 w-3.5" />
-              <span>Kỳ lương:</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <label className="bg-white border border-zinc-200 text-zinc-900 flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium">
+              <Calendar className="text-zinc-500 h-3.5 w-3.5" />
+              <span className="text-zinc-500">Kỳ lương:</span>
               <input
                 type="month"
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
-                className="bg-transparent font-mono font-bold focus:outline-none text-xs cursor-pointer"
+                className="bg-transparent font-mono font-semibold focus:outline-none text-xs cursor-pointer tabular-nums"
               />
             </label>
 
             <button
               type="button"
               onClick={() => alert('Xuất báo cáo quỹ lương tháng ' + selectedMonth + ' dạng Excel .xlsx đa sheet')}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold shadow-xs transition-colors"
+              className="bg-zinc-900 hover:bg-zinc-800 text-zinc-50 inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-medium transition-colors"
             >
               <FileSpreadsheet className="h-3.5 w-3.5" />
               <span>Xuất Excel</span>
@@ -148,134 +161,92 @@ export function PayrollDashboardPage() {
           </div>
         </div>
 
-        {/* Bento Grid layout */}
-        <BentoGrid>
-          {/* Bento Tile 1: Hero Tile (Lilac) */}
-          <Card tone="lilac" pad="lg" className="col-span-12 xl:col-span-8 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-2 text-[var(--dash-lilac-strong)] text-xs font-bold uppercase tracking-wider mb-2">
-                <Sparkles size={16} />
-                <span>Báo Cáo Nghiệp Vụ Doanh Nghiệp</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--dash-ink)]">
-                Kỳ lương Tháng {selectedMonth.split('-')[1]}/{selectedMonth.split('-')[0]}
-              </h2>
-              <p className="mt-2 text-xs sm:text-sm text-[var(--dash-ink)]/80 max-w-2xl leading-relaxed">
-                Hệ thống đã tự động tính toán dữ liệu chấm công 31 ngày, thuế TNCN lũy tiến từng phần và trích nộp bảo hiểm theo quy chuẩn Luật BHXH mới nhất.
-              </p>
+        {/* Lưới Bento 12 cột cân đối chuẩn shadcn-admin */}
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-4">
+          {/* KPI 1: Thực lĩnh Net */}
+          <div className="col-span-1 lg:col-span-3 rounded-lg border border-zinc-200 bg-white p-4 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs font-medium text-zinc-500">
+              <span>Thực Lĩnh (Net Salary)</span>
+              <DollarSign size={15} className="text-zinc-400" />
             </div>
-            <div className="mt-4 flex flex-wrap items-center gap-2 pt-2 border-t border-[var(--dash-ink)]/10 text-xs">
-              <span className="bg-white/70 text-[var(--dash-ink)] px-2.5 py-1 rounded-full font-semibold">
-                ✓ {payrollList.length} Nhân sự
-              </span>
-              <span className="bg-white/70 text-[var(--dash-ink)] px-2.5 py-1 rounded-full font-semibold">
-                ✓ Phân quyền RBAC an toàn
-              </span>
-              <span className="bg-white/70 text-[var(--dash-ink)] px-2.5 py-1 rounded-full font-semibold">
-                ✓ Giảm trừ bản thân 11M & NPT 4.4M
-              </span>
+            <div className="mt-2 text-lg sm:text-xl font-bold tracking-tight text-zinc-950 tabular-nums">
+              {formatVND(kpis.totalNet)}
             </div>
-          </Card>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500">
+              <span>Chi trả 100% qua NH</span>
+              <span className="rounded bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 font-semibold text-emerald-700 tabular-nums">+2.8%</span>
+            </div>
+          </div>
 
-          {/* Bento Tile 2: Primary KPI Card (Ink Card - Nhấn mạnh) */}
-          <StatCard
-            className="col-span-12 sm:col-span-6 xl:col-span-4"
-            tone="ink"
-            title="Tổng Thực Lĩnh (Net Salary)"
-            value={kpis.totalNet}
-            suffix=" ₫"
-            delta={2.8}
-            icon={<DollarSign size={18} className="text-teal-400" />}
-          >
-            <div className="flex items-center justify-between text-xs text-white/70 border-t border-white/10 pt-2.5">
-              <span>Chi trả qua chuyển khoản</span>
-              <span className="font-semibold text-emerald-400">100% tài khoản</span>
+          {/* KPI 2: Tổng Gross */}
+          <div className="col-span-1 lg:col-span-3 rounded-lg border border-zinc-200 bg-white p-4 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs font-medium text-zinc-500">
+              <span>Tổng Thu Nhập (Gross)</span>
+              <TrendingUp size={15} className="text-zinc-400" />
             </div>
-          </StatCard>
-
-          {/* Bento Tile 3: Gross KPI Card (Sky) */}
-          <StatCard
-            className="col-span-12 sm:col-span-6 xl:col-span-4"
-            tone="sky"
-            title="Tổng Thu Nhập (Gross)"
-            value={kpis.totalGross}
-            suffix=" ₫"
-            delta={1.5}
-            icon={<TrendingUp size={18} className="text-blue-600" />}
-          >
-            <Sparkline data={[42, 48, 51, 56, 53, 62, 68, 72]} />
-            <div className="mt-2 text-xs text-[var(--dash-muted)]">
-              Bình quân: <strong>{formatVND(kpis.totalGross / (payrollList.length || 1))}</strong>/người
+            <div className="mt-2 text-lg sm:text-xl font-bold tracking-tight text-zinc-950 tabular-nums">
+              {formatVND(kpis.totalGross)}
             </div>
-          </StatCard>
-
-          {/* Bento Tile 4: Thuế TNCN (Amber) */}
-          <StatCard
-            className="col-span-12 sm:col-span-6 xl:col-span-4"
-            tone="amber"
-            title="Thuế TNCN Khấu Trừ"
-            value={kpis.totalTax}
-            suffix=" ₫"
-            icon={<Percent size={18} className="text-amber-700" />}
-          >
-            <div className="mt-2 text-xs text-[var(--dash-muted)] flex justify-between">
-              <span>{kpis.taxPayersCount} người có thuế</span>
-              <span className="font-semibold text-amber-800">Biểu lũy tiến 2026</span>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500">
+              <span className="tabular-nums">BQ {formatVND(kpis.totalGross / (payrollList.length || 1))}</span>
+              <span className="rounded bg-zinc-100 border border-zinc-200 px-1.5 py-0.5 font-semibold text-zinc-700 tabular-nums">+1.5%</span>
             </div>
-          </StatCard>
+          </div>
 
-          {/* Bento Tile 5: Bảo hiểm bắt buộc (Mint) */}
-          <StatCard
-            className="col-span-12 sm:col-span-6 xl:col-span-4"
-            tone="mint"
-            title="Tổng Bảo Hiểm & Công Đoàn"
-            value={kpis.totalEmployeeIns + kpis.totalEmployerCost}
-            suffix=" ₫"
-            icon={<Shield size={18} className="text-emerald-700" />}
-          >
-            <div className="mt-2 text-xs text-[var(--dash-muted)] flex justify-between">
+          {/* KPI 3: Thuế TNCN */}
+          <div className="col-span-1 lg:col-span-3 rounded-lg border border-zinc-200 bg-white p-4 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs font-medium text-zinc-500">
+              <span>Thuế TNCN Khấu Trừ</span>
+              <Percent size={15} className="text-zinc-400" />
+            </div>
+            <div className="mt-2 text-lg sm:text-xl font-bold tracking-tight text-zinc-950 tabular-nums">
+              {formatVND(kpis.totalTax)}
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500">
+              <span>Biểu lũy tiến chuẩn</span>
+              <span className="rounded bg-zinc-100 border border-zinc-200 px-1.5 py-0.5 font-semibold text-zinc-700 tabular-nums">{kpis.taxPayersCount} nộp</span>
+            </div>
+          </div>
+
+          {/* KPI 4: Bảo hiểm */}
+          <div className="col-span-1 lg:col-span-3 rounded-lg border border-zinc-200 bg-white p-4 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs font-medium text-zinc-500">
+              <span>Bảo Hiểm & Công Đoàn</span>
+              <Shield size={15} className="text-zinc-400" />
+            </div>
+            <div className="mt-2 text-lg sm:text-xl font-bold tracking-tight text-zinc-950 tabular-nums">
+              {formatVND(kpis.totalEmployeeIns + kpis.totalEmployerCost)}
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500 tabular-nums">
               <span>NLĐ: {formatVND(kpis.totalEmployeeIns)}</span>
-              <span>DN: {formatVND(kpis.totalEmployerCost)}</span>
+              <span className="rounded bg-zinc-100 border border-zinc-200 px-1.5 py-0.5 font-semibold text-zinc-700">10.5% + 22%</span>
             </div>
-          </StatCard>
+          </div>
 
-          {/* Bento Tile 6: Tỷ lệ đi làm chuyên cần */}
-          <StatCard
-            className="col-span-12 sm:col-span-6 xl:col-span-4"
-            tone="white"
-            title="Tỷ Lệ Đi Làm Chuyên Cần"
-            value={Math.round(kpis.attendanceRate)}
-            suffix="%"
-            icon={<Users size={18} className="text-purple-600" />}
-          >
-            <ProgressBar value={Math.round(kpis.attendanceRate)} label="Tổng công làm thực tế / Công định mức" />
-          </StatCard>
+          {/* Phân tích cơ cấu chi phí doanh nghiệp (7 cols on Desktop) */}
+          <div className="col-span-2 lg:col-span-7 rounded-lg border border-zinc-200 bg-white p-5">
+            <div className="flex items-center justify-between mb-1">
+              <h3 className="text-sm font-semibold text-zinc-950">
+                Cơ Cấu Chi Phí Doanh Nghiệp Thực Trả Cho Nhân Sự
+              </h3>
+              <span className="bg-zinc-100 border border-zinc-200 text-zinc-700 px-2 py-0.5 rounded text-xs font-medium tabular-nums">
+                {selectedMonth}
+              </span>
+            </div>
 
-          {/* Bento Tile 7: Phân tích cơ cấu chi phí doanh nghiệp */}
-          <Card tone="white" className="col-span-12 xl:col-span-8">
-            <CardTitle
-              action={
-                <span className="bg-[var(--dash-bg)] text-[var(--dash-muted)] px-3 py-1 rounded-full text-xs font-bold">
-                  {selectedMonth}
-                </span>
-              }
-            >
-              Cơ Cấu Chi Phí Doanh Nghiệp Thực Trả Cho Nhân Sự
-            </CardTitle>
-
-            <p className="text-xs text-[var(--dash-muted)] mb-4">
-              Tổng chi phí doanh nghiệp tháng này: <strong className="text-[var(--dash-ink)] font-semibold">{formatVND(kpis.totalCompanyExpense)}</strong>
+            <p className="text-xs text-zinc-500 mb-4">
+              Tổng chi phí doanh nghiệp tháng này: <strong className="text-zinc-950 font-semibold tabular-nums">{formatVND(kpis.totalCompanyExpense)}</strong>
             </p>
 
             <div className="space-y-3.5 text-xs">
               <div>
                 <div className="flex justify-between font-medium mb-1">
-                  <span>1. Tiền trả thực lĩnh cho NLĐ (Net)</span>
-                  <strong className="text-[var(--dash-ink)]">{formatVND(kpis.totalNet)}</strong>
+                  <span className="text-zinc-700">1. Tiền trả thực lĩnh cho NLĐ (Net)</span>
+                  <strong className="text-zinc-950 tabular-nums">{formatVND(kpis.totalNet)}</strong>
                 </div>
-                <div className="bg-[var(--dash-bg)] h-2 rounded-full overflow-hidden">
+                <div className="bg-zinc-100 h-2 rounded overflow-hidden">
                   <div
-                    className="bg-teal-600 h-full rounded-full transition-all duration-500"
+                    className="bg-zinc-900 h-full rounded transition-all duration-500"
                     style={{ width: `${(kpis.totalNet / (kpis.totalCompanyExpense || 1)) * 100}%` }}
                   />
                 </div>
@@ -283,12 +254,12 @@ export function PayrollDashboardPage() {
 
               <div>
                 <div className="flex justify-between font-medium mb-1">
-                  <span>2. Chi phí Bảo hiểm & KPCĐ phần Doanh nghiệp nộp (22%)</span>
-                  <strong className="text-purple-600">{formatVND(kpis.totalEmployerCost)}</strong>
+                  <span className="text-zinc-700">2. Chi phí Bảo hiểm & KPCĐ phần Doanh nghiệp nộp (22%)</span>
+                  <strong className="text-zinc-800 tabular-nums">{formatVND(kpis.totalEmployerCost)}</strong>
                 </div>
-                <div className="bg-[var(--dash-bg)] h-2 rounded-full overflow-hidden">
+                <div className="bg-zinc-100 h-2 rounded overflow-hidden">
                   <div
-                    className="bg-purple-600 h-full rounded-full transition-all duration-500"
+                    className="bg-zinc-600 h-full rounded transition-all duration-500"
                     style={{ width: `${(kpis.totalEmployerCost / (kpis.totalCompanyExpense || 1)) * 100}%` }}
                   />
                 </div>
@@ -296,12 +267,12 @@ export function PayrollDashboardPage() {
 
               <div>
                 <div className="flex justify-between font-medium mb-1">
-                  <span>3. Bảo hiểm phần NLĐ nộp hộ (10.5%)</span>
-                  <strong className="text-blue-600">{formatVND(kpis.totalEmployeeIns)}</strong>
+                  <span className="text-zinc-700">3. Bảo hiểm phần NLĐ nộp hộ (10.5%)</span>
+                  <strong className="text-zinc-800 tabular-nums">{formatVND(kpis.totalEmployeeIns)}</strong>
                 </div>
-                <div className="bg-[var(--dash-bg)] h-2 rounded-full overflow-hidden">
+                <div className="bg-zinc-100 h-2 rounded overflow-hidden">
                   <div
-                    className="bg-blue-600 h-full rounded-full transition-all duration-500"
+                    className="bg-zinc-400 h-full rounded transition-all duration-500"
                     style={{ width: `${(kpis.totalEmployeeIns / (kpis.totalCompanyExpense || 1)) * 100}%` }}
                   />
                 </div>
@@ -309,109 +280,122 @@ export function PayrollDashboardPage() {
 
               <div>
                 <div className="flex justify-between font-medium mb-1">
-                  <span>4. Thuế TNCN khấu trừ nộp hộ</span>
-                  <strong className="text-amber-600">{formatVND(kpis.totalTax)}</strong>
+                  <span className="text-zinc-700">4. Thuế TNCN khấu trừ nộp hộ</span>
+                  <strong className="text-amber-700 tabular-nums">{formatVND(kpis.totalTax)}</strong>
                 </div>
-                <div className="bg-[var(--dash-bg)] h-2 rounded-full overflow-hidden">
+                <div className="bg-zinc-100 h-2 rounded overflow-hidden">
                   <div
-                    className="bg-amber-600 h-full rounded-full transition-all duration-500"
+                    className="bg-amber-600 h-full rounded transition-all duration-500"
                     style={{ width: `${(kpis.totalTax / (kpis.totalCompanyExpense || 1)) * 100}%` }}
                   />
                 </div>
               </div>
             </div>
-          </Card>
+          </div>
 
-          {/* Bento Tile 8: Top 5 Thu nhập */}
-          <Card tone="white" className="col-span-12 xl:col-span-4">
-            <CardTitle
-              action={<Award size={18} className="text-amber-500" />}
-            >
-              Top 5 Thu Nhập Cao Nhất
-            </CardTitle>
+          {/* Top 5 Thu nhập (5 cols on Desktop) */}
+          <div className="col-span-2 lg:col-span-5 rounded-lg border border-zinc-200 bg-white p-5">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-zinc-950">Top 5 Thu Nhập Cao Nhất</h3>
+              <Award size={16} className="text-zinc-400" />
+            </div>
 
-            <div className="divide-y divide-[var(--dash-line)] text-xs mt-2">
+            <div className="divide-y divide-zinc-100 text-xs">
               {topEarners.map((emp, idx) => (
                 <div key={emp.employeeId} className="flex items-center justify-between py-2.5">
                   <div className="flex items-center gap-2.5">
-                    <span className="bg-[var(--dash-bg)] text-[var(--dash-muted)] flex h-5 w-5 items-center justify-center rounded-full font-mono text-[10px] font-bold">
+                    <span className="bg-zinc-100 border border-zinc-200 text-zinc-700 flex h-5 w-5 items-center justify-center rounded font-mono text-[10px] font-bold tabular-nums">
                       {idx + 1}
                     </span>
                     <div>
-                      <div className="font-semibold text-[var(--dash-ink)]">{emp.employeeName}</div>
-                      <div className="text-[var(--dash-muted)] text-[10px]">{emp.departmentName}</div>
+                      <div className="font-semibold text-zinc-900">{emp.employeeName}</div>
+                      <div className="text-zinc-500 text-[11px]">{emp.departmentName}</div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="font-bold text-[var(--dash-ink)]">{formatVND(emp.grossSalary)}</div>
-                    <div className="text-[var(--dash-muted)] text-[10px]">Net: {formatVND(emp.netSalary)}</div>
+                  <div className="text-right tabular-nums">
+                    <div className="font-bold text-zinc-950">{formatVND(emp.grossSalary)}</div>
+                    <div className="text-zinc-500 text-[11px]">Net: {formatVND(emp.netSalary)}</div>
                   </div>
                 </div>
               ))}
             </div>
-          </Card>
+          </div>
 
-          {/* Bento Tile 9: Cảnh báo nghỉ không lương */}
-          <Card tone="white" className="col-span-12 sm:col-span-6">
-            <CardTitle action={<AlertTriangle size={18} className="text-rose-500" />}>
-              Nhân Sự Nghỉ Không Lương
-            </CardTitle>
+          {/* Tỷ lệ chuyên cần (4 cols) */}
+          <div className="col-span-2 lg:col-span-4 rounded-lg border border-zinc-200 bg-white p-5">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-zinc-950">Tỷ Lệ Đi Làm Chuyên Cần</h3>
+              <Users size={16} className="text-zinc-400" />
+            </div>
+            <div className="text-2xl font-bold text-zinc-950 tabular-nums mb-2">
+              {Math.round(kpis.attendanceRate)}%
+            </div>
+            <ProgressBar value={Math.round(kpis.attendanceRate)} label="Tổng công làm thực tế / Công định mức" />
+          </div>
 
-            <div className="divide-y divide-[var(--dash-line)] text-xs mt-2">
+          {/* Cảnh báo nghỉ không lương (4 cols) */}
+          <div className="col-span-2 sm:col-span-1 lg:col-span-4 rounded-lg border border-zinc-200 bg-white p-5">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-zinc-950">Nhân Sự Nghỉ Không Lương</h3>
+              <AlertTriangle size={16} className="text-zinc-400" />
+            </div>
+
+            <div className="divide-y divide-zinc-100 text-xs">
               {topAbsences.length > 0 ? (
                 topAbsences.map((emp) => (
                   <div key={emp.employeeId} className="flex items-center justify-between py-2.5">
                     <div>
-                      <div className="font-semibold text-[var(--dash-ink)]">{emp.employeeName}</div>
-                      <div className="text-[var(--dash-muted)] text-[10px]">{emp.departmentName}</div>
+                      <div className="font-semibold text-zinc-900">{emp.employeeName}</div>
+                      <div className="text-zinc-500 text-[11px]">{emp.departmentName}</div>
                     </div>
-                    <div className="text-right">
-                      <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-bold text-rose-800">
+                    <div className="text-right tabular-nums">
+                      <span className="rounded bg-red-50 border border-red-200 px-2 py-0.5 text-[10px] font-semibold text-red-700">
                         {emp.unpaidLeaveDays} ngày nghỉ KL
                       </span>
                       {emp.isInsuranceExempt14Days && (
-                        <div className="text-[10px] text-amber-600 font-semibold mt-0.5">
-                          ✓ Miễn đóng BHXH (≥ 14 ngày)
+                        <div className="text-[10px] text-amber-700 font-medium mt-0.5">
+                          Miễn đóng BHXH (≥ 14 ngày)
                         </div>
                       )}
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="text-[var(--dash-muted)] py-6 text-center text-xs">
+                <div className="text-zinc-500 py-6 text-center text-xs">
                   Không có nhân viên nào nghỉ không lương trong tháng.
                 </div>
               )}
             </div>
-          </Card>
+          </div>
 
-          {/* Bento Tile 10: Sinh nhật */}
-          <Card tone="white" className="col-span-12 sm:col-span-6">
-            <CardTitle action={<Cake size={18} className="text-pink-500" />}>
-              Sinh Nhật Tháng {+selectedMonth.split('-')[1]}
-            </CardTitle>
+          {/* Sinh nhật (4 cols) */}
+          <div className="col-span-2 sm:col-span-1 lg:col-span-4 rounded-lg border border-zinc-200 bg-white p-5">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-zinc-950">Sinh Nhật Tháng {+selectedMonth.split('-')[1]}</h3>
+              <Cake size={16} className="text-zinc-400" />
+            </div>
 
-            <div className="divide-y divide-[var(--dash-line)] text-xs mt-2">
+            <div className="divide-y divide-zinc-100 text-xs">
               {birthdays.length > 0 ? (
                 birthdays.map((emp) => (
                   <div key={emp.id} className="flex items-center justify-between py-2.5">
                     <div>
-                      <div className="font-semibold text-[var(--dash-ink)]">{emp.fullName}</div>
-                      <div className="text-[var(--dash-muted)] text-[10px]">{emp.departmentName} · {emp.jobTitle}</div>
+                      <div className="font-semibold text-zinc-900">{emp.fullName}</div>
+                      <div className="text-zinc-500 text-[11px]">{emp.departmentName} · {emp.jobTitle}</div>
                     </div>
-                    <span className="bg-pink-100 text-pink-800 rounded-full px-2.5 py-0.5 text-[10px] font-semibold">
+                    <span className="bg-zinc-100 border border-zinc-200 text-zinc-800 rounded px-2 py-0.5 text-[10px] font-semibold tabular-nums">
                       {emp.dateOfBirth?.slice(8)}/{emp.dateOfBirth?.slice(5, 7)}
                     </span>
                   </div>
                 ))
               ) : (
-                <div className="text-[var(--dash-muted)] py-6 text-center text-xs">
+                <div className="text-zinc-500 py-6 text-center text-xs">
                   Không có nhân sự nào có sinh nhật trong tháng.
                 </div>
               )}
             </div>
-          </Card>
-        </BentoGrid>
+          </div>
+        </div>
       </div>
     </div>
   );

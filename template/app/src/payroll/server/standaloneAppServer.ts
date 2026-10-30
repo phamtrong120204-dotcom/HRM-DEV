@@ -33,6 +33,260 @@ export interface ServerSession {
   lastActiveAt: number;
 }
 
+export interface DemoUserAccount {
+  id: string;
+  email: string;
+  password: string;
+  fullName: string;
+  role: string;
+  roleLabel: string;
+  tenantId: string;
+  tenantName: string;
+  employeeId?: string;
+  employeeCode: string;
+  jobTitle: string;
+  departmentName: string;
+  phone: string;
+  joinDate: string;
+  scopeSummary: string;
+  permissions: {
+    dashboard: string;
+    timekeeping: string;
+    overtimeApproval: string;
+    employeeManagement: string;
+    payrollView: string;
+    payrollAdjustment: string;
+    periodLockUnlock: string;
+    piiAccess: string;
+  };
+}
+
+export const INITIAL_DEMO_ACCOUNTS: DemoUserAccount[] = [
+  {
+    id: 'acc_owner_alpha',
+    email: 'owner@tanphat.vn',
+    password: 'Demo@2026',
+    fullName: 'Nguyễn Tiến Dũng',
+    role: 'ORG_OWNER',
+    roleLabel: 'Giám đốc / Chủ sở hữu (Owner)',
+    tenantId: 'tenant-alpha-tech',
+    tenantName: 'Tân Phát Digital',
+    employeeId: 'emp_alpha_001',
+    employeeCode: 'NV001',
+    jobTitle: 'Tổng Giám đốc (CEO)',
+    departmentName: 'Ban Tổng Giám đốc',
+    phone: '0901 234 568',
+    joinDate: '10/01/2019',
+    scopeSummary: 'Toàn quyền quản trị doanh nghiệp, phê duyệt khóa/mở khóa kỳ lương, cấu hình tham số thuế TNCN & BHXH và truy cập 100% dữ liệu gốc.',
+    permissions: {
+      dashboard: 'Toàn công ty (Full KPI & Quỹ lương)',
+      timekeeping: 'Toàn quyền xem & chỉnh sửa 31 ngày',
+      overtimeApproval: 'Toàn quyền phê duyệt & điều chỉnh OT',
+      employeeManagement: 'Thêm mới, chỉnh sửa & xóa hồ sơ nhân sự',
+      payrollView: 'Xem 100% bảng lương, thuế TNCN & BHXH chi tiết',
+      payrollAdjustment: 'Toàn quyền điều chỉnh thưởng, tạm ứng, lương khoán',
+      periodLockUnlock: 'Khóa sổ (LOCKED), Chi trả (PAID) & Mở khóa sổ (UNLOCK)',
+      piiAccess: 'Hiển thị đầy đủ số CCCD & Số tài khoản ngân hàng gốc',
+    },
+  },
+  {
+    id: 'acc_admin_alpha',
+    email: 'admin@tanphat.vn',
+    password: 'Demo@2026',
+    fullName: 'Lê Hoàng Nam',
+    role: 'ORG_ADMIN',
+    roleLabel: 'Quản trị viên Doanh nghiệp (Admin)',
+    tenantId: 'tenant-alpha-tech',
+    tenantName: 'Tân Phát Digital',
+    employeeId: 'emp_alpha_001',
+    employeeCode: 'ADM01',
+    jobTitle: 'Quản trị viên Hệ thống ERP/HRM',
+    departmentName: 'Ban Tổng Giám đốc',
+    phone: '0902 345 679',
+    joinDate: '15/03/2020',
+    scopeSummary: 'Quản trị vận hành toàn bộ phân hệ chấm công, nhân sự, bảng lương và khóa sổ kỳ lương (Không có quyền tự mở khóa sổ khi đã LOCKED).',
+    permissions: {
+      dashboard: 'Toàn công ty (Full KPI & Quỹ lương)',
+      timekeeping: 'Toàn quyền xem & chỉnh sửa 31 ngày',
+      overtimeApproval: 'Toàn quyền phê duyệt & điều chỉnh OT',
+      employeeManagement: 'Thêm mới, chỉnh sửa & xóa hồ sơ nhân sự',
+      payrollView: 'Xem 100% bảng lương, thuế TNCN & BHXH chi tiết',
+      payrollAdjustment: 'Toàn quyền điều chỉnh thưởng, tạm ứng, lương khoán',
+      periodLockUnlock: 'Được khóa sổ (LOCKED) · Bị chặn Mở khóa sổ (Chỉ Owner)',
+      piiAccess: 'Hiển thị đầy đủ số CCCD & Số tài khoản ngân hàng gốc',
+    },
+  },
+  {
+    id: 'acc_hr_alpha',
+    email: 'hr@tanphat.vn',
+    password: 'Demo@2026',
+    fullName: 'Vũ Thu Thảo',
+    role: 'HR_MANAGER',
+    roleLabel: 'Trưởng phòng Nhân sự (HR Manager)',
+    tenantId: 'tenant-alpha-tech',
+    tenantName: 'Tân Phát Digital',
+    employeeId: 'emp_alpha_007',
+    employeeCode: 'NV007',
+    jobTitle: 'Trưởng phòng Nhân sự & C&B',
+    departmentName: 'Phòng Tài chính - Kế toán',
+    phone: '0903 456 780',
+    joinDate: '01/11/2023',
+    scopeSummary: 'Quản lý hồ sơ nhân sự (tạo/sửa) và bảng chấm công toàn công ty. Các cột số tiền lương/thuế tài chính nhạy cảm được ẩn tự động (******) theo chính sách bảo mật lương.',
+    permissions: {
+      dashboard: 'Xem thống kê nhân sự & chuyên cần',
+      timekeeping: 'Toàn quyền chấm công 31 ngày toàn công ty',
+      overtimeApproval: 'Cập nhật & duyệt giờ làm thêm (OT)',
+      employeeManagement: 'Thêm mới & chỉnh sửa hồ sơ (Bị chặn xóa nhân sự)',
+      payrollView: 'Chế độ bảo mật HR: Ẩn số tiền lương/thuế (******)',
+      payrollAdjustment: 'Bị chặn (Chỉ Kế toán & Ban Giám đốc)',
+      periodLockUnlock: 'Bị chặn khóa/mở khóa sổ lương tài chính',
+      piiAccess: 'Hiển thị CCCD & STK để phục vụ nghiệp vụ hợp đồng nhân sự',
+    },
+  },
+  {
+    id: 'acc_acc_alpha',
+    email: 'accounting@tanphat.vn',
+    password: 'Demo@2026',
+    fullName: 'Đặng Hoàng Mai',
+    role: 'ACCOUNTANT',
+    roleLabel: 'Kế toán trưởng (Chief Accountant)',
+    tenantId: 'tenant-alpha-tech',
+    tenantName: 'Tân Phát Digital',
+    employeeId: 'emp_alpha_002',
+    employeeCode: 'NV002',
+    jobTitle: 'Kế toán trưởng',
+    departmentName: 'Phòng Tài chính - Kế toán',
+    phone: '0904 567 891',
+    joinDate: '01/03/2021',
+    scopeSummary: 'Chuyên trách tính lương, điều chỉnh thưởng/tạm ứng/lương khoán, đối chiếu thuế TNCN & BHXH, trình duyệt kỳ lương và xác nhận giải ngân ngân hàng.',
+    permissions: {
+      dashboard: 'Toàn công ty (Full KPI tài chính & Chi phí DN)',
+      timekeeping: 'Chỉ xem để đối chiếu công (Bị chặn sửa bảng chấm công)',
+      overtimeApproval: 'Chỉ xem giờ OT (Bị chặn tự sửa giờ OT)',
+      employeeManagement: 'Chỉ xem danh sách nhân sự (Bị chặn thêm/xóa)',
+      payrollView: 'Xem 100% bảng lương 24 cột, Thuế TNCN & BHXH',
+      payrollAdjustment: 'Toàn quyền điều chỉnh thưởng, tạm ứng, khấu trừ, khoán SP',
+      periodLockUnlock: 'Gửi duyệt (REVIEWING) & Giải ngân (PAID) · Không tự khóa sổ',
+      piiAccess: 'Hiển thị đầy đủ CCCD & STK ngân hàng để lập lệnh chi lương',
+    },
+  },
+  {
+    id: 'acc_mgr_alpha',
+    email: 'manager@tanphat.vn',
+    password: 'Demo@2026',
+    fullName: 'Phạm Đức Anh',
+    role: 'DEPARTMENT_MANAGER',
+    roleLabel: 'Trưởng bộ phận (Department Manager)',
+    tenantId: 'tenant-alpha-tech',
+    tenantName: 'Tân Phát Digital',
+    employeeId: 'emp_alpha_006',
+    employeeCode: 'MGR01',
+    jobTitle: 'Trưởng khối Kỹ thuật & Công nghệ',
+    departmentName: 'Khối Kỹ thuật & Công nghệ',
+    phone: '0905 678 902',
+    joinDate: '10/06/2021',
+    scopeSummary: 'Quản lý chấm công ngày và phê duyệt giờ làm thêm (OT) giới hạn trong phạm vi Khối Kỹ thuật & Công nghệ. Không được phép xem bảng lương tài chính.',
+    permissions: {
+      dashboard: 'Xem chỉ số tổng quan chuyên cần bộ phận',
+      timekeeping: 'Chấm công giới hạn trong Khối Kỹ thuật & Công nghệ',
+      overtimeApproval: 'Duyệt giờ OT giới hạn cho nhân viên thuộc phòng ban mình',
+      employeeManagement: 'Bị chặn truy cập danh mục hồ sơ lương nhân sự',
+      payrollView: 'Bị chặn hoàn toàn (Không có quyền xem bảng lương tài chính)',
+      payrollAdjustment: 'Bị chặn hoàn toàn',
+      periodLockUnlock: 'Bị chặn hoàn toàn',
+      piiAccess: 'Đã che bảo mật số CCCD & Số tài khoản ngân hàng (Masked)',
+    },
+  },
+  {
+    id: 'acc_emp_alpha',
+    email: 'employee@tanphat.vn',
+    password: 'Demo@2026',
+    fullName: 'Lê Quốc Tuấn',
+    role: 'EMPLOYEE',
+    roleLabel: 'Nhân viên (Employee Self-Service)',
+    tenantId: 'tenant-alpha-tech',
+    tenantName: 'Tân Phát Digital',
+    employeeId: 'emp_alpha_003',
+    employeeCode: 'NV003',
+    jobTitle: 'Kỹ sư Phần mềm Trưởng (Tech Lead)',
+    departmentName: 'Khối Kỹ thuật & Công nghệ',
+    phone: '0906 789 013',
+    joinDate: '15/08/2021',
+    scopeSummary: 'Cổng thông tin nhân viên (Self-Service): Chỉ được xem bảng chấm công cá nhân và phiếu lương của chính mình (Mã NV003). Cô lập tuyệt đối dữ liệu đồng nghiệp.',
+    permissions: {
+      dashboard: 'Xem tóm tắt thu nhập & ngày công cá nhân (NV003)',
+      timekeeping: 'Chỉ xem bảng chấm công cá nhân (Chế độ Read-Only)',
+      overtimeApproval: 'Chỉ xem số giờ OT cá nhân (Không có quyền tự sửa)',
+      employeeManagement: 'Bị chặn truy cập danh sách nhân sự công ty',
+      payrollView: 'Chỉ xem & in phiếu lương cá nhân (NV003)',
+      payrollAdjustment: 'Bị chặn hoàn toàn',
+      periodLockUnlock: 'Bị chặn hoàn toàn',
+      piiAccess: 'Tự động che định danh PII (CCCD: ********2468, STK: ********6789)',
+    },
+  },
+  {
+    id: 'acc_owner_beta',
+    email: 'owner@bacnam.vn',
+    password: 'Demo@2026',
+    fullName: 'Trần Hữu Nghĩa',
+    role: 'ORG_OWNER',
+    roleLabel: 'Giám đốc / Chủ sở hữu (Owner - Bắc Nam)',
+    tenantId: 'tenant-beta-logistics',
+    tenantName: 'Bắc Nam Logistics',
+    employeeId: 'emp_beta_001',
+    employeeCode: 'NVB01',
+    jobTitle: 'Giám đốc Khai thác Vận tải',
+    departmentName: 'Phòng Điều hành Vận tải & Khai thác',
+    phone: '0918 223 344',
+    joinDate: '01/01/2021',
+    scopeSummary: 'Tài khoản Chủ sở hữu của Doanh nghiệp thứ 2 (Bắc Nam Logistics) để kiểm chứng cơ chế cô lập dữ liệu Multi-Tenant Anti-IDOR.',
+    permissions: {
+      dashboard: 'Toàn công ty Bắc Nam Logistics (4 nhân sự)',
+      timekeeping: 'Toàn quyền chấm công & duyệt OT tại Bắc Nam Logistics',
+      overtimeApproval: 'Toàn quyền phê duyệt OT tại Bắc Nam Logistics',
+      employeeManagement: 'Toàn quyền quản lý hồ sơ nhân sự Bắc Nam Logistics',
+      payrollView: 'Xem 100% bảng lương & thuế TNCN Bắc Nam Logistics',
+      payrollAdjustment: 'Toàn quyền điều chỉnh lương Bắc Nam Logistics',
+      periodLockUnlock: 'Khóa sổ, Chi trả & Mở khóa kỳ lương Bắc Nam Logistics',
+      piiAccess: 'Hiển thị đầy đủ CCCD & STK thuộc Bắc Nam Logistics',
+    },
+  },
+];
+
+export const userAccountsStore = new Map<string, DemoUserAccount>();
+function initDemoUserAccounts() {
+  userAccountsStore.clear();
+  for (const acc of INITIAL_DEMO_ACCOUNTS) {
+    userAccountsStore.set(acc.email.toLowerCase(), { ...acc, permissions: { ...acc.permissions } });
+  }
+}
+initDemoUserAccounts();
+
+export function findUserAccountForContext(tenantId: string, role: string, email?: string): DemoUserAccount {
+  if (email) {
+    const byEmail = userAccountsStore.get(email.toLowerCase());
+    if (byEmail && byEmail.tenantId === tenantId && byEmail.role === role) {
+      return byEmail;
+    }
+  }
+  const normalizedRole = role === 'OWNER' ? 'ORG_OWNER' : role === 'ADMIN' ? 'ORG_ADMIN' : role;
+  for (const acc of userAccountsStore.values()) {
+    if (acc.tenantId === tenantId && acc.role === normalizedRole) {
+      return acc;
+    }
+  }
+  for (const acc of userAccountsStore.values()) {
+    if (acc.role === normalizedRole) {
+      return {
+        ...acc,
+        tenantId,
+        tenantName: tenantId.includes('beta') ? 'Bắc Nam Logistics' : 'Tân Phát Digital',
+      };
+    }
+  }
+  return INITIAL_DEMO_ACCOUNTS[0];
+}
+
 const sessionStore = new Map<string, ServerSession>();
 
 export function parseCookies(cookieHeader?: string): Record<string, string> {
@@ -620,586 +874,1408 @@ function getHtmlApp(initialTab = 'dashboard', initialTitle = 'Tổng quan', init
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${pageTitle}</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%229%22%20fill%3D%22%232563eb%22%2F%3E%3Cpath%20d%3D%22M8%2020l5-6%204%204%207-9%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%2318181b%22%2F%3E%3Cpath%20d%3D%22M8%2020l5-6%204%204%207-9%22%20fill%3D%22none%22%20stroke%3D%22%23fafafa%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E">
 <style>
 :root {
-  /* Bento tokens from animated-admin-dashboard */
-  --dash-bg: #ece8f2;
-  --dash-surface: #ffffff;
-  --dash-ink: #111114;
-  --dash-muted: #7b7686;
-  --dash-line: rgba(17, 17, 20, 0.08);
+  /* shadcn-admin Neutral Zinc Design Tokens */
+  --background: #fafafa;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #dc2626;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #a1a1aa;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #09090b;
+  --sidebar-border: #e4e4e7;
 
-  /* Pastel tiles */
-  --dash-lilac: #cfc4f5;
-  --dash-lilac-strong: #5b3fd0;
-  --dash-pink: #f7cfe5;
-  --dash-mint: #d3ebd7;
-  --dash-sky: #d4e3f8;
-  --dash-amber: #fbe3b8;
+  /* Radius & Shadows (Strict 8px rounded-lg / 6px rounded-md, 1px solid hairline) */
+  --radius-lg: 8px;
+  --radius-md: 6px;
+  --radius-sm: 4px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
 
-  --dash-positive: #1f9d63;
-  --dash-negative: #d6455d;
-
-  --dash-radius-lg: 28px;
-  --dash-radius-md: 20px;
-  --dash-radius-sm: 12px;
-
-  --dash-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    0 10px 28px -14px rgba(60, 40, 120, 0.18);
-  --dash-ease: cubic-bezier(0.22, 1, 0.36, 1);
-
-  --p: #5b3fd0;
-  --pd: #4830a8;
-  --p50: #f4f0ff;
-  --p100: #e5ddfc;
-  --ink: #111114;
-  --acc: #5b3fd0;
-  --line: rgba(17, 17, 20, 0.08);
-  --bg: #ece8f2;
+  /* Legacy alias mappings for tables & slips */
+  --dash-bg: var(--background);
+  --dash-surface: var(--card);
+  --dash-ink: var(--foreground);
+  --dash-muted: var(--muted-foreground);
+  --dash-line: var(--border);
+  --p: #18181b;
+  --pd: #09090b;
+  --p50: #f4f4f5;
+  --p100: #e4e4e7;
+  --ink: #09090b;
+  --acc: #18181b;
+  --line: #e4e4e7;
+  --bg: #fafafa;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
-* { box-sizing: border-box; }
-html, body { margin: 0; min-height: 100%; }
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  border-color: var(--border);
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100svh;
+  overflow-x: clip;
+}
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Plus Jakarta Sans', Helvetica, Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-size: 13.5px;
-  color: var(--dash-ink);
-  background: var(--dash-bg);
+  color: var(--foreground);
+  background: var(--background);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1, "cv11" 1;
-  overflow-x: hidden;
 }
 button, input, select, textarea { font: inherit; color: inherit; }
-a { color: var(--p); text-decoration: none; }
+code { font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; background: #f4f4f5; padding: 2px 5px; border-radius: 4px; border: 1px solid #e4e4e7; }
+a { color: var(--foreground); text-decoration: none; }
 svg { flex: none; vertical-align: middle; }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes pop { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@keyframes grow { from { transform: scaleY(0); } }
+@keyframes pop { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 
-/* ===== Khung Layout: Shell có Menu Dọc Bên Trái (.side) và Vùng Nội Dung (.col) ===== */
-.shell { display: flex; min-height: 100vh; }
+/* ===== shadcn-admin Authenticated Layout Shell (Fixed Sidebar & Fixed Header on Scroll) ===== */
+#app { width: 100%; max-width: 100%; overflow-x: clip; }
+.shell { display: flex; min-height: 100svh; width: 100%; max-width: 100%; position: relative; background: var(--background); }
+
+/* Sidebar (Fixed 100dvh on Desktop so it never scrolls out of view) */
 .side {
-  width: 250px;
-  flex: none;
-  background: #0f172a;
-  color: #f8fafc;
-  position: sticky;
+  width: 248px;
+  flex: 0 0 248px;
+  background: var(--sidebar);
+  color: var(--sidebar-foreground);
+  position: fixed;
   top: 0;
-  height: 100vh;
+  left: 0;
+  bottom: 0;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   z-index: 60;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 1px 0 6px rgba(0, 0, 0, 0.12);
+  border-right: 1px solid var(--sidebar-border);
 }
 .side .brand {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
-  padding: 18px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 14px;
+  height: 56px;
+  border-bottom: 1px solid var(--sidebar-border);
 }
 .side .brand .logo {
-  width: 38px; height: 38px; border-radius: 10px;
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  color: #ffffff;
-  display: grid; place-items: center;
-  font-size: 18px; font-weight: 700;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  display: grid;
+  place-items: center;
   flex: none;
 }
-.side .brand b { display: block; font-size: 14.5px; line-height: 1.25; letter-spacing: -0.01em; color: #f8fafc; font-weight: 700; }
-.side .brand small { font-size: 11.5px; color: #94a3b8; }
+.side .brand-text { min-width: 0; flex: 1; }
+.side .brand b {
+  display: block;
+  font-size: 13.5px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.side .brand small {
+  display: block;
+  font-size: 11.5px;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.side-close {
+  display: none;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--muted-foreground);
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+}
+.side-close:hover { background: var(--secondary); color: var(--foreground); }
 
+.nav-group-label {
+  padding: 12px 16px 5px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+}
 .side .tabs {
   display: flex;
   flex-direction: column;
   margin: 0;
-  padding: 12px 10px;
+  padding: 4px 10px 12px;
   overflow-y: auto;
   overflow-x: hidden;
-  gap: 3px;
+  gap: 2px;
   flex: 1;
 }
 .side .tabs a {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  color: #94a3b8;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  color: #52525b;
   text-decoration: none;
   cursor: pointer;
   font-weight: 500;
-  font-size: 13.5px;
+  font-size: 13px;
   white-space: nowrap;
-  transition: all .15s ease;
+  transition: background-color 0.12s ease, color 0.12s ease;
 }
-.side .tabs a svg { width: 17px; height: 17px; opacity: 0.85; stroke: currentColor; }
-.side .tabs a:hover { background: rgba(255, 255, 255, 0.06); color: #f8fafc; }
+.side .tabs a svg { width: 16px; height: 16px; stroke: currentColor; flex: none; opacity: 0.8; }
+.side .tabs a:hover { background: #f4f4f5; color: var(--foreground); }
 .side .tabs a.on {
-  background: #2563eb;
-  color: #ffffff;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: 500;
 }
-.side .tabs a.on svg { opacity: 1; stroke: #ffffff; }
+.side .tabs a.on svg { opacity: 1; stroke: var(--primary-foreground); }
 
-.side-foot {
-  padding: 14px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.18);
-}
-.side-ctrl {
-  margin-bottom: 8px;
-}
-.side-ctrl label {
-  display: block;
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-  color: #94a3b8;
-  margin-bottom: 3px;
-  font-weight: 600;
-}
-.side-ctrl select {
-  width: 100%;
-  height: 32px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.06);
-  color: #f1f5f9;
-  padding: 0 8px;
-  font-size: 12.5px;
-  outline: none;
-  transition: border-color .15s;
-}
-.side-ctrl select:focus { border-color: #3b82f6; }
-.side-ctrl select option { background: #0f172a; color: #f8fafc; }
-.side-foot .ss {
-  font-size: 12px;
-  color: #94a3b8;
+.side-user-card {
   display: flex;
   align-items: center;
-  gap: 7px;
-  margin: 10px 0 10px;
+  gap: 10px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.12s, background-color 0.12s;
+}
+.side-user-card:hover { background: #f4f4f5; border-color: #d4d4d8; }
+.side-user-card .u-av {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex: none;
+}
+.side-user-card .u-info { min-width: 0; flex: 1; }
+.side-user-card .u-info b {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.side-user-card .u-info small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.side-foot {
+  padding: 12px 14px;
+  border-top: 1px solid var(--sidebar-border);
+  background: #fafafa;
+}
+.side-foot .ss {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
 }
 .side-foot .ss i {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #10b981; flex: none;
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #16a34a;
+  flex: none;
 }
 .side-foot .btn { width: 100%; justify-content: center; }
 
-.col { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.col .main { max-width: none; margin: 0; padding: 20px 24px 30px; flex: 1; }
-.ph { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
-.ph h1 { margin: 0; font-size: 22px; letter-spacing: -.01em; color: var(--ink); }
-.ph p { margin: 3px 0 0; color: #64748b; font-size: 13px; }
-.tools { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.foot { padding: 12px 24px 28px; text-align: center; color: #94a3b8; font-size: 12px; }
-.foot b { color: #475569; }
-.mbar { display: none; }
+.backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 9, 11, 0.45);
+  z-index: 95;
+  animation: fade .15s ease;
+}
 
-/* Bento card styling */
-.card {
-  background: var(--dash-surface);
-  border-radius: var(--dash-radius-lg);
-  border: 1px solid var(--dash-line);
-  box-shadow: var(--dash-shadow);
+/* Main Content Column & Fixed Top Header on Scroll */
+.col {
+  flex: 1 1 0%;
   min-width: 0;
-  transition: transform 0.2s var(--dash-ease), box-shadow 0.2s var(--dash-ease);
+  margin-left: 248px;
+  width: calc(100% - 248px);
+  max-width: calc(100% - 248px);
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
 }
-.card:hover { box-shadow: 0 14px 34px -12px rgba(60, 40, 120, 0.22); }
-.card-h {
-  display: flex; align-items: center; gap: 10px; padding: 16px 22px;
-  border-bottom: 1px solid var(--dash-line); min-height: 54px; flex-wrap: wrap;
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 248px;
+  right: 0;
+  z-index: 55;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
 }
-.card-h h3 { margin: 0; font-size: 15px; font-weight: 700; color: var(--dash-ink); letter-spacing: -0.01em; }
-.card-h .sub { color: var(--dash-muted); font-size: 12.5px; margin-left: auto; }
-.card-b { padding: 20px 22px; }
-
-/* Bento specific tone classes */
-.bento-hero {
-  background: var(--dash-lilac);
-  color: var(--dash-ink);
-  border-radius: var(--dash-radius-lg);
-  padding: 24px 28px;
-  box-shadow: var(--dash-shadow);
-  position: relative;
+.app-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+.sidebar-trigger {
+  display: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--foreground);
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+}
+.sidebar-trigger:hover { background: var(--secondary); }
+.sidebar-trigger svg { width: 16px; height: 16px; }
+.header-sep {
+  display: none;
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  flex: none;
+}
+.header-context {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--muted-foreground);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.header-context b {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.header-context .org-name {
+  white-space: nowrap;
   overflow: hidden;
-  border: none;
+  text-overflow: ellipsis;
+  max-width: 280px;
 }
-.bento-ink {
-  background: #111114 !important;
-  color: #ffffff !important;
-  border-radius: var(--dash-radius-lg) !important;
-  box-shadow: 0 14px 36px -10px rgba(0, 0, 0, 0.45) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+.header-dot { color: #d4d4d8; }
+
+.header-switchers {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: none;
 }
-.bento-ink .kc-l, .bento-ink .kc-s { color: rgba(255, 255, 255, 0.65) !important; }
-.bento-ink .kc-v { color: #ffffff !important; }
-.bento-ink .kc-ic { background: rgba(255, 255, 255, 0.1) !important; color: #34d399 !important; }
+.switcher-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0 8px 0 10px;
+  height: 34px;
+}
+.switcher-item label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.switcher-item select {
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-size: 12.5px;
+  font-weight: 600;
+  height: 32px;
+  outline: none;
+  cursor: pointer;
+  padding-right: 4px;
+  max-width: 195px;
+  text-overflow: ellipsis;
+}
 
-.bento-sky { background: var(--dash-sky) !important; }
-.bento-amber { background: var(--dash-amber) !important; }
-.bento-mint { background: var(--dash-mint) !important; }
-.bento-pink { background: var(--dash-pink) !important; }
-
-/* Key Cards (.kc) kiểu Bento */
-.kc {
-  background: var(--dash-surface);
-  border: 1px solid var(--dash-line);
-  border-radius: var(--dash-radius-lg);
-  padding: 20px 22px 14px;
+.user-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 10px 0 6px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--foreground);
+  transition: background-color 0.12s, border-color 0.12s;
+}
+.user-chip-btn:hover { background: var(--secondary); border-color: #d4d4d8; }
+.user-chip-btn .uc-av {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex: none;
+}
+.user-chip-btn .uc-name {
+  max-width: 130px;
+  white-space: nowrap;
   overflow: hidden;
-  box-shadow: var(--dash-shadow);
-  position: relative;
-  transition: transform 0.25s var(--dash-ease), box-shadow 0.25s var(--dash-ease);
-}
-.kc:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -12px rgba(60, 40, 120, 0.25); }
-.kc-h { display: flex; align-items: center; gap: 10px; }
-.kc-ic { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: var(--cb); color: var(--c); flex: none; }
-.kc-ic svg { width: 18px; height: 18px; }
-.kc-l { font-size: 13.5px; color: var(--dash-muted); font-weight: 600; }
-.kc-v { font-size: 27px; font-weight: 800; letter-spacing: -0.02em; margin: 10px 0 2px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.kc-v small { font-size: 13px; color: var(--dash-muted); font-weight: 600; }
-.kc-s { font-size: 12px; color: var(--dash-muted); }
-.spk { display: block; width: calc(100% + 44px); margin: 10px -22px -14px; height: 42px; }
-.spk path.l, .arealine { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.2s .2s ease forwards; }
-
-/* Responsive quy chuẩn Mobile & Tablet (Tự động đưa menu lên đầu, làm gọn, không tràn viền, không cuộn ngang) */
-@media(max-width: 900px) {
-  html, body {
-    overflow-x: hidden !important;
-    max-width: 100vw !important;
-  }
-  .shell {
-    flex-direction: column !important;
-    width: 100% !important;
-    max-width: 100vw !important;
-    overflow-x: hidden !important;
-  }
-  .side {
-    position: sticky !important;
-    top: 8px !important;
-    left: 0 !important;
-    width: calc(100% - 16px) !important;
-    margin: 8px auto !important;
-    height: auto !important;
-    border-radius: 999px !important;
-    box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.35) !important;
-    z-index: 70 !important;
-    transform: none !important;
-    padding: 6px 12px !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    background: #111114 !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  }
-  .side .brand {
-    border-bottom: none !important;
-    padding: 0 !important;
-    gap: 8px !important;
-  }
-  .side .brand .logo {
-    width: 28px !important;
-    height: 28px !important;
-    font-size: 13px !important;
-    border-radius: 8px !important;
-  }
-  .side .brand b, .side .brand small {
-    display: none !important;
-  }
-  .side .tabs {
-    flex-direction: row !important;
-    padding: 0 !important;
-    gap: 4px !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-    align-items: center !important;
-  }
-  .side .tabs::-webkit-scrollbar { display: none; }
-  .side .tabs a {
-    padding: 6px 11px !important;
-    border-radius: 999px !important;
-    font-size: 11.5px !important;
-    gap: 5px !important;
-  }
-  .side .tabs a svg {
-    width: 14px !important;
-    height: 14px !important;
-  }
-  .side-foot {
-    display: none !important;
-  }
-  .col .main {
-    padding: 10px 10px 30px !important;
-    width: 100% !important;
-    max-width: 100vw !important;
-    box-sizing: border-box !important;
-    overflow-x: hidden !important;
-  }
-  .mbar { display: none !important; }
-  .grid.c4 { grid-template-columns: 1fr !important; }
-  .grid.c21 { grid-template-columns: 1fr !important; }
-  .grid.c3 { grid-template-columns: 1fr !important; }
-  .grid.c2 { grid-template-columns: 1fr !important; }
-  .ph {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 8px !important;
-  }
-  .tools {
-    width: 100% !important;
-    justify-content: flex-start !important;
-    margin-left: 0 !important;
-  }
-  .card {
-    border-radius: 20px !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-  }
-  .donut {
-    flex-direction: column !important;
-    align-items: center !important;
-  }
+  text-overflow: ellipsis;
+  font-weight: 600;
 }
 
-@media(min-width: 601px) and (max-width: 900px) {
-  /* Tablet riêng biệt */
-  .grid.c4 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-  .side .brand b { display: block !important; font-size: 12px !important; }
+/* Demo Account Card & Profile Matrix Styles */
+.demo-acc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.demo-acc-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  transition: border-color 0.12s, background-color 0.12s;
+}
+.demo-acc-card:hover { border-color: #a1a1aa; }
+.demo-acc-card.active {
+  border-color: #18181b;
+  box-shadow: 0 0 0 1px #18181b;
+  background: #fafafa;
+}
+.perm-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.perm-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.perm-item .perm-k {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.perm-item .perm-v {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--foreground);
 }
 
-/* ===== Nút bấm, ô nhập, cọ chấm công ===== */
-.btn {
-  display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 16px;
-  border-radius: 999px; border: 1px solid rgba(17, 17, 20, 0.12); background: #ffffff; cursor: pointer;
-  font-weight: 600; font-size: 13px; white-space: nowrap; transition: .15s; text-decoration: none; color: #111114;
+/* Mobile/Tablet Quick Navigation Strip inside Header */
+.m-tabs {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 16px;
+  border-top: 1px solid #f4f4f5;
+  background: #ffffff;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-.btn:hover { border-color: rgba(17, 17, 20, 0.25); background: #fdfcff; color: #000; }
-.btn svg { width: 16px; height: 16px; }
-.btn.pri { background: #5b3fd0; border-color: #5b3fd0; color: #ffffff; }
-.btn.pri:hover { background: #4830a8; border-color: #4830a8; color: #ffffff; box-shadow: 0 4px 12px rgba(91, 63, 208, 0.3); }
-.btn.xl { background: #1f9d63; border-color: #1f9d63; color: #ffffff; }
-.btn.xl:hover { background: #167e4e; border-color: #167e4e; color: #ffffff; box-shadow: 0 4px 12px rgba(31, 157, 99, 0.3); }
-.btn.danger { color: #d6455d; border-color: #fecdd3; background: #ffffff; }
-.btn.danger:hover { background: #fff1f2; border-color: #f43f5e; color: #be123c; }
-.btn.sm { height: 30px; padding: 0 12px; font-size: 12px; border-radius: 999px; }
-.ibtn {
-  width: 32px; height: 32px; border-radius: 999px; border: 0; background: transparent;
-  display: inline-grid; place-items: center; cursor: pointer; color: #7b7686; vertical-align: middle;
+.m-tabs::-webkit-scrollbar { display: none; }
+.m-tabs a {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  flex: none;
+  transition: all 0.12s ease;
 }
-.ibtn svg { width: 16px; height: 16px; }
-.ibtn:hover { background: var(--p50); color: var(--pd); }
-.ibtn.del:hover { background: #fee2e2; color: #dc2626; }
-.inp {
-  height: 36px; border: 1px solid rgba(17, 17, 20, 0.14); border-radius: 12px; padding: 0 12px;
-  background: #fff; outline: none; min-width: 0; transition: border .15s, box-shadow .15s;
+.m-tabs a:hover { color: var(--foreground); background: var(--secondary); }
+.m-tabs a.on {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: 600;
 }
-.inp:focus { border-color: var(--p); box-shadow: 0 0 0 3px var(--p100); }
-.inp.num { text-align: right; font-variant-numeric: tabular-nums; }
-.inp.sm { height: 30px; font-size: 12.5px; border-radius: 8px; padding: 0 8px; }
-.search { position: relative; display: inline-flex; }
-.search input { padding-left: 34px; width: 230px; }
-.search svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: #94a3b8; }
-.mp {
-  display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600;
-  color: var(--dash-ink); background: #fff; border: 1px solid rgba(17, 17, 20, 0.12); border-radius: 999px; padding: 0 12px 0 14px; height: 36px;
-}
-.mp input { border: 0; outline: none; background: transparent; height: 32px; font-weight: 600; cursor: pointer; }
 
-/* ===== Thẻ, Lưới & Biểu đồ SVG Doanh nghiệp ===== */
-.grid { display: grid; gap: 18px; }
+.col .main {
+  width: 100%;
+  max-width: 1600px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 76px 24px 36px;
+  flex: 1;
+}
+.view { min-width: 0; max-width: 100%; }
+
+/* Page Header & Metadata Strip */
+.ph {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  min-width: 0;
+}
+.ph > div:first-child { min-width: 0; flex: 1 1 280px; }
+.ph h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--foreground);
+  line-height: 1.25;
+}
+.ph p {
+  margin: 4px 0 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.meta-strip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 10px;
+  padding: 7px 12px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  color: var(--muted-foreground);
+  width: fit-content;
+  max-width: 100%;
+}
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.meta-item b {
+  color: var(--foreground);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.meta-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #18181b;
+  display: inline-block;
+}
+.meta-dot.ok { background: #16a34a; }
+.meta-sep {
+  width: 1px;
+  height: 12px;
+  background: var(--border);
+}
+
+.tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.foot {
+  padding: 16px 24px 24px;
+  text-align: center;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+  background: #ffffff;
+}
+.foot b { color: var(--foreground); }
+
+/* ===== shadcn-admin Card & 12-Column Bento Grid System ===== */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  min-width: 0;
+  max-width: 100%;
+}
+.span-3 { grid-column: span 3 / span 3; }
+.span-4 { grid-column: span 4 / span 4; }
+.span-5 { grid-column: span 5 / span 5; }
+.span-6 { grid-column: span 6 / span 6; }
+.span-7 { grid-column: span 7 / span 7; }
+.span-8 { grid-column: span 8 / span 8; }
+.span-12 { grid-column: span 12 / span 12; }
+
+/* Standard Grid classes mapped to clean responsive grids */
+.grid { display: grid; gap: 16px; min-width: 0; max-width: 100%; }
 .c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.c21 { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
-.mt { margin-top: 18px; } .mb { margin-bottom: 18px; }
-.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.grow { flex: 1; } .muted { color: var(--dash-muted); } .small { font-size: 12.5px; } .r { text-align: right; } .c { text-align: center; }
-.banner {
-  display: flex; gap: 12px; align-items: center; padding: 12px 18px;
-  border-radius: var(--dash-radius-md); background: #ffffff; border: 1px solid var(--dash-line); box-shadow: var(--dash-shadow); margin-bottom: 16px; flex-wrap: wrap;
+.c21 { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.mt { margin-top: 16px; }
+.mb { margin-bottom: 16px; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; min-width: 0; }
+.grow { flex: 1 1 0%; min-width: 0; }
+.muted { color: var(--muted-foreground); }
+.small { font-size: 12px; }
+.r { text-align: right; font-variant-numeric: tabular-nums; }
+.c { text-align: center; }
+
+.card {
+  background: var(--card);
+  color: var(--card-foreground);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
-.banner svg { width: 19px; height: 19px; color: var(--dash-lilac-strong); }
+.card-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  min-height: 48px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.card-h h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  min-width: 0;
+}
+.card-h .sub {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.card-b { padding: 16px 18px; min-width: 0; flex: 1; }
+
+/* KPI Card (.kc) — Exact shadcn-admin Card style (clean border, 8px radius, tabular numbers) */
+.kc {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+}
+.kc-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+.kc-l {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kc-ic {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  background: var(--secondary);
+  color: #52525b;
+  flex: none;
+}
+.kc-ic svg { width: 15px; height: 15px; }
+.kc-v {
+  font-size: clamp(19px, 1.8vw, 23px);
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.025em;
+  margin: 2px 0 0;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kc-v small {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+}
+.kc-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 2px;
+  min-width: 0;
+}
+.kc-s {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== Buttons, Inputs, Badges (shadcn-admin Zinc primitives) ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: #ffffff;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+  text-decoration: none;
+  color: var(--foreground);
+  box-shadow: var(--shadow-sm);
+}
+.btn:hover:not(:disabled) { background: var(--secondary); border-color: #d4d4d8; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn svg { width: 15px; height: 15px; flex: none; }
+.btn.pri { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); }
+.btn.pri:hover:not(:disabled) { background: #27272a; border-color: #27272a; color: var(--primary-foreground); }
+.btn.xl { background: #ffffff; border-color: var(--border); color: var(--foreground); }
+.btn.xl:hover:not(:disabled) { background: var(--secondary); border-color: #d4d4d8; }
+.btn.danger { color: #dc2626; border-color: #fecaca; background: #ffffff; }
+.btn.danger:hover:not(:disabled) { background: #fef2f2; border-color: #ef4444; color: #b91c1c; }
+.btn.sm { height: 30px; padding: 0 10px; font-size: 12px; border-radius: var(--radius-md); }
+.ibtn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--muted-foreground);
+  vertical-align: middle;
+  flex: none;
+  transition: background 0.12s, color 0.12s;
+}
+.ibtn svg { width: 15px; height: 15px; }
+.ibtn:hover { background: var(--secondary); color: var(--foreground); border-color: var(--border); }
+.ibtn.del:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+
+.inp {
+  height: 36px;
+  width: 100%;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-md);
+  padding: 0 11px;
+  background: #ffffff;
+  outline: none;
+  min-width: 0;
+  font-size: 13px;
+  transition: border-color 0.12s, box-shadow 0.12s;
+  box-shadow: var(--shadow-sm);
+}
+.inp:focus { border-color: #18181b; box-shadow: 0 0 0 2px rgba(24, 24, 27, 0.1); }
+.inp.num { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 12.5px; }
+.inp.sm { height: 30px; font-size: 12px; border-radius: var(--radius-md); padding: 0 8px; }
+.search { position: relative; display: inline-flex; min-width: 0; flex: 0 1 280px; }
+.search input { padding-left: 34px; width: 100%; }
+.search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--muted-foreground); pointer-events: none; }
+.mp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0 10px;
+  height: 36px;
+  box-shadow: var(--shadow-sm);
+}
+.mp input {
+  border: 0;
+  outline: none;
+  background: transparent;
+  height: 32px;
+  font-weight: 600;
+  color: var(--foreground);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+
 .badge {
-  display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px;
-  border-radius: 999px; font-size: 12px; font-weight: 600; background: #f1f5f9; color: #475569; white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--secondary);
+  color: var(--foreground);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
-.b-green { background: #dcfce7; color: #15803d; }
-.b-red { background: #fee2e2; color: #b91c1c; }
-.b-amber { background: #fef3c7; color: #b45309; }
-.b-p { background: var(--dash-lilac); color: var(--dash-lilac-strong); }
+.b-green { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+.b-red { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+.b-amber { background: #fffbeb; color: #b45309; border-color: #fde68a; }
+.b-blue { background: #f4f4f5; color: #18181b; border-color: #d4d4d8; }
+.b-p { background: #f4f4f5; color: #18181b; border-color: #e4e4e7; }
+
+.pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+.pill.pu { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+.pill.pd { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+.pill.na { background: #f4f4f5; color: #52525b; border-color: #e4e4e7; }
+
 .avatar {
-  width: 32px; height: 32px; border-radius: 50%; display: inline-grid; place-items: center;
-  background: var(--p100); color: var(--pd); font-weight: 700; font-size: 12px; flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  display: inline-grid;
+  place-items: center;
+  background: var(--secondary);
+  color: var(--foreground);
+  font-weight: 600;
+  font-size: 12px;
+  flex: none;
 }
 .who { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.who b { display: block; font-weight: 600; }
-.who small { color: var(--dash-muted); font-size: 12px; }
-.kc:before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--c); }
-.kc-h { display: flex; align-items: center; gap: 10px; }
-.kc-ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--cb); color: var(--c); flex: none; }
-.kc-ic svg { width: 18px; height: 18px; }
-.kc-l { font-size: 13px; color: #64748b; font-weight: 600; }
-.kc-v { font-size: 23px; font-weight: 800; letter-spacing: -.5px; margin: 10px 0 2px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.kc-v small { font-size: 13px; color: #94a3b8; }
-.kc-s { font-size: 12px; color: #64748b; }
-.spk { display: block; width: calc(100% + 36px); margin: 8px -18px 0; height: 42px; }
-.spk path.l, .arealine { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.2s .2s ease forwards; }
-.pill { margin-left: auto; font-size: 11.5px; font-weight: 700; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
-.pill.pu { background: #dcfce7; color: #15803d; }
-.pill.pd { background: #fee2e2; color: #b91c1c; }
-.pill.na { background: #eef2f1; color: #64748b; }
+.who b { display: block; font-weight: 600; color: var(--foreground); }
+.who small { color: var(--muted-foreground); font-size: 11.5px; }
 
-.donut { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-.donut svg { width: 160px; height: 160px; }
-.dl { flex: 1; min-width: 170px; }
-.dl div { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px dashed #e8eeed; font-size: 13px; }
+/* Charts & Ranking Lists (shadcn-admin neutral palette) */
+.chart { width: 100%; min-width: 0; overflow: hidden; }
+.donut { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; min-width: 0; }
+.donut svg { width: 152px; height: 152px; margin: 0 auto; flex: none; }
+.dl { flex: 1 1 200px; min-width: 0; width: 100%; }
+.dl div { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid #f4f4f5; font-size: 12.5px; min-width: 0; }
 .dl div:last-child { border: 0; }
-.dl i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
-.dl b { margin-left: auto; font-variant-numeric: tabular-nums; }
-.dl em { color: #94a3b8; font-style: normal; width: 46px; text-align: right; font-size: 12px; }
+.dl div > span:first-of-type { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #52525b; }
+.dl i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.dl b { margin-left: auto; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 12px; white-space: nowrap; color: var(--foreground); }
+.dl em { color: var(--muted-foreground); font-style: normal; width: 40px; text-align: right; font-size: 11.5px; font-variant-numeric: tabular-nums; flex: none; }
 
 .hb { margin: 10px 0; }
-.hb-top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; gap: 10px; }
-.hb-bar { height: 8px; background: #eef2f1; border-radius: 99px; overflow: hidden; }
-.hb-bar i { display: block; height: 100%; border-radius: 99px; }
+.hb-top { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 5px; gap: 10px; font-variant-numeric: tabular-nums; }
+.hb-top b:last-child { font-family: var(--mono); font-size: 12px; }
+.hb-bar { height: 7px; background: #f4f4f5; border-radius: 4px; overflow: hidden; }
+.hb-bar i { display: block; height: 100%; border-radius: 4px; background: var(--primary); }
 
 .ring { text-align: center; }
-.ring svg { width: 170px; height: 170px; display: block; margin: 0 auto; }
-.ring b { display: block; margin-top: 8px; }
-.medal { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 800; color: #fff; flex: none; }
-.tli { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed #e8eeed; }
+.ring svg { width: 156px; height: 156px; display: block; margin: 0 auto; }
+.ring b { display: block; margin-top: 8px; font-variant-numeric: tabular-nums; }
+.medal {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--secondary);
+  color: var(--foreground);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  flex: none;
+}
+.tli { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f4f4f5; min-width: 0; }
 .tli:last-child { border: 0; }
-.tli .grow b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tli small { color: #64748b; font-size: 12px; }
-.tli .pb { height: 6px; background: #eef2f1; border-radius: 6px; margin-top: 5px; overflow: hidden; }
-.tli .pb i { display: block; height: 100%; border-radius: 6px; }
-.tli .v { text-align: right; font-weight: 700; white-space: nowrap; }
+.tli .grow { min-width: 0; }
+.tli .grow b { display: block; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tli small { color: var(--muted-foreground); font-size: 11.5px; display: block; }
+.tli .pb { height: 4px; background: #f4f4f5; border-radius: 2px; margin-top: 5px; overflow: hidden; }
+.tli .pb i { display: block; height: 100%; border-radius: 2px; background: #18181b; }
+.tli .v { text-align: right; font-weight: 600; font-family: var(--mono); font-size: 12.5px; white-space: nowrap; font-variant-numeric: tabular-nums; flex: none; }
+.tli .v small { font-family: 'Inter', sans-serif; font-weight: 400; }
 
-/* ===== Bảng dữ liệu chung (.tbl) ===== */
-.tbl-card { background: #fff; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 1px 3px rgba(15,23,42,.05); overflow: hidden; }
-.tbl-tools { display: flex; gap: 10px; align-items: center; padding: 12px 14px; border-bottom: 1px solid #eef2f1; flex-wrap: wrap; }
-.tbl-wrap { overflow: auto; max-height: calc(100vh - 300px); min-height: 180px; }
+/* ===== Data Tables (.tbl) — shadcn-admin Table Primitives ===== */
+.tbl-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+}
+.tbl-tools {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  min-width: 0;
+  background: #ffffff;
+}
+.tbl-tools select.inp { width: auto; min-width: 180px; }
+.tbl-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: calc(100vh - 260px);
+  min-height: 180px;
+}
 table.tbl { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
 .tbl th {
-  position: sticky; top: 0; background: #f4f8f7; text-align: left; font-weight: 700;
-  color: #475569; padding: 10px 12px; border-bottom: 1px solid #dfe7e5; white-space: nowrap;
-  font-size: 11.5px; text-transform: uppercase; letter-spacing: .03em; z-index: 2;
+  position: sticky;
+  top: 0;
+  background: #fafafa;
+  text-align: left;
+  font-weight: 600;
+  color: #52525b;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  font-size: 11.5px;
+  z-index: 2;
 }
-.tbl td { padding: 9px 12px; border-bottom: 1px solid #eef2f1; vertical-align: middle; white-space: nowrap; }
-.tbl tbody tr:hover td { background: var(--p50); }
+.tbl td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #f4f4f5;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.tbl tbody tr:hover td { background: #fafafa; }
 .tbl th.r, .tbl td.r { text-align: right; font-variant-numeric: tabular-nums; }
 .tbl th.c, .tbl td.c { text-align: center; }
-.tbl tfoot td { font-weight: 700; background: #f4f8f7; border-top: 2px solid #dfe7e5; position: sticky; bottom: 0; z-index: 2; }
-.tbl.compact td { padding: 7px 10px; } .tbl.compact th { padding: 8px 10px; }
-.tbl-pager { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; font-size: 12.5px; color: #64748b; gap: 10px; flex-wrap: wrap; border-top: 1px solid #eef2f1; }
+.tbl tfoot td {
+  font-weight: 600;
+  background: #fafafa;
+  border-top: 1px solid var(--border);
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  font-variant-numeric: tabular-nums;
+}
+.tbl.compact td { padding: 7px 10px; }
+.tbl.compact th { padding: 8px 10px; }
+.tbl-pager {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+  gap: 10px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  background: #fafafa;
+}
 
-/* ===== Chấm công (.cc) ===== */
-.cc-wrap { overflow: auto; max-height: calc(100vh - 330px); background: #fff; border: 1px solid var(--line); border-radius: 14px 14px 0 0; }
-table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-select: none; }
-.cc th, .cc td { border-right: 1px solid #eef2f1; border-bottom: 1px solid #eef2f1; text-align: center; padding: 0; height: 34px; }
-.cc thead th { position: sticky; top: 0; background: #f4f8f7; z-index: 3; font-weight: 700; color: #475569; font-size: 11px; padding: 4px 2px; line-height: 1.2; }
-.cc thead th.we { background: #fff1f2; color: #e11d48; }
-.cc thead th.td { background: var(--p); color: #fff; }
-.cc .nm { position: sticky; left: 0; background: #fff; z-index: 2; text-align: left; padding: 0 12px; min-width: 190px; max-width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cc thead .nm { z-index: 4; background: #f4f8f7; }
-.cc td.d { width: 32px; min-width: 32px; cursor: pointer; font-weight: 700; font-size: 11px; }
-.cc td.d:hover { outline: 2px solid var(--p); outline-offset: -2px; }
-.cc td.we { background: #fff7f8; }
-.cc td.sum { min-width: 56px; padding: 0 6px; font-weight: 700; background: #f8fafc; font-variant-numeric: tabular-nums; }
-.cc td.sum.hl { background: var(--p50); color: var(--pd); }
-.cc td.ot input { width: 54px; height: 26px; border: 1px solid #cbd5d3; border-radius: 6px; text-align: center; }
-.brush { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 9px; border: 2px solid transparent; cursor: pointer; font-weight: 700; font-size: 12.5px; }
-.brush.on { border-color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
-.brush small { font-weight: 500; opacity: .8; }
+/* ===== Timekeeping Matrix (.cc) ===== */
+.cc-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: calc(100vh - 280px);
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: var(--shadow-sm);
+}
+table.cc { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; user-select: none; }
+.cc th, .cc td { border-right: 1px solid #f4f4f5; border-bottom: 1px solid #f4f4f5; text-align: center; padding: 0; height: 34px; font-variant-numeric: tabular-nums; }
+.cc thead th { position: sticky; top: 0; background: #fafafa; z-index: 3; font-weight: 600; color: #52525b; font-size: 11px; padding: 4px 2px; line-height: 1.2; border-bottom: 1px solid var(--border); }
+.cc thead th.we { background: #fef2f2; color: #dc2626; }
+.cc thead th.td { background: var(--primary); color: #ffffff; }
+.cc .nm {
+  position: sticky;
+  left: 0;
+  background: #ffffff;
+  z-index: 2;
+  text-align: left;
+  padding: 4px 12px;
+  min-width: 190px;
+  max-width: 190px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: inset -1px 0 0 var(--border);
+}
+.cc thead .nm { z-index: 4; background: #fafafa; }
+.cc td.d { width: 32px; min-width: 32px; cursor: pointer; font-weight: 600; font-size: 11px; }
+.cc td.d:hover { outline: 1.5px solid var(--primary); outline-offset: -1.5px; }
+.cc td.we { background: #fffafb; }
+.cc td.sum { min-width: 52px; padding: 0 6px; font-weight: 600; background: #fafafa; font-variant-numeric: tabular-nums; }
+.cc td.sum.hl { background: #f4f4f5; color: var(--foreground); font-weight: 700; }
+.cc td.ot input { width: 52px; height: 26px; border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 11.5px; }
+.brush {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.brush.on { border-color: #18181b; box-shadow: 0 0 0 1.5px #18181b; }
+.brush small { font-weight: 400; opacity: 0.85; }
 
-/* ===== Bảng lương (.pl) ===== */
-.pl th.stk, .pl td.stk { position: sticky; background: #fff; z-index: 1; }
-.pl thead th.stk { z-index: 3; background: #f4f8f7; }
-.pl tfoot td.stk { z-index: 3; background: #f4f8f7; }
-.pl tbody tr:hover td.stk { background: var(--p50); }
-.pl td.in input { width: 104px; height: 30px; border: 1px solid #cbd5d3; border-radius: 7px; text-align: right; padding: 0 7px; font-variant-numeric: tabular-nums; background: #fffbeb; }
-.pl td.in input:focus { outline: none; border-color: var(--p); box-shadow: 0 0 0 3px var(--p100); }
-.pl td.net { font-weight: 700; color: var(--pd); }
-.pl th.grp { background: var(--p50); color: var(--pd); text-align: center; }
-.calc-out div { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #e8eeed; gap: 10px; }
-.calc-out div b { font-variant-numeric: tabular-nums; }
-.calc-out .big { font-size: 18px; color: var(--pd); }
+/* ===== Payroll Spreadsheet (.pl) ===== */
+.pl th.stk, .pl td.stk { position: sticky; background: #ffffff; z-index: 1; }
+.pl thead th.stk { z-index: 3; background: #fafafa; }
+.pl tfoot td.stk { z-index: 3; background: #fafafa; }
+.pl tbody tr:hover td.stk { background: #fafafa; }
+.pl td.in input {
+  width: 100px;
+  height: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: right;
+  padding: 0 7px;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--mono);
+  font-size: 12px;
+  background: #fffbeb;
+}
+.pl td.in input:focus { outline: none; border-color: #18181b; box-shadow: 0 0 0 2px rgba(24, 24, 27, 0.1); }
+.pl td.net { font-weight: 700; color: var(--foreground); }
+.pl th.grp { background: #f4f4f5; color: var(--foreground); text-align: center; border-bottom: 1px solid var(--border); }
+.calc-out div { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #f4f4f5; gap: 12px; font-size: 13px; }
+.calc-out div b { font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 12.5px; white-space: nowrap; }
+.calc-out .big { font-size: 16px; color: var(--foreground); font-weight: 700; }
 
-/* ===== Modal, Form & Thông báo Toast ===== */
-.modal-wrap { position: fixed; inset: 0; background: rgba(2,24,23,.5); display: flex; align-items: flex-start; justify-content: center; padding: 5vh 16px; z-index: 100; overflow: auto; animation: fade .15s; }
-.modal { background: #fff; border-radius: 16px; width: 100%; box-shadow: 0 24px 60px rgba(0,0,0,.3); animation: pop .18s; }
-.modal-h { display: flex; align-items: center; gap: 10px; padding: 15px 20px; border-bottom: 1px solid #eef2f1; }
-.modal-h h3 { margin: 0; font-size: 16px; }
+/* ===== Modals, Forms & Toasts (shadcn-admin Dialog & Sonner style) ===== */
+.modal-wrap {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 9, 11, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 150;
+  overflow-y: auto;
+  animation: fade .12s;
+}
+.modal {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-height: calc(100vh - 32px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.2);
+  animation: pop .15s;
+  overflow: hidden;
+}
+.modal-h { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--border); flex: none; }
+.modal-h h3 { margin: 0; font-size: 15px; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .modal-h .ibtn { margin-left: auto; }
-.modal-b { padding: 18px 20px; max-height: 72vh; overflow: auto; }
-.modal-f { display: flex; gap: 8px; justify-content: flex-end; align-items: center; padding: 13px 20px; border-top: 1px solid #eef2f1; background: #f8fbfa; border-radius: 0 0 16px 16px; }
-.form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
-.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.field>span { font-size: 12.5px; font-weight: 600; color: #334155; }
-.field.full { grid-column: 1/-1; }
-.field small { color: #94a3b8; font-size: 11.5px; }
-.fsec { grid-column: 1/-1; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--pd); border-bottom: 1px solid #eef2f1; padding-bottom: 6px; margin-top: 6px; }
-#toasts { position: fixed; right: 20px; bottom: 20px; z-index: 300; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
-.toast { background: #0f172a; color: #fff; padding: 12px 16px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.25); font-size: 13.5px; max-width: 400px; animation: pop .2s; border-left: 4px solid var(--acc); }
-.toast.ok { border-left-color: #22c55e; } .toast.err { border-left-color: #ef4444; }
+.modal-b { padding: 18px; overflow-y: auto; flex: 1; min-height: 0; }
+.modal-f { display: flex; gap: 8px; justify-content: flex-end; align-items: center; padding: 12px 18px; border-top: 1px solid var(--border); background: #fafafa; flex: none; flex-wrap: wrap; }
+.form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px; min-width: 0; }
+#adjPieceRateFields { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px; }
+.field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.field > span { font-size: 12px; font-weight: 500; color: #3f3f46; line-height: 1.35; }
+.field.full { grid-column: 1 / -1; }
+.field small { color: var(--muted-foreground); font-size: 11.5px; }
+.fsec { grid-column: 1 / -1; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted-foreground); border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-top: 4px; }
+#toasts { position: fixed; right: 16px; bottom: 16px; z-index: 300; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; max-width: calc(100vw - 32px); }
+.toast { background: #18181b; color: #fafafa; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid #27272a; box-shadow: 0 4px 12px rgba(0,0,0,.15); font-size: 13px; max-width: 380px; width: 100%; animation: pop .15s; word-break: break-word; }
+.toast.ok { border-left: 3px solid #16a34a; }
+.toast.err { border-left: 3px solid #dc2626; }
 
-/* ===== Phiếu lương In ấn (.ps) Chuẩn Doanh nghiệp ===== */
+/* ===== Enterprise Payslip (.ps) — De-AI-ified Clean Accounting Layout ===== */
 #print-root { display: none; }
-.ps { font-size: 11.5px; color: #1f2937; break-after: page; page-break-after: always; padding: 16px; background: #fff; border-radius: 12px; }
+.ps { font-size: 11.5px; color: #18181b; break-after: page; page-break-after: always; padding: 16px; background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border); min-width: 0; font-variant-numeric: tabular-nums; }
 .ps-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
-.ps-co b { font-size: 14px; color: var(--pd); text-transform: uppercase; display: block; margin-bottom: 2px; }
-.ps-co .l { font-size: 10.5px; color: #555; }
-.ps-tt { text-align: right; font-size: 11px; color: #444; line-height: 1.6; }
-.ps-tt h1 { font-size: 22px; letter-spacing: 2px; margin: 0 0 2px; color: var(--pd); font-weight: 800; line-height: 1.1; }
-.ps-band { height: 5px; border-radius: 3px; background: linear-gradient(90deg, var(--pd), var(--p), var(--acc)); margin: 9px 0 10px; }
-.ps-emp { display: flex; gap: 16px; align-items: center; border: 1px solid #d5e3e1; border-radius: 10px; padding: 9px 12px; background: var(--p50); line-height: 1.3; }
-.ps-av { width: 50px; height: 50px; border-radius: 50%; background: var(--p); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 18px; flex: none; }
-.ps-eg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 14px; flex: 1; }
-.ps-eg span { display: block; font-size: 9.5px; color: #6b7280; text-transform: uppercase; letter-spacing: .4px; }
-.ps-eg b { font-size: 12px; }
-.ps-att { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 9px 0; }
-.ps-att div { border: 1px solid #dde7e5; border-radius: 8px; padding: 5px 4px; text-align: center; }
-.ps-att b { display: block; font-size: 15px; color: #111; }
-.ps-att span { font-size: 9.5px; color: #6b7280; }
-.ps-att .hl { background: var(--p); border-color: var(--p); }
+.ps-co b { font-size: 13.5px; color: var(--foreground); text-transform: uppercase; display: block; margin-bottom: 2px; }
+.ps-co .l { font-size: 10.5px; color: #52525b; }
+.ps-tt { text-align: right; font-size: 11px; color: #52525b; line-height: 1.6; }
+.ps-tt h1 { font-size: 20px; letter-spacing: 1px; margin: 0 0 2px; color: var(--foreground); font-weight: 700; line-height: 1.1; }
+.ps-band { height: 2px; background: #18181b; margin: 10px 0; }
+.ps-emp { display: flex; gap: 14px; align-items: center; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 12px; background: #fafafa; line-height: 1.3; }
+.ps-av { width: 44px; height: 44px; border-radius: var(--radius-md); background: #18181b; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 16px; flex: none; }
+.ps-eg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 14px; flex: 1; min-width: 0; }
+.ps-eg span { display: block; font-size: 9.5px; color: #71717a; text-transform: uppercase; letter-spacing: .4px; }
+.ps-eg b { font-size: 12px; word-break: break-word; }
+.ps-att { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin: 10px 0; }
+.ps-att div { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 6px 4px; text-align: center; }
+.ps-att b { display: block; font-size: 14px; color: #09090b; font-variant-numeric: tabular-nums; }
+.ps-att span { font-size: 9.5px; color: #71717a; }
+.ps-att .hl { background: #18181b; border-color: #18181b; }
 .ps-att .hl b, .ps-att .hl span { color: #fff; }
 .ps-t { width: 100%; border-collapse: collapse; margin-top: 6px; }
-.ps-t td { border-bottom: 1px solid #e3ebe9; padding: 4px 8px; font-size: 11.2px; vertical-align: middle; line-height: 1.25; }
-.ps-t th { padding: 5px 8px; font-size: 10.5px; background: var(--p50); border-bottom: 1px solid #c3d4d1; text-align: left; }
-.ps-t tr.sec td { background: #eaf5f3; font-weight: 700; color: var(--pd); font-size: 10.8px; }
-.ps-t tr.sub td { font-weight: 700; background: #f6faf9; border-bottom: 2px solid #c3d4d1; }
-.ps-t td.dg { color: #6b7280; font-size: 10.5px; }
-.ps-net { display: flex; justify-content: space-between; align-items: center; gap: 16px; background: linear-gradient(90deg, var(--pd), var(--p)); color: #fff; border-radius: 10px; padding: 10px 16px; margin: 9px 0; }
-.ps-net span { font-weight: 800; font-size: 13px; letter-spacing: .5px; display: block; }
-.ps-net small { font-style: italic; font-size: 10.5px; opacity: .92; }
-.ps-net b { font-size: 22px; white-space: nowrap; }
-.ps-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
-.ps-box { border: 1px solid #dde7e5; border-radius: 10px; padding: 7px 12px; }
-.ps-box h4 { margin: 0 0 5px; font-size: 10.5px; text-transform: uppercase; color: var(--pd); }
-.ps-box div { display: flex; justify-content: space-between; gap: 10px; padding: 2px 0; font-size: 10.8px; border-bottom: 1px dashed #e3ebe9; }
+.ps-t td { border-bottom: 1px solid #e4e4e7; padding: 5px 8px; font-size: 11.2px; vertical-align: middle; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.ps-t th { padding: 6px 8px; font-size: 10.5px; background: #f4f4f5; border-bottom: 1px solid #d4d4d8; text-align: left; }
+.ps-t tr.sec td { background: #fafafa; font-weight: 700; color: var(--foreground); font-size: 10.8px; }
+.ps-t tr.sub td { font-weight: 700; background: #fafafa; border-top: 1px solid #d4d4d8; border-bottom: 1px solid #d4d4d8; }
+.ps-t td.dg { color: #71717a; font-size: 10.5px; }
+.ps-net { display: flex; justify-content: space-between; align-items: center; gap: 16px; background: #18181b; color: #fafafa; border-radius: var(--radius-md); padding: 12px 16px; margin: 10px 0; flex-wrap: wrap; }
+.ps-net span { font-weight: 700; font-size: 12.5px; letter-spacing: .3px; display: block; }
+.ps-net small { font-style: italic; font-size: 10.5px; color: #d4d4d8; }
+.ps-net b { font-size: 20px; white-space: nowrap; font-variant-numeric: tabular-nums; font-family: var(--mono); }
+.ps-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 8px; }
+.ps-box { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 12px; min-width: 0; }
+.ps-box h4 { margin: 0 0 5px; font-size: 10.5px; text-transform: uppercase; color: var(--foreground); }
+.ps-box div { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; font-size: 10.8px; border-bottom: 1px dashed #e4e4e7; font-variant-numeric: tabular-nums; }
 .ps-box div:last-child { border: 0; font-weight: 700; }
 .ps-pay { margin-top: 8px; font-size: 11px; }
 .ps-date { text-align: right; font-style: italic; margin-top: 6px; }
-.ps-sign { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; margin-top: 4px; }
-.ps-sign b { display: block; } .ps-sign i { font-size: 10px; color: #666; } .ps-sign .sp { height: 44px; }
-.ps-foot { margin-top: 6px; padding-top: 5px; border-top: 1px solid #e3ebe9; font-size: 9.5px; color: #888; text-align: center; }
+.ps-sign { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); text-align: center; margin-top: 6px; gap: 8px; }
+.ps-sign b { display: block; } .ps-sign i { font-size: 10px; color: #71717a; } .ps-sign .sp { height: 44px; }
+.ps-foot { margin-top: 8px; padding-top: 6px; border-top: 1px solid #e4e4e7; font-size: 9.5px; color: #71717a; text-align: center; }
+
+/* ===== RESPONSIVE ARCHITECTURE: TABLET (<= 1024px) ===== */
+@media (max-width: 1024px) {
+  .shell { flex-direction: column; }
+  .col {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  .app-header {
+    left: 0;
+    right: 0;
+  }
+  .side {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(280px, 85vw);
+    height: 100dvh;
+    z-index: 120;
+    transform: translateX(-104%);
+    transition: transform 0.22s ease;
+    box-shadow: 8px 0 24px rgba(0, 0, 0, 0.15);
+  }
+  body.nav-open .side { transform: translateX(0); }
+  body.nav-open .backdrop { display: block; }
+  .side-close { display: inline-grid; }
+  .sidebar-trigger { display: inline-grid; }
+  .header-sep { display: block; }
+  .m-tabs { display: flex; }
+
+  .app-header-bar { padding: 8px 16px; min-height: 50px; }
+  .col .main { padding: 108px 16px 32px; }
+
+  /* 2-Column Bento Grid on Tablet */
+  .bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .span-3, .span-4, .span-5, .span-6 { grid-column: span 1 / span 1; }
+  .span-7, .span-8, .span-12, .t-span-2 { grid-column: span 2 / span 2; }
+
+  .grid.c4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid.c3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid.c21 { grid-template-columns: minmax(0, 1fr); }
+  .grid.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .tbl-wrap, .cc-wrap { max-height: none; }
+}
+
+/* ===== MOBILE BREAKPOINT (<= 640px) ===== */
+@media (max-width: 640px) {
+  .col .main { padding: 146px 12px 28px; }
+  .app-header-bar {
+    padding: 8px 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .header-context .org-name { max-width: 190px; }
+  .header-context .hide-sm { display: none; }
+  .header-switchers {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .user-chip-btn {
+    width: 100%;
+    justify-content: center;
+    height: 32px;
+  }
+  .switcher-item {
+    width: 100%;
+    padding: 0 6px 0 8px;
+    height: 32px;
+  }
+  .switcher-item label { display: none; }
+  .switcher-item select {
+    width: 100%;
+    max-width: 100%;
+    font-size: 12px;
+    height: 30px;
+  }
+  .m-tabs { padding: 6px 12px; }
+  .demo-acc-grid,
+  .perm-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  /* Height-Optimized Mobile Bento: 2 columns for KPI cards, 1 column for charts & lists */
+  #dashKeyCards.bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+  #dashKeyCards .span-3 {
+    grid-column: span 1 / span 1 !important;
+  }
+  #dashKeyCards .kc {
+    padding: 12px;
+    gap: 4px;
+  }
+  #dashKeyCards .kc-l { font-size: 11.5px; }
+  #dashKeyCards .kc-ic { width: 22px; height: 22px; }
+  #dashKeyCards .kc-ic svg { width: 13px; height: 13px; }
+  #dashKeyCards .kc-v { font-size: 15.5px; }
+  #dashKeyCards .kc-s { font-size: 11px; }
+  #dashKeyCards .pill { display: none; }
+
+  .bento-grid:not(#dashKeyCards),
+  .grid.c4,
+  .grid.c3,
+  .grid.c2,
+  .grid.c21 {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px;
+  }
+  .bento-grid:not(#dashKeyCards) > * {
+    grid-column: 1 / -1 !important;
+  }
+
+  .form,
+  #adjPieceRateFields {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px;
+  }
+
+  .ph {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .ph > div:first-child { flex: none; }
+  .ph h1 { font-size: 18px; }
+  .ph p { font-size: 12.5px; }
+  .meta-strip {
+    padding: 6px 10px;
+    gap: 6px 10px;
+    font-size: 11.5px;
+    width: 100%;
+  }
+  .meta-sep { display: none; }
+
+  .tools {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 6px;
+  }
+  .tools .mp {
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+  .tools .btn { flex: 1 1 auto; }
+
+  .card-h { padding: 12px 14px; min-height: 44px; }
+  .card-h .sub { margin-left: 0; width: 100%; }
+  .card-b { padding: 12px 14px; }
+
+  .tbl-tools {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .tbl-tools .search,
+  .tbl-tools select.inp {
+    width: 100%;
+    flex: none;
+  }
+  .tbl-tools .grow { display: none; }
+  .tbl-pager { padding: 10px 12px; font-size: 11.5px; }
+
+  .cc .nm {
+    min-width: 130px;
+    max-width: 130px;
+    padding: 4px 8px;
+    font-size: 11.5px;
+  }
+  .pl th.stk:nth-child(1),
+  .pl td.stk:nth-child(1) {
+    min-width: 32px !important;
+    width: 32px !important;
+    padding: 6px 4px !important;
+    left: 0 !important;
+  }
+  .pl th.stk:nth-child(2),
+  .pl td.stk:nth-child(2) {
+    min-width: 56px !important;
+    width: 56px !important;
+    padding: 6px 5px !important;
+    left: 32px !important;
+    font-size: 11.5px !important;
+  }
+  .pl th.stk:nth-child(3),
+  .pl td.stk:nth-child(3) {
+    min-width: 118px !important;
+    max-width: 124px !important;
+    padding: 6px 8px !important;
+    left: 88px !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
+  }
+
+  .modal-wrap { padding: 10px; align-items: flex-end; }
+  .modal { max-height: calc(100dvh - 20px); }
+  .modal-h { padding: 12px 14px; }
+  .modal-b { padding: 14px; }
+  .modal-f { padding: 10px 14px; }
+  .modal-f .btn { flex: 1 1 auto; }
+
+  .ps { padding: 10px; }
+  .ps-top { flex-direction: column; gap: 8px; }
+  .ps-tt { text-align: left; }
+  .ps-emp { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .ps-eg { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .ps-att { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ps-2 { grid-template-columns: minmax(0, 1fr); }
+  .ps-net b { font-size: 18px; }
+}
 
 @media print {
   body.is-printing > *:not(#print-root) { display: none !important; }
   body.is-printing #print-root { display: block !important; }
-  .side, .mbar, .backdrop, .tools, .tbl-pager { display: none !important; }
+  .side, .app-header, .backdrop, .tools, .tbl-pager { display: none !important; }
 }
 </style>
 </head>
@@ -1207,21 +2283,24 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
 
 <div id="app">
   <div class="shell">
-    <!-- CỘT BÊN TRÁI: VERTICAL SIDEBAR DOANH NGHIỆP -->
-    <aside class="side">
+    <!-- LEFT SIDEBAR: SHADCN-ADMIN ZINC ARCHITECTURE (FIXED ON SCROLL) -->
+    <aside class="side" aria-label="Menu điều hướng chính">
       <div class="brand">
         <div class="logo">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/>
           </svg>
         </div>
-        <div>
+        <div class="brand-text">
           <b>Chấm công & Tính lương</b>
-          <small>Hệ thống Quản trị Doanh nghiệp</small>
+          <small>Enterprise HRM</small>
         </div>
+        <button class="side-close" onclick="document.body.classList.remove('nav-open')" aria-label="Đóng menu">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
       </div>
 
-      <!-- TABS DỌC CHUẨN SAAS MULTI-PAGE ROUTING -->
+      <div class="nav-group-label">Phân hệ quản trị</div>
       <nav class="tabs" id="sideTabs">
         <a data-tab="dashboard" class="nav-item ${initialTab === 'dashboard' ? 'on' : ''}" href="/tong-quan">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
@@ -1251,35 +2330,31 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
           <span>Dữ liệu & Sao lưu</span>
         </a>
+
+        <div class="nav-group-label" style="padding-left:8px;padding-top:14px">Tài khoản & Cá nhân</div>
+        <a data-tab="hoso" class="nav-item ${initialTab === 'hoso' ? 'on' : ''}" href="/ho-so">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Hồ sơ & Phân quyền</span>
+        </a>
+        <a data-tab="auth" class="nav-item ${initialTab === 'auth' ? 'on' : ''}" href="/dang-nhap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+          <span>Đăng nhập / Đăng ký</span>
+        </a>
       </nav>
 
-      <!-- CHUYỂN ĐỔI DOANH NGHIỆP & VAI TRÒ Ở CHÂN SIDEBAR -->
       <div class="side-foot">
-        <div class="side-ctrl">
-          <label>Doanh nghiệp (Multi-Tenant)</label>
-          <select id="tenantSelect" onchange="switchTenant(this.value)">
-            <option value="tenant-alpha-tech">Tân Phát Digital (Công nghệ & TM)</option>
-            <option value="tenant-beta-logistics">Bắc Nam Logistics (Vận tải & Kho vận)</option>
-          </select>
+        <div class="side-user-card" onclick="switchTab('hoso', true);document.body.classList.remove('nav-open')" title="Xem hồ sơ cá nhân & ma trận quyền">
+          <div class="u-av" id="sideUserAvatar">N</div>
+          <div class="u-info">
+            <b id="sideUserName">Nguyễn Tiến Dũng</b>
+            <small id="sideUserEmail">owner@tanphat.vn</small>
+          </div>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#71717a" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
         </div>
-
-        <div class="side-ctrl">
-          <label>Vai trò người dùng</label>
-          <select id="roleSelect" onchange="switchRole(this.value)">
-            <option value="ORG_OWNER">Giám đốc (Owner)</option>
-            <option value="ORG_ADMIN">Quản trị viên (Admin)</option>
-            <option value="HR_MANAGER">Trưởng phòng Nhân sự (HR)</option>
-            <option value="ACCOUNTANT">Kế toán trưởng (Accountant)</option>
-            <option value="DEPARTMENT_MANAGER">Trưởng bộ phận (Manager)</option>
-            <option value="EMPLOYEE">Nhân viên (Self-Service)</option>
-          </select>
-        </div>
-
         <div class="ss" id="saveState">
           <i></i>
           <span id="saveStatus">Đã kết nối máy chủ</span>
         </div>
-
         <button class="btn pri" onclick="quickSaveAll()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
           Lưu dữ liệu kỳ lương
@@ -1289,34 +2364,87 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
 
     <div class="backdrop" onclick="document.body.classList.remove('nav-open')"></div>
 
-    <!-- CỘT BÊN PHẢI: VÙNG HIỂN THỊ NỘI DUNG CHÍNH -->
+    <!-- RIGHT COLUMN: SHADCN-ADMIN TOP HEADER (FIXED ON SCROLL) + MAIN WORKSPACE -->
     <div class="col">
-      <div class="mbar">
-        <button class="ibtn" onclick="document.body.classList.add('nav-open')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-        Chấm công & Tính lương
-      </div>
-
-      <main class="main">
-        <!-- Banner thông báo tổ chức & bảo mật -->
-        <div class="banner">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          <div class="grow">
-            Đang quản trị: <b id="activeOrgTitle">Công ty Cổ phần Công nghệ & Thương mại Tân Phát Digital</b> · Vai trò: <b id="activeRoleTitle">Giám đốc (Owner)</b> · Kỳ lương: <b id="activePeriodTitle">Tháng 10/2026</b> (<span id="periodBadge" class="badge b-amber">DRAFT</span>)
+      <header class="app-header" id="appFixedHeader">
+        <div class="app-header-bar">
+          <div class="header-left">
+            <button class="sidebar-trigger" onclick="document.body.classList.add('nav-open')" aria-label="Mở menu điều hướng">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+            </button>
+            <div class="header-sep"></div>
+            <div class="header-context">
+              <b class="org-name" id="activeOrgTitle">Công ty Cổ phần Công nghệ & Thương mại Tân Phát Digital</b>
+              <span class="header-dot hide-sm">·</span>
+              <span class="hide-sm">Vai trò: <b id="activeRoleTitle">Giám đốc (Owner)</b></span>
+              <span class="header-dot">·</span>
+              <span>Kỳ: <b id="activePeriodTitle">Tháng 10/2026</b></span>
+              <span id="periodBadge" class="badge b-amber">DRAFT</span>
+            </div>
           </div>
-          <div class="row">
-            <span class="badge b-p">Multi-Tenant Isolation</span>
-            <span class="badge b-green">72/72 Test Pass</span>
+
+          <div class="header-switchers">
+            <div class="switcher-item" title="Chuyển đổi Doanh nghiệp (Multi-Tenant)">
+              <label for="tenantSelect">Đơn vị</label>
+              <select id="tenantSelect" onchange="switchTenant(this.value)">
+                <option value="tenant-alpha-tech">Tân Phát Digital (Công nghệ & TM)</option>
+                <option value="tenant-beta-logistics">Bắc Nam Logistics (Vận tải & Kho vận)</option>
+              </select>
+            </div>
+            <div class="switcher-item" title="Chuyển đổi Vai trò người dùng">
+              <label for="roleSelect">Vai trò</label>
+              <select id="roleSelect" onchange="switchRole(this.value)">
+                <option value="ORG_OWNER">Giám đốc (Owner)</option>
+                <option value="ORG_ADMIN">Quản trị viên (Admin)</option>
+                <option value="HR_MANAGER">Trưởng phòng Nhân sự (HR)</option>
+                <option value="ACCOUNTANT">Kế toán trưởng (Accountant)</option>
+                <option value="DEPARTMENT_MANAGER">Trưởng bộ phận (Manager)</option>
+                <option value="EMPLOYEE">Nhân viên (Self-Service)</option>
+              </select>
+            </div>
+            <button class="user-chip-btn" id="headerUserChip" onclick="switchTab('hoso', true)" title="Xem hồ sơ cá nhân & ma trận quyền hạn">
+              <span class="uc-av" id="headerUserAvatar">N</span>
+              <span class="uc-name" id="headerUserName">Nguyễn Tiến Dũng</span>
+            </button>
+            <button class="user-chip-btn" id="headerAuthBtn" onclick="switchTab('auth', true)" title="Đăng nhập / Đăng ký / Đổi tài khoản Demo">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+              <span>Đổi TK</span>
+            </button>
           </div>
         </div>
 
+        <nav class="m-tabs" id="mobileTabs" aria-label="Điều hướng nhanh">
+          <a data-mtab="dashboard" class="m-nav-item ${initialTab === 'dashboard' ? 'on' : ''}" href="/tong-quan">Tổng quan</a>
+          <a data-mtab="chamcong" class="m-nav-item ${initialTab === 'chamcong' ? 'on' : ''}" href="/cham-cong">Chấm công</a>
+          <a data-mtab="nhanvien" class="m-nav-item ${initialTab === 'nhanvien' ? 'on' : ''}" href="/nhan-vien">Nhân viên</a>
+          <a data-mtab="bangluong" class="m-nav-item ${initialTab === 'bangluong' ? 'on' : ''}" href="/bang-luong">Bảng lương</a>
+          <a data-mtab="thue" class="m-nav-item ${initialTab === 'thue' ? 'on' : ''}" href="/thue-bhxh">Thuế & BHXH</a>
+          <a data-mtab="caidat" class="m-nav-item ${initialTab === 'caidat' ? 'on' : ''}" href="/cai-dat">Cài đặt</a>
+          <a data-mtab="data" class="m-nav-item ${initialTab === 'data' ? 'on' : ''}" href="/du-lieu">Dữ liệu & Sao lưu</a>
+          <a data-mtab="hoso" class="m-nav-item ${initialTab === 'hoso' ? 'on' : ''}" href="/ho-so">Hồ sơ cá nhân</a>
+          <a data-mtab="auth" class="m-nav-item ${initialTab === 'auth' ? 'on' : ''}" href="/dang-nhap">Đăng nhập / ĐK</a>
+        </nav>
+      </header>
+
+      <main class="main" id="appMainWorkspace">
         <!-- VIEW 1: TỔNG QUAN (DASHBOARD) -->
         <div id="v-dashboard" class="view" style="display:${initialTab === 'dashboard' ? 'block' : 'none'}">
           <div class="ph">
             <div>
               <h1>Tổng quan Quỹ lương & Nhân sự</h1>
-              <p>Báo cáo quỹ lương, thuế TNCN và bảo hiểm theo kỳ lương Tháng 10/2026</p>
+              <p>Báo cáo tổng hợp chi phí lương, thuế TNCN và trích nộp bảo hiểm bắt buộc</p>
+              <!-- Hairline Metadata Strip (Thay thế khối Hero tím) -->
+              <div class="meta-strip">
+                <span class="meta-item"><i class="meta-dot"></i> Kỳ lương: <b id="dashHeroMonth">Tháng 10/2026</b></span>
+                <span class="meta-sep"></span>
+                <span class="meta-item"><b id="dashHeroEmpCount">8 Nhân sự</b></span>
+                <span class="meta-sep"></span>
+                <span class="meta-item"><i class="meta-dot ok"></i> Anti-IDOR Multi-Tenant</span>
+                <span class="meta-sep"></span>
+                <span class="meta-item">Giảm trừ: <b>11M / 4.4M</b></span>
+                <span class="meta-sep"></span>
+                <span class="meta-item">Kiểm định: <b>72/72 Pass</b></span>
+              </div>
             </div>
             <div class="tools">
               <label class="mp">Kỳ lương <input type="month" id="dashMonthPicker" value="2026-10" onchange="changeMonth(this.value)"></label>
@@ -1326,36 +2454,19 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
               </button>
               <button class="btn" onclick="printCurrentView()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                In
+                In báo cáo
               </button>
             </div>
           </div>
 
-          <!-- BENTO HERO TILE (LILAC) -->
-          <div class="bento-hero mb">
-            <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--dash-lilac-strong);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
-              <span>Báo Cáo Nghiệp Vụ Quản Trị</span>
-            </div>
-            <h2 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-0.02em;color:var(--dash-ink)">Kỳ lương <span id="dashHeroMonth">Tháng 10/2026</span></h2>
-            <p style="margin:8px 0 16px;font-size:13px;color:rgba(17,17,20,0.8);max-width:640px;line-height:1.5">
-              Hệ thống đã tự động tính toán dữ liệu chấm công 31 ngày, thuế TNCN lũy tiến từng phần và trích nộp bảo hiểm bắt buộc theo chuẩn Luật BHXH mới nhất.
-            </p>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:12px">
-              <span class="badge" style="background:rgba(255,255,255,0.7);color:var(--dash-ink);font-weight:700" id="dashHeroEmpCount">✓ 8 Nhân sự</span>
-              <span class="badge" style="background:rgba(255,255,255,0.7);color:var(--dash-ink);font-weight:700">✓ Cô lập đa doanh nghiệp (Anti-IDOR)</span>
-              <span class="badge" style="background:rgba(255,255,255,0.7);color:var(--dash-ink);font-weight:700">✓ Giảm trừ bản thân 11M & NPT 4.4M</span>
-            </div>
-          </div>
-
-          <!-- 4 BENTO KEY CARDS VỚI SỐ LIỆU CHUYỂN ĐỘNG & SPARKLINE -->
-          <div class="grid c4 mb" id="dashKeyCards">
+          <!-- 4 KPI CARDS TRÊN LƯỚI BENTO 12 CỘT (3+3+3+3 Desktop, 2x2 Tablet & Mobile) -->
+          <div class="bento-grid mb" id="dashKeyCards">
             <!-- Rendered by JS -->
           </div>
 
-          <!-- BIỂU ĐỒ DIỆN TÍCH AREA & DONUT SVG -->
-          <div class="grid c21 mb">
-            <div class="card">
+          <!-- HÀNG 2 BENTO 12 CỘT: BIỂU ĐỒ CHI PHÍ (7 CỘT) & CƠ CẤU CHI PHÍ (5 CỘT) -->
+          <div class="bento-grid mb">
+            <div class="card span-7">
               <div class="card-h">
                 <h3>Chi phí lương doanh nghiệp theo tháng</h3>
                 <span class="sub" id="dashAreaSub">Tháng này: <b>Đang tải...</b></span>
@@ -1363,7 +2474,7 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
               <div class="card-b" id="dashAreaChart"></div>
             </div>
 
-            <div class="card">
+            <div class="card span-5">
               <div class="card-h">
                 <h3>Cơ cấu chi phí doanh nghiệp</h3>
                 <span class="sub">Tỷ trọng chi phí</span>
@@ -1372,17 +2483,17 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
             </div>
           </div>
 
-          <!-- QUỸ LƯƠNG PHÒNG BAN & TỶ LỆ ĐI LÀM -->
-          <div class="grid c21 mb">
-            <div class="card">
+          <!-- HÀNG 3 BENTO 12 CỘT: QUỸ LƯƠNG PHÒNG BAN (7 CỘT) & TỶ LỆ CHUYÊN CẦN (5 CỘT) -->
+          <div class="bento-grid mb">
+            <div class="card span-7">
               <div class="card-h">
                 <h3>Quỹ lương theo phòng ban</h3>
-                <span class="sub">Phân bổ chi phí</span>
+                <span class="sub">Phân bổ thực lĩnh</span>
               </div>
               <div class="card-b" id="dashBarChart"></div>
             </div>
 
-            <div class="card">
+            <div class="card span-5">
               <div class="card-h">
                 <h3>Tỷ lệ đi làm trong tháng</h3>
                 <span class="sub">Chuyên cần</span>
@@ -1391,19 +2502,19 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
             </div>
           </div>
 
-          <!-- LEADERBOARD TOP THU NHẬP & NGHỈ NHIỀU NHẤT -->
-          <div class="grid c3">
-            <div class="card">
+          <!-- HÀNG 4 BENTO 12 CỘT: XẾP HẠNG & PHÊ DUYỆT KỲ LƯƠNG (4+4+4) -->
+          <div class="bento-grid">
+            <div class="card span-4">
               <div class="card-h"><h3>Thu nhập cao nhất</h3></div>
               <div class="card-b" id="dashTopEarners"></div>
             </div>
 
-            <div class="card">
+            <div class="card span-4">
               <div class="card-h"><h3>Nghỉ nhiều nhất tháng</h3></div>
               <div class="card-b" id="dashTopAbsences"></div>
             </div>
 
-            <div class="card">
+            <div class="card span-4 t-span-2">
               <div class="card-h"><h3>Tiến độ & Phê duyệt kỳ lương</h3></div>
               <div class="card-b" style="display:flex;flex-direction:column;gap:12px">
                 <p class="muted" style="margin:0;font-size:13px">
@@ -1411,14 +2522,26 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
                   Quản trị viên có thể điều chỉnh dữ liệu và tiến hành chốt sổ để chống gian lận.
                 </p>
                 <div class="row" style="flex-wrap:wrap;gap:8px">
-                  <button class="btn" id="btnSubmitReview" onclick="submitReviewPayroll()">📤 Gửi duyệt kỳ lương</button>
-                  <button class="btn pri" id="btnLock" onclick="lockPayroll()">🔒 Khóa sổ kỳ lương</button>
-                  <button class="btn" id="btnPay" onclick="payPayroll()" style="background:#15803d;color:#fff;border-color:#15803d">💰 Xác nhận chi trả</button>
-                  <button class="btn" id="btnUnlock" onclick="unlockPayroll()">🔓 Mở khóa kỳ lương</button>
+                  <button class="btn" id="btnSubmitReview" onclick="submitReviewPayroll()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                    Gửi duyệt kỳ lương
+                  </button>
+                  <button class="btn pri" id="btnLock" onclick="lockPayroll()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Khóa sổ kỳ lương
+                  </button>
+                  <button class="btn" id="btnPay" onclick="payPayroll()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    Xác nhận chi trả
+                  </button>
+                  <button class="btn" id="btnUnlock" onclick="unlockPayroll()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+                    Mở khóa kỳ lương
+                  </button>
                 </div>
-                <div style="font-size:12px;color:#64748b;border-top:1px dashed #e8eeed;padding-top:8px">
-                  ✔ Tuân thủ Luật Bảo hiểm Xã hội & Thuế TNCN<br>
-                  ✔ Nhật ký bảo mật ghi nhận đầy đủ hành động
+                <div style="font-size:12px;color:#71717a;border-top:1px solid #f4f4f5;padding-top:10px;line-height:1.6">
+                  Tuân thủ Luật Bảo hiểm Xã hội & Thuế TNCN<br>
+                  Nhật ký bảo mật ghi nhận đầy đủ hành động
                 </div>
               </div>
             </div>
@@ -1441,14 +2564,12 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
             </div>
           </div>
 
-          <!-- BÚT CỌ CHẤM CÔNG NHANH -->
           <div class="card mb">
             <div class="card-b row" style="gap:8px" id="brushBarContainer">
               <!-- Injected by JS -->
             </div>
           </div>
 
-          <!-- BẢNG CHẤM CÔNG 31 NGÀY MA TRẬN -->
           <div class="cc-wrap">
             <table class="cc" id="attendanceTable">
               <thead><tr id="attendanceThead"></tr></thead>
@@ -1555,12 +2676,12 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
                   <tr>
                     <th rowspan="2" class="stk c" style="left:0;min-width:44px">STT</th>
                     <th rowspan="2" class="stk" style="left:44px;min-width:72px">Mã NV</th>
-                    <th rowspan="2" class="stk" style="left:116px;min-width:170px;box-shadow:inset -1px 0 0 #dfe7e5">Họ và tên</th>
+                    <th rowspan="2" class="stk" style="left:116px;min-width:170px;box-shadow:inset -1px 0 0 #e4e4e7">Họ và tên</th>
                     <th colspan="8" class="grp">THU NHẬP</th>
                     <th colspan="4" class="grp">BẢO HIỂM NLĐ (10.5%)</th>
                     <th colspan="4" class="grp">THUẾ TNCN</th>
                     <th colspan="2" class="grp">KHẤU TRỪ</th>
-                    <th rowspan="2" class="r" style="min-width:130px;color:var(--pd)">THỰC LĨNH</th>
+                    <th rowspan="2" class="r" style="min-width:130px;color:var(--foreground)">THỰC LĨNH</th>
                     <th rowspan="2" class="c" style="width:40px">Phiếu</th>
                   </tr>
                   <tr>
@@ -1597,15 +2718,18 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
           <div class="ph">
             <div>
               <h1>Báo cáo Thuế TNCN & Bảo hiểm Bắt buộc</h1>
-              <p>Đối chiếu biểu thuế 7 bậc chính thức vs 5 bậc dự thảo 2026 và công cụ tính lương Gross ⇄ Net</p>
+              <p>Đối chiếu biểu thuế 7 bậc chính thức vs 5 bậc dự thảo 2026 và công cụ tính lương Gross - Net</p>
             </div>
             <div class="tools">
-              <button class="btn xl" onclick="exportTaxExcel()">📥 Xuất Báo cáo Thuế Excel</button>
+              <button class="btn xl" onclick="exportTaxExcel()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                Xuất Báo cáo Thuế Excel
+              </button>
             </div>
           </div>
 
-          <div class="grid c21 mb">
-            <div class="card">
+          <div class="bento-grid mb">
+            <div class="card span-7">
               <div class="card-h">
                 <h3>Bảng đối chiếu Thuế TNCN (7 Bậc Hiện hành vs 5 Bậc Dự thảo)</h3>
                 <span class="sub">Kỳ lương 10/2026</span>
@@ -1626,9 +2750,8 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
               </div>
             </div>
 
-            <!-- CÔNG CỤ TÍNH GROSS ⇄ NET DOANH NGHIỆP -->
-            <div class="card">
-              <div class="card-h"><h3>Tính nhanh lương Gross ⇄ Net</h3></div>
+            <div class="card span-5">
+              <div class="card-h"><h3>Tính nhanh lương Gross - Net</h3></div>
               <div class="card-b">
                 <div class="form">
                   <label class="field">
@@ -1656,7 +2779,6 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
             </div>
           </div>
 
-          <!-- BẢNG TỔNG HỢP TRÍCH NỘP BHXH PHẦN DOANH NGHIỆP & NGƯỜI LAO ĐỘNG -->
           <div class="card">
             <div class="card-h">
               <h3>Bảng trích nộp Bảo hiểm bắt buộc chi tiết (NLĐ 10.5% & Doanh nghiệp 22%)</h3>
@@ -1679,7 +2801,7 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
                     <th class="r">BHTN DN (1%)</th>
                     <th class="r">KPCĐ (2%)</th>
                     <th class="r font-bold">Cộng DN (22%)</th>
-                    <th class="r font-bold" style="color:var(--pd)">Tổng trích nộp</th>
+                    <th class="r font-bold" style="color:var(--foreground)">Tổng trích nộp</th>
                   </tr>
                 </thead>
                 <tbody id="insuranceSummaryTbody"></tbody>
@@ -1703,8 +2825,8 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
             </div>
           </div>
 
-          <div class="grid c2 mb">
-            <div class="card">
+          <div class="bento-grid mb">
+            <div class="card span-6">
               <div class="card-h"><h3>Thông tin Doanh nghiệp</h3></div>
               <div class="card-b">
                 <div class="form">
@@ -1728,7 +2850,7 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
               </div>
             </div>
 
-            <div class="card">
+            <div class="card span-6">
               <div class="card-h"><h3>Chính sách Chấm công & Làm thêm giờ</h3></div>
               <div class="card-b">
                 <div class="form">
@@ -1789,8 +2911,8 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
             </div>
           </div>
 
-          <div class="grid c2 mb">
-            <div class="card">
+          <div class="bento-grid mb">
+            <div class="card span-5">
               <div class="card-h"><h3>Tình trạng Cơ sở Dữ liệu & Kỳ lương</h3></div>
               <div class="card-b">
                 <div class="dl">
@@ -1808,9 +2930,9 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
               </div>
             </div>
 
-            <div class="card">
+            <div class="card span-7">
               <div class="card-h"><h3>Nhật ký Kiểm toán Hoạt động (Audit Trail)</h3></div>
-              <div class="tbl-wrap" style="max-height:220px">
+              <div class="tbl-wrap" style="max-height:240px">
                 <table class="tbl compact">
                   <thead>
                     <tr><th>Thời gian</th><th>Tài khoản</th><th>Hành động</th><th>Chi tiết</th></tr>
@@ -1821,6 +2943,251 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
                     <tr><td class="small muted">17:00:10</td><td>owner@alpha-tech.vn</td><td><span class="badge b-amber">LOGIN_SUCCESS</span></td><td class="small">IP: 127.0.0.1 (Localhost)</td></tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 8: HỒ SƠ CÁ NHÂN & PHÂN QUYỀN VAI TRÒ (HOSO) -->
+        <div id="v-hoso" class="view" style="display:${initialTab === 'hoso' ? 'block' : 'none'}">
+          <div class="ph">
+            <div>
+              <h1>Hồ sơ Cá nhân & Phân quyền Vai trò (RBAC Profile)</h1>
+              <p>Thông tin định danh tài khoản, phạm vi truy cập dữ liệu, ma trận quyền hạn và phiếu lương liên kết của từng vai trò</p>
+            </div>
+            <div class="tools">
+              <span class="sub">Chuyển nhanh hồ sơ theo vai trò:</span>
+              <select class="inp" id="profileRoleQuickSelect" onchange="switchRole(this.value)" style="width:auto;min-width:230px;font-weight:600">
+                <option value="ORG_OWNER">1. Giám đốc / Chủ sở hữu (ORG_OWNER)</option>
+                <option value="ORG_ADMIN">2. Quản trị viên Hệ thống (ORG_ADMIN)</option>
+                <option value="HR_MANAGER">3. Trưởng phòng Nhân sự (HR_MANAGER)</option>
+                <option value="ACCOUNTANT">4. Kế toán trưởng / C&B (ACCOUNTANT)</option>
+                <option value="DEPARTMENT_MANAGER">5. Trưởng bộ phận (DEPARTMENT_MANAGER)</option>
+                <option value="EMPLOYEE">6. Nhân viên Cá nhân (EMPLOYEE)</option>
+              </select>
+              <button class="btn" onclick="switchTab('auth')">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+                Đổi tài khoản / Đăng nhập
+              </button>
+            </div>
+          </div>
+
+          <div class="bento-grid mb">
+            <!-- Cột Trái: Thẻ Định Danh & Cập Nhật Hồ Sơ -->
+            <div class="card span-5">
+              <div class="card-h">
+                <h3>Thông tin Định danh Tài khoản</h3>
+                <span class="badge b-p" id="profRoleCodeBadge">ORG_OWNER</span>
+              </div>
+              <div class="card-b">
+                <div style="display:flex;align-items:center;gap:14px;padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--border)">
+                  <div id="profAvatarBox" style="width:54px;height:54px;border-radius:10px;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:18px;font-weight:700;flex-shrink:0">NĐ</div>
+                  <div style="min-width:0;flex:1">
+                    <div id="profFullNameTitle" style="font-size:16px;font-weight:700;color:var(--foreground)">Nguyễn Minh Đức</div>
+                    <div id="profRoleLabelSub" style="font-size:12.5px;color:var(--muted-foreground);margin-top:2px">Giám đốc / Chủ sở hữu (ORG_OWNER)</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                      <span class="badge b-green" id="profStatusBadge">Đang hoạt động</span>
+                      <span class="badge b-amber" id="profEmpCodeBadge">Mã NV: NV001</span>
+                    </div>
+                  </div>
+                </div>
+
+                <form onsubmit="handleProfileUpdateSubmit(event)">
+                  <div class="form">
+                    <label class="field full">
+                      <span>Họ và tên hiển thị</span>
+                      <input class="inp" id="profInputName" required>
+                    </label>
+                    <label class="field">
+                      <span>Email đăng nhập</span>
+                      <input class="inp" id="profInputEmail" readonly style="background:var(--muted);color:var(--muted-foreground)">
+                    </label>
+                    <label class="field">
+                      <span>Số điện thoại</span>
+                      <input class="inp" id="profInputPhone">
+                    </label>
+                    <label class="field">
+                      <span>Phòng ban trực thuộc</span>
+                      <input class="inp" id="profInputDept">
+                    </label>
+                    <label class="field">
+                      <span>Chức danh công việc</span>
+                      <input class="inp" id="profInputJobTitle">
+                    </label>
+                    <label class="field full">
+                      <span>Giới thiệu & Trách nhiệm nghiệp vụ</span>
+                      <input class="inp" id="profInputBio">
+                    </label>
+                  </div>
+                  <div class="row mt" style="justify-content:flex-end">
+                    <button type="submit" class="btn pri">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+                      Lưu cập nhật hồ sơ
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Cột Phải: Ma trận Phân quyền RBAC & Phạm vi dữ liệu -->
+            <div class="card span-7">
+              <div class="card-h">
+                <h3>Ma trận Phân quyền RBAC & Phạm vi Dữ liệu của Vai trò</h3>
+                <span class="sub" id="profTenantBadgeText">Tân Phát Digital</span>
+              </div>
+              <div class="card-b">
+                <div style="padding:12px 14px;background:var(--muted);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px">
+                  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted-foreground);margin-bottom:4px">Phạm vi truy cập & Kiểm soát dữ liệu (Data Scope)</div>
+                  <div id="profScopeSummary" style="font-size:13px;font-weight:500;color:var(--foreground);line-height:1.5">Toàn quyền quản trị doanh nghiệp, phê duyệt & mở khóa kỳ lương.</div>
+                </div>
+
+                <div style="font-size:12px;font-weight:600;color:var(--foreground);margin-bottom:8px">Chi tiết quyền hạn trên hệ thống (Role Permission Matrix):</div>
+                <div class="perm-grid" id="profPermissionsGrid"></div>
+
+                <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                    <div style="font-size:12px;font-weight:600;color:var(--foreground)">Hồ sơ Lương & Ngày công Cá nhân Liên kết (Kỳ 10/2026)</div>
+                    <button class="btn sm" id="profViewPayslipBtn" onclick="openCurrentProfilePayslip()">Xem phiếu lương cá nhân</button>
+                  </div>
+                  <div class="dl" id="profLinkedPayrollSummary"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bảng Danh mục Toàn bộ Hồ sơ Nhân sự & Phân quyền mẫu -->
+          <div class="card">
+            <div class="card-h">
+              <h3>Danh sách Hồ sơ Tài khoản theo 6 Vai trò Phân quyền Chuẩn Doanh nghiệp</h3>
+              <span class="sub">Nhấn "Xem hồ sơ vai trò này" để nạp ngay hồ sơ, quyền hạn và góc nhìn giao diện của từng user</span>
+            </div>
+            <div class="tbl-wrap">
+              <table class="tbl compact">
+                <thead>
+                  <tr>
+                    <th>Mã Vai trò</th>
+                    <th>Họ và tên User</th>
+                    <th>Email tài khoản</th>
+                    <th>Phòng ban / Chức vụ</th>
+                    <th>Mã NV liên kết</th>
+                    <th>Phạm vi dữ liệu (RBAC Scope)</th>
+                    <th class="c">Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="allRoleProfilesTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 9: ĐĂNG NHẬP / ĐĂNG KÝ & TÀI KHOẢN DEMO PHÂN QUYỀN (AUTH) -->
+        <div id="v-auth" class="view" style="display:${initialTab === 'auth' ? 'block' : 'none'}">
+          <div class="ph">
+            <div>
+              <h1>Đăng nhập, Đăng ký & Tài khoản Demo Phân quyền</h1>
+              <p>Xác thực phiên làm việc bảo mật (HttpOnly Session) hoặc chọn nhanh tài khoản Demo được tạo sẵn cho từng vai trò RBAC</p>
+            </div>
+            <div class="tools">
+              <div class="seg" style="display:inline-flex;background:var(--muted);padding:3px;border-radius:var(--radius);border:1px solid var(--border)">
+                <button type="button" class="btn sm pri" id="tabBtnLoginMode" onclick="toggleAuthMode('login')" style="border:none">Đăng nhập</button>
+                <button type="button" class="btn sm" id="tabBtnRegisterMode" onclick="toggleAuthMode('register')" style="border:none;background:transparent">Đăng ký tài khoản mới</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="bento-grid">
+            <!-- Khối Form Đăng nhập / Đăng ký -->
+            <div class="card span-5">
+              <div class="card-h">
+                <h3 id="authCardHeaderTitle">Đăng nhập Hệ thống HRM & Payroll</h3>
+                <span class="badge b-green">Mật khẩu mặc định: Demo@2026</span>
+              </div>
+              <div class="card-b">
+                <!-- FORM ĐĂNG NHẬP -->
+                <form id="loginFormBlock" onsubmit="handleLoginSubmit(event)">
+                  <div class="form">
+                    <label class="field full">
+                      <span>Email tài khoản doanh nghiệp *</span>
+                      <input class="inp" type="email" id="loginEmailInput" value="owner@tanphat.vn" placeholder="owner@tanphat.vn" required>
+                    </label>
+                    <label class="field full">
+                      <span>Mật khẩu *</span>
+                      <input class="inp" type="password" id="loginPassInput" value="Demo@2026" placeholder="Nhập mật khẩu (Demo@2026)" required>
+                    </label>
+                  </div>
+                  <div style="margin-top:12px;padding:10px 12px;background:var(--muted);border-radius:var(--radius);font-size:12px;color:var(--muted-foreground)">
+                    Mẹo: Bạn có thể nhấn trực tiếp vào bất kỳ thẻ <b>Tài khoản Demo</b> ở cột bên phải để tự động điền thông tin và đăng nhập ngay vào phân quyền tương ứng.
+                  </div>
+                  <div class="row mt" style="justify-content:space-between">
+                    <button type="button" class="btn" onclick="toggleAuthMode('register')">Chưa có tài khoản? Đăng ký</button>
+                    <button type="submit" class="btn pri">
+                      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+                      Đăng nhập ngay
+                    </button>
+                  </div>
+                </form>
+
+                <!-- FORM ĐĂNG KÝ TÀI KHOẢN MỚI -->
+                <form id="registerFormBlock" onsubmit="handleRegisterSubmit(event)" style="display:none">
+                  <div class="form">
+                    <label class="field full">
+                      <span>Họ và tên nhân sự / người dùng *</span>
+                      <input class="inp" id="regFullNameInput" placeholder="Ví dụ: Nguyễn Quốc Bảo" required>
+                    </label>
+                    <label class="field">
+                      <span>Email đăng nhập *</span>
+                      <input class="inp" type="email" id="regEmailInput" placeholder="bao.nq@tanphatdigital.vn" required>
+                    </label>
+                    <label class="field">
+                      <span>Mật khẩu *</span>
+                      <input class="inp" type="password" id="regPassInput" value="Demo@2026" required>
+                    </label>
+                    <label class="field">
+                      <span>Thuộc Doanh nghiệp (Tenant)</span>
+                      <select class="inp" id="regTenantSelect">
+                        <option value="tenant-alpha-tech">Tân Phát Digital (6 NV)</option>
+                        <option value="tenant-beta-logistics">Bắc Nam Logistics (6 NV)</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span>Vai trò Phân quyền (RBAC Role)</span>
+                      <select class="inp" id="regRoleSelect">
+                        <option value="ORG_OWNER">Giám đốc / Chủ sở hữu (ORG_OWNER)</option>
+                        <option value="ORG_ADMIN">Quản trị viên (ORG_ADMIN)</option>
+                        <option value="HR_MANAGER">Trưởng phòng Nhân sự (HR_MANAGER)</option>
+                        <option value="ACCOUNTANT">Kế toán trưởng (ACCOUNTANT)</option>
+                        <option value="DEPARTMENT_MANAGER">Trưởng bộ phận (DEPARTMENT_MANAGER)</option>
+                        <option value="EMPLOYEE" selected>Nhân viên (EMPLOYEE)</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span>Phòng ban</span>
+                      <input class="inp" id="regDeptInput" value="Phòng Kỹ thuật & Phát triển">
+                    </label>
+                    <label class="field">
+                      <span>Chức danh</span>
+                      <input class="inp" id="regJobInput" value="Chuyên viên Phát triển">
+                    </label>
+                  </div>
+                  <div class="row mt" style="justify-content:space-between">
+                    <button type="button" class="btn" onclick="toggleAuthMode('login')">Quay lại Đăng nhập</button>
+                    <button type="submit" class="btn pri">
+                      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" x2="20" y1="8" y2="14"/><line x1="23" x2="17" y1="11" y2="11"/></svg>
+                      Tạo tài khoản & Đăng nhập
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Danh sách 7 Tài khoản Demo tạo sẵn cho từng Phân quyền -->
+            <div class="card span-7">
+              <div class="card-h">
+                <h3>Danh sách Tài khoản Demo Tạo sẵn cho Từng Phân quyền (1-Click Login)</h3>
+                <span class="sub">Mật khẩu chung: <b>Demo@2026</b></span>
+              </div>
+              <div class="card-b">
+                <div class="demo-acc-grid" id="demoAccountsGridContainer"></div>
               </div>
             </div>
           </div>
@@ -1976,7 +3343,7 @@ table.cc { border-collapse: separate; border-spacing: 0; font-size: 12px; user-s
           <span>Các khoản khấu trừ khác (đ)</span>
           <input class="inp num" id="adjKhauTru" value="0" oninput="formatMoneyInput(this)">
         </label>
-        <div id="adjPieceRateFields" style="display:none">
+        <div id="adjPieceRateFields" style="display:none;gap:14px;grid-column:1 / -1;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr))">
           <label class="field">
             <span>Số lượng sản phẩm khoán</span>
             <input class="inp num" type="number" id="adjSlSP" value="0">
@@ -2086,7 +3453,9 @@ const ROUTE_PATH_MAP = {
   bangluong: '/bang-luong',
   thue: '/thue-bhxh',
   caidat: '/cai-dat',
-  data: '/du-lieu'
+  data: '/du-lieu',
+  hoso: '/ho-so',
+  auth: '/dang-nhap'
 };
 
 const ROUTE_TITLE_MAP = {
@@ -2096,7 +3465,9 @@ const ROUTE_TITLE_MAP = {
   bangluong: 'Bảng lương · Hệ thống Chấm công & Tính lương B2B SaaS',
   thue: 'Thuế & BHXH · Hệ thống Chấm công & Tính lương B2B SaaS',
   caidat: 'Cài đặt · Hệ thống Chấm công & Tính lương B2B SaaS',
-  data: 'Dữ liệu & Khóa sổ · Hệ thống Chấm công & Tính lương B2B SaaS'
+  data: 'Dữ liệu & Khóa sổ · Hệ thống Chấm công & Tính lương B2B SaaS',
+  hoso: 'Hồ sơ & Phân quyền · Hệ thống Chấm công & Tính lương B2B SaaS',
+  auth: 'Đăng nhập & Tài khoản Demo · Hệ thống Chấm công & Tính lương B2B SaaS'
 };
 
 function getTabFromPath(path) {
@@ -2106,12 +3477,28 @@ function getTabFromPath(path) {
   if (path === '/thue-bhxh' || path === '/tax-insurance') return 'thue';
   if (path === '/cai-dat' || path === '/settings') return 'caidat';
   if (path === '/du-lieu' || path === '/backup') return 'data';
+  if (path === '/ho-so' || path === '/profile') return 'hoso';
+  if (path === '/dang-nhap' || path === '/login' || path === '/dang-ky' || path === '/register') return 'auth';
   return 'dashboard';
 }
+
+function syncFixedHeaderOffset() {
+  const hdr = document.getElementById('appFixedHeader');
+  const mainEl = document.querySelector('.main');
+  if (hdr && mainEl) {
+    const h = hdr.offsetHeight || 96;
+    mainEl.style.paddingTop = (h + 18) + 'px';
+  }
+}
+
+window.addEventListener('resize', syncFixedHeaderOffset);
 
 function switchTab(tabId, pushState = true) {
   document.querySelectorAll('#sideTabs a').forEach(a => {
     a.classList.toggle('on', a.dataset.tab === tabId);
+  });
+  document.querySelectorAll('#mobileTabs a').forEach(a => {
+    a.classList.toggle('on', a.dataset.mtab === tabId);
   });
   document.querySelectorAll('.view').forEach(p => {
     p.style.display = (p.id === 'v-' + tabId) ? 'block' : 'none';
@@ -2125,6 +3512,7 @@ function switchTab(tabId, pushState = true) {
     history.pushState({ tab: tabId }, newTitle, newPath);
   }
 
+  syncFixedHeaderOffset();
   window.scrollTo(0, 0);
 }
 
@@ -2137,6 +3525,14 @@ document.querySelectorAll('#sideTabs a').forEach(a => {
   });
 });
 
+document.querySelectorAll('#mobileTabs a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    switchTab(a.dataset.mtab, true);
+    document.body.classList.remove('nav-open');
+  });
+});
+
 // Popstate Handler (Browser Back / Forward)
 window.addEventListener('popstate', e => {
   const tab = (e.state && e.state.tab) || getTabFromPath(window.location.pathname);
@@ -2145,6 +3541,8 @@ window.addEventListener('popstate', e => {
 
 // Tenant & Role Switch & Session Context Sync
 let currentPeriodVersion = 1;
+let demoAccountsList = [];
+let currentUserProfile = null;
 
 async function syncSessionToServer(tenantId, role) {
   try {
@@ -2153,7 +3551,11 @@ async function syncSessionToServer(tenantId, role) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tenantId, userRole: role })
     });
-    return await res.json();
+    const data = await res.json();
+    if (data && data.user) {
+      currentUserProfile = data.user;
+    }
+    return data;
   } catch (e) {
     console.warn('Session sync error:', e);
   }
@@ -2161,22 +3563,24 @@ async function syncSessionToServer(tenantId, role) {
 
 async function switchTenant(tenantId) {
   currentTenant = tenantId;
+  const sel = document.getElementById('tenantSelect');
+  if (sel && sel.value !== tenantId) sel.value = tenantId;
   const isAlpha = tenantId === 'tenant-alpha-tech';
   document.getElementById('activeOrgTitle').textContent = isAlpha ? 'Công ty Cổ phần Công nghệ & Thương mại Tân Phát Digital' : 'Công ty TNHH Vận tải & Dịch vụ Kho vận Bắc Nam';
   document.getElementById('dataActiveTenantName').textContent = isAlpha ? 'Tân Phát Digital' : 'Bắc Nam Logistics';
   await syncSessionToServer(currentTenant, currentRole);
-  loadAllData();
+  await loadAllData();
   toast('Đã chuyển sang quản trị: ' + (isAlpha ? 'Tân Phát Digital' : 'Bắc Nam Logistics'));
 }
 
 function applyRoleUiGating(role) {
   const allowedTabsByRole = {
-    ORG_OWNER: ['dashboard', 'chamcong', 'nhanvien', 'bangluong', 'thue', 'caidat', 'data'],
-    ORG_ADMIN: ['dashboard', 'chamcong', 'nhanvien', 'bangluong', 'thue', 'caidat', 'data'],
-    HR_MANAGER: ['dashboard', 'chamcong', 'nhanvien', 'bangluong'],
-    ACCOUNTANT: ['dashboard', 'chamcong', 'nhanvien', 'bangluong', 'thue', 'caidat'],
-    DEPARTMENT_MANAGER: ['dashboard', 'chamcong'],
-    EMPLOYEE: ['dashboard', 'chamcong', 'bangluong'],
+    ORG_OWNER: ['dashboard', 'chamcong', 'nhanvien', 'bangluong', 'thue', 'caidat', 'data', 'hoso', 'auth'],
+    ORG_ADMIN: ['dashboard', 'chamcong', 'nhanvien', 'bangluong', 'thue', 'caidat', 'data', 'hoso', 'auth'],
+    HR_MANAGER: ['dashboard', 'chamcong', 'nhanvien', 'bangluong', 'hoso', 'auth'],
+    ACCOUNTANT: ['dashboard', 'chamcong', 'nhanvien', 'bangluong', 'thue', 'caidat', 'hoso', 'auth'],
+    DEPARTMENT_MANAGER: ['dashboard', 'chamcong', 'hoso', 'auth'],
+    EMPLOYEE: ['dashboard', 'chamcong', 'bangluong', 'hoso', 'auth'],
   };
 
   const allowedTabs = allowedTabsByRole[role] || allowedTabsByRole.ORG_OWNER;
@@ -2184,10 +3588,13 @@ function applyRoleUiGating(role) {
     const tab = el.dataset.tab;
     el.style.display = allowedTabs.includes(tab) ? '' : 'none';
   });
+  document.querySelectorAll('#mobileTabs a').forEach(el => {
+    const tab = el.dataset.mtab;
+    el.style.display = allowedTabs.includes(tab) ? '' : 'none';
+  });
 
   const isOwner = role === 'ORG_OWNER' || role === 'OWNER';
   const isAdminOrOwner = isOwner || role === 'ORG_ADMIN' || role === 'ADMIN';
-  const isFinance = isAdminOrOwner || role === 'ACCOUNTANT';
   const isHR = isAdminOrOwner || role === 'HR_MANAGER';
 
   // Lock/Unlock buttons in data and header
@@ -2209,6 +3616,12 @@ function applyRoleUiGating(role) {
   // Reset sample data button
   const btnResetData = document.getElementById('btnResetData');
   if (btnResetData) btnResetData.style.display = isOwner ? '' : 'none';
+
+  // Sync role selectors
+  const roleSel = document.getElementById('roleSelect');
+  if (roleSel && roleSel.value !== role) roleSel.value = role;
+  const profRoleSel = document.getElementById('profileRoleQuickSelect');
+  if (profRoleSel && profRoleSel.value !== role) profRoleSel.value = role;
 
   // If current active tab is not allowed for the role, gracefully switch to dashboard
   const currentTabLink = document.querySelector('#sideTabs a.on');
@@ -2233,7 +3646,7 @@ async function switchRole(role) {
   if (roleTitleEl) roleTitleEl.textContent = title;
   await syncSessionToServer(currentTenant, currentRole);
   applyRoleUiGating(role);
-  loadAllData();
+  await loadAllData();
   toast('Đã đổi vai trò sang: ' + title);
 }
 
@@ -2260,6 +3673,14 @@ async function loadAllData() {
     currentPeriodVersion = plData.periodVersion || 1;
     companySettings = plData.settings || {};
 
+    // 3. Fetch Demo Accounts & Active User Role Profile
+    const authRes = await fetch(\`/api/auth/demo-accounts?tenantId=\${currentTenant}&userRole=\${currentRole}\`);
+    const authData = await authRes.json();
+    if (authData && authData.accounts) {
+      demoAccountsList = authData.accounts;
+      currentUserProfile = authData.activeUser || demoAccountsList.find(a => a.role === currentRole && a.tenantId === currentTenant) || demoAccountsList[0];
+    }
+
     // Update UI components
     updatePeriodBadge();
     renderKeyCards();
@@ -2270,11 +3691,348 @@ async function loadAllData() {
     renderTaxComparison();
     renderInsuranceSummary();
     calcGrossNet();
+    renderProfileAndAuthViews();
+    syncFixedHeaderOffset();
 
     document.getElementById('dataTotalEmpCount').textContent = payrollResults.length + ' nhân sự';
   } catch (err) {
     console.error('Lỗi khi tải dữ liệu:', err);
     toast('Lỗi kết nối máy chủ: ' + err.message, 'err');
+  }
+}
+
+function getInitials(name) {
+  const words = String(name || 'US').trim().split(/\\s+/).filter(Boolean);
+  if (words.length >= 2) return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+  return String(name || 'US').slice(0, 2).toUpperCase();
+}
+
+function getPermissionEntries(permObj) {
+  if (!permObj) return [];
+  if (Array.isArray(permObj)) return permObj;
+  const labels = {
+    dashboard: '1. Tổng quan & KPI Quỹ lương',
+    timekeeping: '2. Bảng chấm công 31 ngày',
+    overtimeApproval: '3. Duyệt & điều chỉnh giờ OT',
+    employeeManagement: '4. Quản lý hồ sơ nhân sự',
+    payrollView: '5. Xem bảng lương & Thuế TNCN',
+    payrollAdjustment: '6. Điều chỉnh thưởng / tạm ứng',
+    periodLockUnlock: '7. Khóa sổ / Chi trả / Mở khóa',
+    piiAccess: '8. Truy cập dữ liệu nhạy cảm (PII)'
+  };
+  return Object.keys(labels).map(k => {
+    const val = String(permObj[k] || '');
+    const isRestricted = val.includes('Không có quyền') || val.includes('Ẩn ') || val.includes('Che ');
+    return {
+      key: k,
+      label: labels[k] + ': ' + val,
+      allowed: !isRestricted
+    };
+  });
+}
+
+function renderProfileAndAuthViews() {
+  if (!currentUserProfile && demoAccountsList.length > 0) {
+    currentUserProfile = demoAccountsList.find(a => a.role === currentRole && a.tenantId === currentTenant) || demoAccountsList[0];
+  }
+  const u = currentUserProfile;
+  if (u) {
+    const initials = u.avatarInitials || getInitials(u.fullName);
+    const dept = u.departmentName || u.department || 'Ban Giám đốc';
+    // Update Sidebar & Header User Chips
+    const sideAv = document.getElementById('sideUserAvatar');
+    const sideName = document.getElementById('sideUserName');
+    const sideRole = document.getElementById('sideUserRoleText');
+    const hdrAv = document.getElementById('headerUserAvatar');
+    const hdrName = document.getElementById('headerUserName');
+    if (sideAv) sideAv.textContent = initials;
+    if (sideName) sideName.textContent = u.fullName;
+    if (sideRole) sideRole.textContent = u.role + ' · ' + u.employeeCode;
+    if (hdrAv) hdrAv.textContent = initials;
+    if (hdrName) hdrName.textContent = u.fullName + ' (' + u.role + ')';
+
+    // Update #v-hoso fields
+    const profAv = document.getElementById('profAvatarBox');
+    const profNameTitle = document.getElementById('profFullNameTitle');
+    const profRoleSub = document.getElementById('profRoleLabelSub');
+    const profRoleBadge = document.getElementById('profRoleCodeBadge');
+    const profEmpBadge = document.getElementById('profEmpCodeBadge');
+    const profTenantText = document.getElementById('profTenantBadgeText');
+    const profScope = document.getElementById('profScopeSummary');
+
+    if (profAv) profAv.textContent = initials;
+    if (profNameTitle) profNameTitle.textContent = u.fullName;
+    if (profRoleSub) profRoleSub.textContent = u.roleLabel;
+    if (profRoleBadge) profRoleBadge.textContent = u.role;
+    if (profEmpBadge) profEmpBadge.textContent = 'Mã NV: ' + u.employeeCode;
+    if (profTenantText) profTenantText.textContent = u.tenantName;
+    if (profScope) profScope.textContent = u.scopeSummary;
+
+    const inName = document.getElementById('profInputName');
+    const inEmail = document.getElementById('profInputEmail');
+    const inPhone = document.getElementById('profInputPhone');
+    const inDept = document.getElementById('profInputDept');
+    const inJob = document.getElementById('profInputJobTitle');
+    const inBio = document.getElementById('profInputBio');
+    if (inName) inName.value = u.fullName || '';
+    if (inEmail) inEmail.value = u.email || '';
+    if (inPhone) inPhone.value = u.phone || '';
+    if (inDept) inDept.value = dept;
+    if (inJob) inJob.value = u.jobTitle || '';
+    if (inBio) inBio.value = u.bio || u.scopeSummary || '';
+
+    // Render Permission Matrix
+    const permGrid = document.getElementById('profPermissionsGrid');
+    const permList = getPermissionEntries(u.permissions);
+    if (permGrid) {
+      permGrid.innerHTML = permList.map(p => \`
+        <div class="perm-item \${p.allowed ? 'on' : 'off'}">
+          <span style="display:inline-flex;width:16px;height:16px;border-radius:50%;background:\${p.allowed ? '#dcfce7' : '#f4f4f5'};color:\${p.allowed ? '#15803d' : '#71717a'};align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">\${p.allowed ? '✓' : '•'}</span>
+          <span>\${escapeHtml(p.label)}</span>
+        </div>
+      \`).join('');
+    }
+
+    // Linked Employee Payroll Summary
+    const linkedSummary = document.getElementById('profLinkedPayrollSummary');
+    if (linkedSummary) {
+      const empPayroll = payrollResults.find(p => p.employeeId === u.employeeId || p.employeeCode === u.employeeCode) || payrollResults[0];
+      if (empPayroll) {
+        linkedSummary.innerHTML = \`
+          <div><span>Nhân sự liên kết</span><b>\${escapeHtml(empPayroll.employeeName)} (\${escapeHtml(empPayroll.employeeCode)})</b></div>
+          <div><span>Ngày công thực tế</span><b class="num">\${empPayroll.actualWorkDays || 0} / 26 công</b></div>
+          <div><span>Tổng thu nhập (Gross)</span><b class="num">\${formatVND(empPayroll.grossSalary)}</b></div>
+          <div><span>Thực lĩnh (Net Salary)</span><b class="num" style="color:#15803d">\${formatVND(empPayroll.netSalary)}</b></div>
+        \`;
+      } else {
+        linkedSummary.innerHTML = '<div><span>Trạng thái</span><b>Chưa có dữ liệu bảng lương trong kỳ</b></div>';
+      }
+    }
+  }
+
+  // Render All Role Profiles Table in #v-hoso
+  const allRolesBody = document.getElementById('allRoleProfilesTableBody');
+  if (allRolesBody && demoAccountsList.length > 0) {
+    allRolesBody.innerHTML = demoAccountsList.map(acc => {
+      const isCurrent = u && acc.id === u.id;
+      const dept = acc.departmentName || acc.department || '';
+      return \`
+        <tr style="\${isCurrent ? 'background:#f4f4f5' : ''}">
+          <td><span class="badge \${isCurrent ? 'b-p' : 'b-blue'}">\${escapeHtml(acc.role)}</span></td>
+          <td><b>\${escapeHtml(acc.fullName)}</b><div class="small muted">\${escapeHtml(acc.tenantName)}</div></td>
+          <td class="num small">\${escapeHtml(acc.email)}</td>
+          <td class="small">\${escapeHtml(dept)} · \${escapeHtml(acc.jobTitle)}</td>
+          <td class="c"><span class="badge b-amber">\${escapeHtml(acc.employeeCode)}</span></td>
+          <td class="small">\${escapeHtml(acc.scopeSummary)}</td>
+          <td class="c">
+            \${isCurrent
+              ? '<span class="badge b-green">Đang kích hoạt</span>'
+              : \`<button class="btn sm pri" onclick="quickDemoLogin('\${escapeHtml(acc.email)}', 'hoso')">Xem hồ sơ vai trò này</button>\`
+            }
+          </td>
+        </tr>
+      \`;
+    }).join('');
+  }
+
+  // Render Demo Accounts Cards in #v-auth
+  const demoGrid = document.getElementById('demoAccountsGridContainer');
+  if (demoGrid && demoAccountsList.length > 0) {
+    demoGrid.innerHTML = demoAccountsList.map(acc => {
+      const isCurrent = u && acc.id === u.id;
+      const initials = acc.avatarInitials || getInitials(acc.fullName);
+      const permEntries = getPermissionEntries(acc.permissions);
+      const allowedCount = permEntries.filter(p => p.allowed).length;
+      return \`
+        <div class="demo-acc-card \${isCurrent ? 'active-acc' : ''}" onclick="quickDemoLogin('\${escapeHtml(acc.email)}', 'hoso')">
+          <div class="demo-acc-top">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:34px;height:34px;border-radius:8px;background:\${isCurrent ? 'var(--primary)' : '#e4e4e7'};color:\${isCurrent ? '#fff' : '#18181b'};display:grid;place-items:center;font-weight:700;font-size:12px">\${escapeHtml(initials)}</div>
+              <div>
+                <div class="demo-acc-name">\${escapeHtml(acc.fullName)}</div>
+                <div class="demo-acc-role">\${escapeHtml(acc.jobTitle)} · \${escapeHtml(acc.tenantName)}</div>
+              </div>
+            </div>
+            <span class="badge \${isCurrent ? 'b-green' : 'b-p'}">\${escapeHtml(acc.role)}</span>
+          </div>
+          <div class="demo-acc-meta">
+            <div>Email: <b>\${escapeHtml(acc.email)}</b> · Mật khẩu: <b>\${escapeHtml(acc.password)}</b></div>
+            <div>Mã NV: <b>\${escapeHtml(acc.employeeCode)}</b> · Quyền hạn: <b>\${allowedCount}/\${permEntries.length || 8} phân hệ</b></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px">
+            <span style="font-size:11px;color:var(--muted-foreground)">\${isCurrent ? '✓ Đang đăng nhập phiên này' : 'Nhấn để đăng nhập nhanh'}</span>
+            <span class="btn sm \${isCurrent ? '' : 'pri'}" style="height:26px;padding:0 10px;font-size:11px">\${isCurrent ? 'Đang dùng' : 'Đăng nhập Demo →'}</span>
+          </div>
+        </div>
+      \`;
+    }).join('');
+  }
+}
+
+function openCurrentProfilePayslip() {
+  if (!currentUserProfile) return;
+  const empPayroll = payrollResults.find(p => p.employeeId === currentUserProfile.employeeId || p.employeeCode === currentUserProfile.employeeCode) || payrollResults[0];
+  if (empPayroll) {
+    openSlipModal(empPayroll.employeeId);
+  }
+}
+
+function toggleAuthMode(mode) {
+  const loginForm = document.getElementById('loginFormBlock');
+  const regForm = document.getElementById('registerFormBlock');
+  const btnLogin = document.getElementById('tabBtnLoginMode');
+  const btnReg = document.getElementById('tabBtnRegisterMode');
+  const titleEl = document.getElementById('authCardHeaderTitle');
+
+  if (mode === 'register') {
+    if (loginForm) loginForm.style.display = 'none';
+    if (regForm) regForm.style.display = 'block';
+    if (btnLogin) { btnLogin.classList.remove('pri'); btnLogin.style.background = 'transparent'; }
+    if (btnReg) { btnReg.classList.add('pri'); btnReg.style.background = ''; }
+    if (titleEl) titleEl.textContent = 'Đăng ký Tài khoản Phân quyền Mới';
+  } else {
+    if (loginForm) loginForm.style.display = 'block';
+    if (regForm) regForm.style.display = 'none';
+    if (btnReg) { btnReg.classList.remove('pri'); btnReg.style.background = 'transparent'; }
+    if (btnLogin) { btnLogin.classList.add('pri'); btnLogin.style.background = ''; }
+    if (titleEl) titleEl.textContent = 'Đăng nhập Hệ thống HRM & Payroll';
+  }
+}
+
+async function quickDemoLogin(email, redirectTab = 'hoso') {
+  const emailIn = document.getElementById('loginEmailInput');
+  const passIn = document.getElementById('loginPassInput');
+  if (emailIn) emailIn.value = email;
+  if (passIn) passIn.value = 'Demo@2026';
+
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: 'Demo@2026' })
+    });
+    const d = await res.json();
+    if (d.success && d.user) {
+      currentTenant = d.user.tenantId;
+      currentRole = d.user.role;
+      currentUserProfile = d.user;
+
+      const tSel = document.getElementById('tenantSelect');
+      if (tSel) tSel.value = currentTenant;
+      const rSel = document.getElementById('roleSelect');
+      if (rSel) rSel.value = currentRole;
+
+      const isAlpha = currentTenant === 'tenant-alpha-tech';
+      document.getElementById('activeOrgTitle').textContent = isAlpha ? 'Công ty Cổ phần Công nghệ & Thương mại Tân Phát Digital' : 'Công ty TNHH Vận tải & Dịch vụ Kho vận Bắc Nam';
+      document.getElementById('activeRoleTitle').textContent = d.user.roleLabel;
+
+      applyRoleUiGating(currentRole);
+      await loadAllData();
+      if (redirectTab) switchTab(redirectTab, true);
+      toast('Đã đăng nhập tài khoản: ' + d.user.fullName + ' (' + d.user.role + ')');
+    } else {
+      toast(d.error || 'Đăng nhập thất bại', 'err');
+    }
+  } catch (e) {
+    toast('Lỗi đăng nhập: ' + e.message, 'err');
+  }
+}
+
+async function handleLoginSubmit(e) {
+  e.preventDefault();
+  const email = document.getElementById('loginEmailInput').value.trim();
+  const password = document.getElementById('loginPassInput').value.trim();
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const d = await res.json();
+    if (d.success && d.user) {
+      currentTenant = d.user.tenantId;
+      currentRole = d.user.role;
+      currentUserProfile = d.user;
+      const tSel = document.getElementById('tenantSelect');
+      if (tSel) tSel.value = currentTenant;
+      const rSel = document.getElementById('roleSelect');
+      if (rSel) rSel.value = currentRole;
+      document.getElementById('activeRoleTitle').textContent = d.user.roleLabel;
+      applyRoleUiGating(currentRole);
+      await loadAllData();
+      switchTab('hoso', true);
+      toast('Đăng nhập thành công: ' + d.user.fullName);
+    } else {
+      toast(d.error || 'Sai email hoặc mật khẩu!', 'err');
+    }
+  } catch (err) {
+    toast('Lỗi kết nối: ' + err.message, 'err');
+  }
+}
+
+async function handleRegisterSubmit(e) {
+  e.preventDefault();
+  const fullName = document.getElementById('regFullNameInput').value.trim();
+  const email = document.getElementById('regEmailInput').value.trim();
+  const password = document.getElementById('regPassInput').value.trim();
+  const tenantId = document.getElementById('regTenantSelect').value;
+  const role = document.getElementById('regRoleSelect').value;
+  const department = document.getElementById('regDeptInput').value.trim();
+  const jobTitle = document.getElementById('regJobInput').value.trim();
+
+  try {
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fullName, email, password, tenantId, role, department, jobTitle })
+    });
+    const d = await res.json();
+    if (d.success && d.user) {
+      currentTenant = d.user.tenantId;
+      currentRole = d.user.role;
+      currentUserProfile = d.user;
+      const tSel = document.getElementById('tenantSelect');
+      if (tSel) tSel.value = currentTenant;
+      const rSel = document.getElementById('roleSelect');
+      if (rSel) rSel.value = currentRole;
+      document.getElementById('activeRoleTitle').textContent = d.user.roleLabel;
+      applyRoleUiGating(currentRole);
+      await loadAllData();
+      switchTab('hoso', true);
+      toast('Đăng ký & đăng nhập thành công: ' + d.user.fullName + ' (' + d.user.role + ')');
+    } else {
+      toast(d.error || 'Không thể đăng ký tài khoản', 'err');
+    }
+  } catch (err) {
+    toast('Lỗi đăng ký: ' + err.message, 'err');
+  }
+}
+
+async function handleProfileUpdateSubmit(e) {
+  e.preventDefault();
+  const fullName = document.getElementById('profInputName').value.trim();
+  const email = document.getElementById('profInputEmail').value.trim();
+  const phone = document.getElementById('profInputPhone').value.trim();
+  const department = document.getElementById('profInputDept').value.trim();
+  const jobTitle = document.getElementById('profInputJobTitle').value.trim();
+  const bio = document.getElementById('profInputBio').value.trim();
+
+  try {
+    const res = await fetch('/api/auth/profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, fullName, phone, department, jobTitle, bio })
+    });
+    const d = await res.json();
+    if (d.success && d.user) {
+      currentUserProfile = d.user;
+      await loadAllData();
+      toast('Đã lưu cập nhật hồ sơ cá nhân của ' + d.user.fullName + '!');
+    } else {
+      toast(d.error || 'Không thể cập nhật hồ sơ', 'err');
+    }
+  } catch (err) {
+    toast('Lỗi cập nhật: ' + err.message, 'err');
   }
 }
 
@@ -2307,7 +4065,7 @@ function updatePeriodBadge() {
     if (btnUnlock) btnUnlock.disabled = false;
   } else if (periodStatus === 'REVIEWING') {
     badge.className = 'badge b-blue';
-    if (lockSub) lockSub.innerHTML = '<span style="color:#2563eb;font-weight:700">REVIEWING (Đang chờ lãnh đạo duyệt)</span>';
+    if (lockSub) lockSub.innerHTML = '<span style="color:#18181b;font-weight:700">REVIEWING (Đang chờ lãnh đạo duyệt)</span>';
     if (btnSubmitReview) btnSubmitReview.disabled = true;
     if (btnLock) btnLock.disabled = false;
     if (btnPay) btnPay.disabled = true;
@@ -2420,7 +4178,7 @@ async function unlockPayroll() {
 }
 
 // Animate Counter function for Bento style animated numbers
-function animateCounter(el, target, duration = 1000) {
+function animateCounter(el, target, duration = 600) {
   if (!el) return;
   const start = el._currentVal !== undefined ? el._currentVal : 0;
   el._currentVal = target;
@@ -2428,7 +4186,6 @@ function animateCounter(el, target, duration = 1000) {
   function step(now) {
     const elapsed = now - startTime;
     const progress = Math.min(elapsed / duration, 1);
-    // Cubic ease-out: 1 - (1 - t)^3
     const ease = 1 - Math.pow(1 - progress, 3);
     const val = Math.round(start + (target - start) * ease);
     el.innerHTML = formatMoney(val) + ' <small>đ</small>';
@@ -2437,16 +4194,16 @@ function animateCounter(el, target, duration = 1000) {
   requestAnimationFrame(step);
 }
 
-// Render Key Cards (Bento style with animated numbers)
+// Render Key Cards (shadcn-admin 12-column Bento style with tabular-nums)
 function renderKeyCards() {
   const totalNet = payrollResults.reduce((s, p) => s + (p.netSalary || 0), 0);
   const totalGross = payrollResults.reduce((s, p) => s + (p.grossSalary || 0), 0);
   const totalTax = payrollResults.reduce((s, p) => s + (p.taxAmount || 0), 0);
   const totalIns = payrollResults.reduce((s, p) => s + (p.insurance ? (p.insurance.totalEmployee || 0) : 0), 0);
 
-  // Update Hero tile badges if present
+  // Update Metadata Strip counters
   const heroEmp = document.getElementById('dashHeroEmpCount');
-  if (heroEmp) heroEmp.textContent = '✓ ' + payrollResults.length + ' Nhân sự';
+  if (heroEmp) heroEmp.textContent = payrollResults.length + ' Nhân sự';
   const heroMonth = document.getElementById('dashHeroMonth');
   if (heroMonth) {
     const m = currentMonth.split('-');
@@ -2455,83 +4212,70 @@ function renderKeyCards() {
 
   const container = document.getElementById('dashKeyCards');
   container.innerHTML = \`
-    <!-- Bento Card 1: Ink Card (Primary Emphasis - Net Salary) -->
-    <div class="kc bento-ink">
+    <div class="kc span-3">
       <div class="kc-h">
-        <span class="kc-ic" style="background:rgba(255,255,255,0.12);color:#34d399">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+        <span class="kc-l">Thực Lĩnh (Net Salary)</span>
+        <span class="kc-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
         </span>
-        <span class="kc-l" style="color:rgba(255,255,255,0.7)">Thực Lĩnh (Net Salary)</span>
-        <span class="pill" style="background:rgba(52,211,153,0.2);color:#34d399">▲ 4.8%</span>
       </div>
-      <div class="kc-v" id="kcNetVal" style="color:#ffffff">\${formatMoney(totalNet)} <small style="color:rgba(255,255,255,0.6)">đ</small></div>
-      <div class="kc-s" style="color:rgba(255,255,255,0.7)">\${payrollResults.length} nhân sự · Chi trả qua ngân hàng 100%</div>
-      <svg class="spk" viewBox="0 0 240 42" preserveAspectRatio="none">
-        <path d="M0,38 L40,32 L80,35 L120,24 L160,26 L200,14 L240,10 L240,42 L0,42 Z" fill="rgba(52,211,153,0.15)"/>
-        <path class="l" d="M0,38 L40,32 L80,35 L120,24 L160,26 L200,14 L240,10" fill="none" stroke="#34d399" stroke-width="2.5"/>
-      </svg>
+      <div class="kc-v" id="kcNetVal">\${formatMoney(totalNet)} <small>đ</small></div>
+      <div class="kc-foot">
+        <span class="kc-s">\${payrollResults.length} nhân sự · Chi trả 100%</span>
+        <span class="pill pu">+4.8%</span>
+      </div>
     </div>
 
-    <!-- Bento Card 2: Sky Pastel Tile (Total Gross) -->
-    <div class="kc" style="background:var(--dash-surface)">
+    <div class="kc span-3">
       <div class="kc-h">
-        <span class="kc-ic" style="background:var(--dash-sky);color:#0369a1">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>
-        </span>
         <span class="kc-l">Tổng Thu Nhập (Gross)</span>
-        <span class="pill pu">▲ 3.2%</span>
+        <span class="kc-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>
+        </span>
       </div>
-      <div class="kc-v" id="kcGrossVal" style="color:#0369a1">\${formatMoney(totalGross)} <small>đ</small></div>
-      <div class="kc-s">Bình quân \${formatMoney(payrollResults.length ? totalGross / payrollResults.length : 0)} đ/người</div>
-      <svg class="spk" viewBox="0 0 240 42" preserveAspectRatio="none">
-        <path d="M0,36 L50,30 L100,28 L150,20 L200,16 L240,8 L240,42 L0,42 Z" fill="#f0f9ff"/>
-        <path class="l" d="M0,36 L50,30 L100,28 L150,20 L200,16 L240,8" fill="none" stroke="#0284c7" stroke-width="2"/>
-      </svg>
+      <div class="kc-v" id="kcGrossVal">\${formatMoney(totalGross)} <small>đ</small></div>
+      <div class="kc-foot">
+        <span class="kc-s">BQ \${formatMoney(payrollResults.length ? totalGross / payrollResults.length : 0)} đ/người</span>
+        <span class="pill pu">+3.2%</span>
+      </div>
     </div>
 
-    <!-- Bento Card 3: Amber Pastel Tile (Thuế TNCN) -->
-    <div class="kc" style="background:var(--dash-surface)">
+    <div class="kc span-3">
       <div class="kc-h">
-        <span class="kc-ic" style="background:var(--dash-amber);color:#b45309">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
-        </span>
         <span class="kc-l">Thuế TNCN Khấu Trừ</span>
-        <span class="pill na">\${payrollResults.filter(p => p.taxAmount > 0).length} người nộp</span>
+        <span class="kc-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+        </span>
       </div>
-      <div class="kc-v" id="kcTaxVal" style="color:#b45309">\${formatMoney(totalTax)} <small>đ</small></div>
-      <div class="kc-s">Biểu lũy tiến 5 bậc 2026 chuẩn hóa</div>
-      <svg class="spk" viewBox="0 0 240 42" preserveAspectRatio="none">
-        <path d="M0,32 L60,34 L120,28 L180,24 L240,16 L240,42 L0,42 Z" fill="#fffbeb"/>
-        <path class="l" d="M0,32 L60,34 L120,28 L180,24 L240,16" fill="none" stroke="#d97706" stroke-width="2"/>
-      </svg>
+      <div class="kc-v" id="kcTaxVal">\${formatMoney(totalTax)} <small>đ</small></div>
+      <div class="kc-foot">
+        <span class="kc-s">Biểu lũy tiến 7 bậc chuẩn</span>
+        <span class="pill na">\${payrollResults.filter(p => p.taxAmount > 0).length} nộp thuế</span>
+      </div>
     </div>
 
-    <!-- Bento Card 4: Mint Pastel Tile (Bảo hiểm & KPCĐ) -->
-    <div class="kc" style="background:var(--dash-surface)">
+    <div class="kc span-3">
       <div class="kc-h">
-        <span class="kc-ic" style="background:var(--dash-mint);color:#15803d">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span class="kc-l">Bảo Hiểm & KPCĐ (NLĐ)</span>
+        <span class="kc-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </span>
-        <span class="kc-l">Bảo Hiểm & KPCĐ</span>
-        <span class="pill pu">10.5% + 22%</span>
       </div>
-      <div class="kc-v" id="kcInsVal" style="color:#15803d">\${formatMoney(totalIns)} <small>đ</small></div>
-      <div class="kc-s">Phần người lao động chịu 10.5%</div>
-      <svg class="spk" viewBox="0 0 240 42" preserveAspectRatio="none">
-        <path d="M0,30 L60,30 L120,25 L180,22 L240,18 L240,42 L0,42 Z" fill="#f0fdf4"/>
-        <path class="l" d="M0,30 L60,30 L120,25 L180,22 L240,18" fill="none" stroke="#16a34a" stroke-width="2"/>
-      </svg>
+      <div class="kc-v" id="kcInsVal">\${formatMoney(totalIns)} <small>đ</small></div>
+      <div class="kc-foot">
+        <span class="kc-s">NLĐ 10.5% · DN 23.5%</span>
+        <span class="pill na">Luật BHXH</span>
+      </div>
     </div>
   \`;
 
-  // Kích hoạt số liệu chuyển động mượt mà (Animated Numbers)
   animateCounter(document.getElementById('kcNetVal'), totalNet);
   animateCounter(document.getElementById('kcGrossVal'), totalGross);
   animateCounter(document.getElementById('kcTaxVal'), totalTax);
   animateCounter(document.getElementById('kcInsVal'), totalIns);
 }
 
-// Render Dashboard SVG Charts
+// Render Dashboard SVG Charts (shadcn-admin Zinc monochrome + clean accents)
 function renderDashboardCharts() {
   const totalNet = payrollResults.reduce((s, p) => s + (p.netSalary || 0), 0);
   const totalGross = payrollResults.reduce((s, p) => s + (p.grossSalary || 0), 0);
@@ -2540,46 +4284,46 @@ function renderDashboardCharts() {
   const totalInsDN = Math.round(totalInsNLD * (22 / 10.5));
   const totalCost = totalGross + totalInsDN;
 
-  document.getElementById('dashAreaSub').innerHTML = \`Tháng này: <b>\${formatMoney(totalCost)} đ</b> · \${payrollResults.length} người đang làm\`;
+  document.getElementById('dashAreaSub').innerHTML = \`Tháng này: <b style="color:#09090b;font-variant-numeric:tabular-nums">\${formatMoney(totalCost)} đ</b> · \${payrollResults.length} nhân sự đang làm việc\`;
 
-  // 1. Area Chart (12 Months Trend)
+  // 1. Area Chart (12 Months Trend - shadcn-admin Zinc primary)
   document.getElementById('dashAreaChart').innerHTML = \`
     <div class="chart">
-      <svg viewBox="0 0 640 220" style="width:100%;height:auto;display:block">
+      <svg viewBox="0 0 640 210" style="width:100%;height:auto;display:block">
         <defs>
           <linearGradient id="ag1" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#2563eb" stop-opacity="0.22"/>
-            <stop offset="1" stop-color="#2563eb" stop-opacity="0"/>
+            <stop offset="0" stop-color="#18181b" stop-opacity="0.12"/>
+            <stop offset="1" stop-color="#18181b" stop-opacity="0.0"/>
           </linearGradient>
         </defs>
-        <line x1="50" x2="620" y1="180" y2="180" stroke="#eef2f1"/>
-        <line x1="50" x2="620" y1="130" y2="130" stroke="#eef2f1" stroke-dasharray="3 4"/>
-        <line x1="50" x2="620" y1="80" y2="80" stroke="#eef2f1" stroke-dasharray="3 4"/>
-        <line x1="50" x2="620" y1="30" y2="30" stroke="#eef2f1" stroke-dasharray="3 4"/>
+        <line x1="40" x2="620" y1="175" y2="175" stroke="#e4e4e7"/>
+        <line x1="40" x2="620" y1="128" y2="128" stroke="#f4f4f5" stroke-dasharray="3 3"/>
+        <line x1="40" x2="620" y1="80" y2="80" stroke="#f4f4f5" stroke-dasharray="3 3"/>
+        <line x1="40" x2="620" y1="32" y2="32" stroke="#f4f4f5" stroke-dasharray="3 3"/>
         
-        <polygon points="50,180 50,135 145,128 240,118 335,115 430,95 525,82 620,70 620,180" fill="url(#ag1)"/>
-        <polyline class="arealine" pathLength="1" points="50,135 145,128 240,118 335,115 430,95 525,82 620,70" fill="none" stroke="#2563eb" stroke-width="2.6" stroke-linejoin="round"/>
+        <polygon points="40,175 40,132 136,124 233,115 330,112 426,92 523,78 620,66 620,175" fill="url(#ag1)"/>
+        <polyline class="arealine" pathLength="1" points="40,132 136,124 233,115 330,112 426,92 523,78 620,66" fill="none" stroke="#18181b" stroke-width="2" stroke-linejoin="round"/>
         
-        <circle cx="50" cy="135" r="4" fill="#fff" stroke="#2563eb" stroke-width="2"/>
-        <circle cx="145" cy="128" r="4" fill="#fff" stroke="#2563eb" stroke-width="2"/>
-        <circle cx="240" cy="118" r="4" fill="#fff" stroke="#2563eb" stroke-width="2"/>
-        <circle cx="335" cy="115" r="4" fill="#fff" stroke="#2563eb" stroke-width="2"/>
-        <circle cx="430" cy="95" r="4" fill="#fff" stroke="#2563eb" stroke-width="2"/>
-        <circle cx="525" cy="82" r="4" fill="#fff" stroke="#2563eb" stroke-width="2"/>
-        <circle cx="620" cy="70" r="4" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+        <circle cx="40" cy="132" r="3.5" fill="#fff" stroke="#18181b" stroke-width="2"/>
+        <circle cx="136" cy="124" r="3.5" fill="#fff" stroke="#18181b" stroke-width="2"/>
+        <circle cx="233" cy="115" r="3.5" fill="#fff" stroke="#18181b" stroke-width="2"/>
+        <circle cx="330" cy="112" r="3.5" fill="#fff" stroke="#18181b" stroke-width="2"/>
+        <circle cx="426" cy="92" r="3.5" fill="#fff" stroke="#18181b" stroke-width="2"/>
+        <circle cx="523" cy="78" r="3.5" fill="#fff" stroke="#18181b" stroke-width="2"/>
+        <circle cx="620" cy="66" r="4" fill="#18181b" stroke="#fff" stroke-width="1.5"/>
 
-        <text x="50" y="202" font-size="11" fill="#64748b" text-anchor="middle">T4/26</text>
-        <text x="145" y="202" font-size="11" fill="#64748b" text-anchor="middle">T5/26</text>
-        <text x="240" y="202" font-size="11" fill="#64748b" text-anchor="middle">T6/26</text>
-        <text x="335" y="202" font-size="11" fill="#64748b" text-anchor="middle">T7/26</text>
-        <text x="430" y="202" font-size="11" fill="#64748b" text-anchor="middle">T8/26</text>
-        <text x="525" y="202" font-size="11" fill="#64748b" text-anchor="middle">T9/26</text>
-        <text x="620" y="202" font-size="11" fill="#2563eb" font-weight="700" text-anchor="middle">T10/26</text>
+        <text x="40" y="196" font-size="11" fill="#71717a" text-anchor="middle">T4/26</text>
+        <text x="136" y="196" font-size="11" fill="#71717a" text-anchor="middle">T5/26</text>
+        <text x="233" y="196" font-size="11" fill="#71717a" text-anchor="middle">T6/26</text>
+        <text x="330" y="196" font-size="11" fill="#71717a" text-anchor="middle">T7/26</text>
+        <text x="426" y="196" font-size="11" fill="#71717a" text-anchor="middle">T8/26</text>
+        <text x="523" y="196" font-size="11" fill="#71717a" text-anchor="middle">T9/26</text>
+        <text x="620" y="196" font-size="11" fill="#09090b" font-weight="600" text-anchor="middle">T10/26</text>
       </svg>
     </div>
   \`;
 
-  // 2. Donut Chart (Expense Distribution)
+  // 2. Donut Chart (Expense Distribution - Zinc scale)
   const pNet = totalCost ? Math.round((totalNet / totalCost) * 100) : 0;
   const pTax = totalCost ? Math.round((totalTax / totalCost) * 100) : 0;
   const pInsNLD = totalCost ? Math.round((totalInsNLD / totalCost) * 100) : 0;
@@ -2588,24 +4332,24 @@ function renderDashboardCharts() {
   document.getElementById('dashDonutChart').innerHTML = \`
     <div class="donut">
       <svg viewBox="0 0 170 170">
-        <circle cx="85" cy="85" r="62" fill="none" stroke="#f1f5f9" stroke-width="24"/>
-        <circle cx="85" cy="85" r="62" fill="none" stroke="#2563eb" stroke-width="24" stroke-dasharray="270 390" stroke-dashoffset="0" transform="rotate(-90 85 85)"/>
-        <circle cx="85" cy="85" r="62" fill="none" stroke="#f59e0b" stroke-width="24" stroke-dasharray="35 390" stroke-dashoffset="-270" transform="rotate(-90 85 85)"/>
-        <circle cx="85" cy="85" r="62" fill="none" stroke="#4f46e5" stroke-width="24" stroke-dasharray="45 390" stroke-dashoffset="-305" transform="rotate(-90 85 85)"/>
-        <circle cx="85" cy="85" r="62" fill="none" stroke="#0284c7" stroke-width="24" stroke-dasharray="40 390" stroke-dashoffset="-350" transform="rotate(-90 85 85)"/>
-        <text x="85" y="80" text-anchor="middle" font-size="16" font-weight="800" fill="#0f172a">\${formatMoney(Math.round(totalCost / 1e6))} tr</text>
-        <text x="85" y="98" text-anchor="middle" font-size="11" fill="#64748b">Chi phí DN</text>
+        <circle cx="85" cy="85" r="62" fill="none" stroke="#f4f4f5" stroke-width="22"/>
+        <circle cx="85" cy="85" r="62" fill="none" stroke="#18181b" stroke-width="22" stroke-dasharray="270 390" stroke-dashoffset="0" transform="rotate(-90 85 85)"/>
+        <circle cx="85" cy="85" r="62" fill="none" stroke="#d97706" stroke-width="22" stroke-dasharray="35 390" stroke-dashoffset="-270" transform="rotate(-90 85 85)"/>
+        <circle cx="85" cy="85" r="62" fill="none" stroke="#52525b" stroke-width="22" stroke-dasharray="45 390" stroke-dashoffset="-305" transform="rotate(-90 85 85)"/>
+        <circle cx="85" cy="85" r="62" fill="none" stroke="#a1a1aa" stroke-width="22" stroke-dasharray="40 390" stroke-dashoffset="-350" transform="rotate(-90 85 85)"/>
+        <text x="85" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#09090b">\${formatMoney(Math.round(totalCost / 1e6))} tr</text>
+        <text x="85" y="98" text-anchor="middle" font-size="11" fill="#71717a">Chi phí DN</text>
       </svg>
       <div class="dl">
-        <div><i style="background:#2563eb"></i><span>Trả người LĐ (Net)</span><b>\${formatMoney(totalNet)}</b><em>\${pNet}%</em></div>
-        <div><i style="background:#f59e0b"></i><span>Thuế TNCN nộp hộ</span><b>\${formatMoney(totalTax)}</b><em>\${pTax}%</em></div>
-        <div><i style="background:#4f46e5"></i><span>BH phần NLĐ</span><b>\${formatMoney(totalInsNLD)}</b><em>\${pInsNLD}%</em></div>
-        <div><i style="background:#0284c7"></i><span>BH & KPCĐ phần DN</span><b>\${formatMoney(totalInsDN)}</b><em>\${pInsDN}%</em></div>
+        <div><i style="background:#18181b"></i><span>Trả người LĐ (Net)</span><b>\${formatMoney(totalNet)}</b><em>\${pNet}%</em></div>
+        <div><i style="background:#d97706"></i><span>Thuế TNCN nộp hộ</span><b>\${formatMoney(totalTax)}</b><em>\${pTax}%</em></div>
+        <div><i style="background:#52525b"></i><span>BH phần NLĐ (10.5%)</span><b>\${formatMoney(totalInsNLD)}</b><em>\${pInsNLD}%</em></div>
+        <div><i style="background:#a1a1aa"></i><span>BH & KPCĐ phần DN</span><b>\${formatMoney(totalInsDN)}</b><em>\${pInsDN}%</em></div>
       </div>
     </div>
   \`;
 
-  // 3. Quỹ lương theo phòng ban (Stacked Bars)
+  // 3. Quỹ lương theo phòng ban (Clean Solid Zinc Bars)
   const depts = {};
   payrollResults.forEach(p => {
     const dept = p.departmentName || 'Kỹ thuật';
@@ -2615,11 +4359,11 @@ function renderDashboardCharts() {
   const maxDept = Math.max(...deptEntries.map(e => e[1]), 1);
 
   document.getElementById('dashBarChart').innerHTML = \`
-    <div style="padding:4px 0">
+    <div style="padding:2px 0">
       \${deptEntries.map(([name, val]) => \`
         <div class="hb">
-          <div class="hb-top"><span><b>\${name}</b></span><b>\${formatMoney(val)} đ</b></div>
-          <div class="hb-bar"><i style="width:\${Math.max(4, (val / maxDept) * 100)}%;background:linear-gradient(90deg, #93c5fd, #2563eb)"></i></div>
+          <div class="hb-top"><span><b>\${escapeHtml(name)}</b></span><b>\${formatMoney(val)} đ</b></div>
+          <div class="hb-bar"><i style="width:\${Math.max(4, (val / maxDept) * 100)}%;background:#18181b"></i></div>
         </div>
       \`).join('')}
     </div>
@@ -2635,9 +4379,9 @@ function renderDashboardCharts() {
   document.getElementById('dashRingChart').innerHTML = \`
     <div class="ring">
       <svg viewBox="0 0 170 170">
-        <circle cx="85" cy="85" r="62" fill="none" stroke="#f1f5f9" stroke-width="16"/>
-        <circle cx="85" cy="85" r="62" fill="none" stroke="#2563eb" stroke-width="16" stroke-linecap="round" stroke-dasharray="\${strokeLen.toFixed(1)} \${CIR}" transform="rotate(-90 85 85)"/>
-        <text x="85" y="92" text-anchor="middle" font-size="30" font-weight="800" fill="#2563eb">\${pct}%</text>
+        <circle cx="85" cy="85" r="62" fill="none" stroke="#f4f4f5" stroke-width="14"/>
+        <circle cx="85" cy="85" r="62" fill="none" stroke="#18181b" stroke-width="14" stroke-linecap="round" stroke-dasharray="\${strokeLen.toFixed(1)} \${CIR}" transform="rotate(-90 85 85)"/>
+        <text x="85" y="92" text-anchor="middle" font-size="26" font-weight="700" fill="#09090b">\${pct}%</text>
       </svg>
       <b>\${totalActual} / \${totalStandard} công</b>
       <span class="muted small">Công làm thực tế / công chuẩn</span>
@@ -2650,16 +4394,15 @@ function renderDashboardCharts() {
   // 5. Top Earners
   const sortedEarners = [...payrollResults].sort((a, b) => (b.grossSalary || 0) - (a.grossSalary || 0)).slice(0, 4);
   const maxGross = sortedEarners.length ? sortedEarners[0].grossSalary : 1;
-  const medals = ['#f5b301', '#94a3b8', '#cd7f32', '#94a3b8'];
 
   document.getElementById('dashTopEarners').innerHTML = sortedEarners.map((p, i) => \`
     <div class="tli">
-      <span class="medal" style="background:\${medals[i]}">\${i + 1}</span>
+      <span class="medal">\${i + 1}</span>
       <span class="avatar">\${escapeHtml(p.employeeName.slice(0, 1))}</span>
       <div class="grow">
         <b>\${escapeHtml(p.employeeName)}</b>
         <small>\${escapeHtml(p.employeeCode)} · \${p.salaryType === 'PIECE_RATE' ? 'Lương khoán SP' : 'Lương thời gian'}</small>
-        <div class="pb"><i style="width:\${(p.grossSalary / maxGross) * 100}%;background:linear-gradient(90deg,#93c5fd,#2563eb)"></i></div>
+        <div class="pb"><i style="width:\${(p.grossSalary / maxGross) * 100}%;background:#18181b"></i></div>
       </div>
       <div class="v">
         \${formatMoney(p.grossSalary)} đ
@@ -2677,11 +4420,11 @@ function renderDashboardCharts() {
 
   document.getElementById('dashTopAbsences').innerHTML = absences.map(a => \`
     <div class="tli">
-      <span class="avatar" style="background:#fee2e2;color:#b91c1c"> nghỉ </span>
+      <span class="avatar" style="background:#fef2f2;color:#b91c1c;border-color:#fecaca">\${escapeHtml(a.name.slice(0, 1))}</span>
       <div class="grow">
         <b>\${escapeHtml(a.name)}</b>
         <small>\${escapeHtml(a.code)}</small>
-        <div class="pb"><i style="width:\${Math.min(100, (a.unpaid / 14) * 100)}%;background:#ef4444"></i></div>
+        <div class="pb"><i style="width:\${Math.min(100, (a.unpaid / 14) * 100)}%;background:#dc2626"></i></div>
       </div>
       <div class="v">
         \${a.unpaid} ngày
@@ -2701,7 +4444,7 @@ function renderAttendanceGrid() {
         \${code} <small>\${def.n}</small>
       </button>
     \`).join('')}
-    <button class="brush \${currentBrush === '' ? 'on' : ''}" data-code="" style="background:#f1f5f9;color:#475569" onclick="selectBrush('')">
+    <button class="brush \${currentBrush === '' ? 'on' : ''}" data-code="" style="background:#f4f4f5;color:#52525b" onclick="selectBrush('')">
       Tẩy <small>xóa ô</small>
     </button>
     <span class="grow"></span>
@@ -2732,7 +4475,6 @@ function renderAttendanceGrid() {
 
   // Tbody
   const tbody = document.getElementById('attendanceTbody');
-  // Read attendanceData directly by employeeId
   tbody.innerHTML = payrollResults.map(p => {
     const empAtt = attendanceData[p.employeeId] || { days: {}, otHours: p.overtimeHours || 0 };
     const days = empAtt.days || {};
@@ -2774,13 +4516,11 @@ function renderAttendanceGrid() {
     \`;
   }).join('');
 
-  // Attach interactive click and drag
   bindAttendanceEvents();
 }
 
 function selectBrush(code) {
   currentBrush = code;
-  // Update brush button styles without re-rendering or wiping the attendance grid
   const buttons = document.querySelectorAll('#brushBarContainer .brush');
   buttons.forEach(btn => {
     btn.classList.toggle('on', btn.dataset.code === code);
@@ -2837,12 +4577,10 @@ async function paintCell(td) {
   const day = parseInt(td.dataset.day, 10);
   const def = CODES[currentBrush];
 
-  // 1. Immediately update DOM element
   td.textContent = currentBrush;
   td.style.background = def ? def.bg : '';
   td.style.color = def ? def.c : '';
 
-  // 2. Synchronize client attendance data store
   if (!attendanceData[empId]) {
     attendanceData[empId] = { days: {}, otHours: 0 };
   }
@@ -2855,13 +4593,11 @@ async function paintCell(td) {
     delete attendanceData[empId].days[day];
   }
 
-  // 3. Immediately update Row Summary
   const tr = td.closest('tr');
   if (tr) {
     updateRowAttendanceSummary(tr, attendanceData[empId].days);
   }
 
-  // 4. Asynchronously send update to server
   try {
     await fetch('/api/timekeeping/update', {
       method: 'POST',
@@ -2917,7 +4653,7 @@ async function fillEmptyWithX() {
       attendanceData[p.employeeId].days = {};
     }
     for (let d = 1; d <= 31; d++) {
-      if (d % 7 !== 4) { // Not Sunday
+      if (d % 7 !== 4) {
         if (!attendanceData[p.employeeId].days[d]) {
           attendanceData[p.employeeId].days[d] = 'X';
           await fetch('/api/timekeeping/update', {
@@ -3008,10 +4744,10 @@ function renderPayrollTable() {
   const tfoot = document.getElementById('payrollTfoot');
 
   if (!payrollResults.length) {
-    tbody.innerHTML = '<tr><td colspan="25" style="text-align:center;padding:36px;color:#64748b;font-weight:600">' +
-      '<div style="font-size:28px;margin-bottom:8px">🔒</div>' +
+    tbody.innerHTML = '<tr><td colspan="25" style="text-align:center;padding:36px;color:#52525b;font-weight:600">' +
+      '<div style="margin-bottom:8px;display:flex;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>' +
       'Không có dữ liệu bảng lương hoặc quyền truy cập bị giới hạn theo vai trò của bạn.<br>' +
-      '<small style="font-weight:400;color:#94a3b8">Trưởng bộ phận chỉ có quyền quản lý công và duyệt OT trong phòng ban, không có quyền xem bảng lương tài chính doanh nghiệp.</small>' +
+      '<small style="font-weight:400;color:#71717a">Trưởng bộ phận chỉ có quyền quản lý công và duyệt OT trong phòng ban, không có quyền xem bảng lương tài chính doanh nghiệp.</small>' +
     '</td></tr>';
     tfoot.innerHTML = '';
     const plPager = document.getElementById('plPager');
@@ -3071,7 +4807,7 @@ function renderPayrollTable() {
       <tr>
         <td class="stk c" style="left:0">\${idx + 1}</td>
         <td class="stk" style="left:44px;font-weight:700">\${escapeHtml(p.employeeCode)}</td>
-        <td class="stk" style="left:116px;box-shadow:inset -1px 0 0 #dfe7e5">
+        <td class="stk" style="left:116px;box-shadow:inset -1px 0 0 #e4e4e7">
           <b>\${escapeHtml(p.employeeName)}</b>
           <small class="muted" style="display:block;font-size:11px">\${escapeHtml(p.departmentName || '')} · \${p.salaryType === 'PIECE_RATE' ? 'Lương khoán' : 'Thời gian'}</small>
         </td>
@@ -3080,20 +4816,20 @@ function renderPayrollTable() {
         <td class="c">\${p.actualWorkDays}</td>
         <td class="r" title="\${p.salaryType === 'PIECE_RATE' ? 'Lương khoán sản phẩm' : 'Lương theo thời gian'}">
           \${formatMoney(timeOrPiece)}
-          \${p.salaryType === 'PIECE_RATE' ? '<small style="display:block;font-size:10px;color:#0284c7">Khoán SP</small>' : ''}
+          \${p.salaryType === 'PIECE_RATE' ? '<small style="display:block;font-size:10px;color:#52525b">Khoán SP</small>' : ''}
         </td>
         <td class="r">\${formatMoney(lunch)}</td>
         <td class="r">\${formatMoney(allowance)}</td>
         <td class="r">\${formatMoney(otSalary)}</td>
-        <td class="r" style="cursor:pointer;color:#2563eb" onclick="openAdjustModal('\${escapeHtml(p.employeeId)}')" title="Bấm để điều chỉnh thưởng & lương khoán">
-          \${formatMoney(bonus)} <small style="font-size:10px;opacity:.7">✎</small>
+        <td class="r" style="cursor:pointer;color:#18181b;text-decoration:underline;text-decoration-color:#a1a1aa;text-underline-offset:3px" onclick="openAdjustModal('\${escapeHtml(p.employeeId)}')" title="Bấm để điều chỉnh thưởng & lương khoán">
+          \${formatMoney(bonus)}
         </td>
         <td class="r font-bold">\${formatMoney(gross)}</td>
 
         <td class="r">\${formatMoney(bhxh)}</td>
         <td class="r">\${formatMoney(bhyt)}</td>
         <td class="r">\${formatMoney(bhtn)}</td>
-        <td class="r font-bold" style="color:#7c3aed">\${formatMoney(totalBh)}</td>
+        <td class="r font-bold" style="color:#3f3f46">\${formatMoney(totalBh)}</td>
 
         <td class="r">\${formatMoney(taxable)}</td>
         <td class="c">\${npt}</td>
@@ -3107,7 +4843,7 @@ function renderPayrollTable() {
           <input class="inp-adj" data-money placeholder="0" value="\${formatMoney(otherDeduct)}" \${(periodStatus === 'LOCKED' || periodStatus === 'PAID') ? 'disabled' : ''} onchange="updateAdjustment('\${escapeHtml(p.employeeId)}', 'khauTruKhac', this.value)" title="Khấu trừ khác (bấm ra ngoài để lưu)">
         </td>
 
-        <td class="r font-bold" style="color:var(--pd);font-size:14px">\${formatMoney(net)} đ</td>
+        <td class="r font-bold" style="color:#09090b;font-size:13.5px">\${formatMoney(net)} đ</td>
         <td class="c">
           <button class="ibtn" onclick="openSlipModal('\${escapeHtml(p.employeeId)}')" title="Xem & In phiếu lương">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>
@@ -3132,14 +4868,14 @@ function renderPayrollTable() {
       <td class="r font-bold">\${isHR ? '******' : formatMoney(sBHXH)}</td>
       <td class="r font-bold">\${isHR ? '******' : formatMoney(sBHYT)}</td>
       <td class="r font-bold">\${isHR ? '******' : formatMoney(sBHTN)}</td>
-      <td class="r font-bold" style="color:#7c3aed">\${isHR ? '******' : formatMoney(sInsNLD)}</td>
+      <td class="r font-bold" style="color:#3f3f46">\${isHR ? '******' : formatMoney(sInsNLD)}</td>
       <td class="r font-bold">\${isHR ? '******' : formatMoney(sTaxable)}</td>
       <td class="c font-bold">\${sNPT}</td>
       <td class="r font-bold">\${isHR ? '******' : formatMoney(sFamilyDeduction)}</td>
       <td class="r font-bold" style="color:#d97706">\${isHR ? '******' : formatMoney(sTax)}</td>
       <td class="r font-bold">\${isHR ? '******' : formatMoney(sAdvance)}</td>
       <td class="r font-bold">\${isHR ? '******' : formatMoney(sOtherDeductions)}</td>
-      <td class="r font-bold" style="color:var(--pd);font-size:15px">\${isHR ? '******' : formatMoney(sNet) + ' đ'}</td>
+      <td class="r font-bold" style="color:#09090b;font-size:14px">\${isHR ? '******' : formatMoney(sNet) + ' đ'}</td>
       <td></td>
     </tr>
   \`;
@@ -3213,7 +4949,7 @@ function openAdjustModal(empId) {
 
   const pieceFields = document.getElementById('adjPieceRateFields');
   if (p.salaryType === 'PIECE_RATE') {
-    pieceFields.style.display = 'block';
+    pieceFields.style.display = 'grid';
     document.getElementById('adjSlSP').value = p.pieceRateQuantity || 2100;
     document.getElementById('adjDgSP').value = formatMoney(p.pieceRateUnitPrice || 8000);
   } else {
@@ -3295,7 +5031,7 @@ function renderTaxComparison() {
         <td style="font-weight:700">\${escapeHtml(p.employeeCode)}</td>
         <td>\${escapeHtml(p.employeeName)}</td>
         <td class="r font-bold" style="color:var(--pd)">\${formatMoney(p.taxAmount)} đ</td>
-        <td class="r" style="color:#2563eb">\${formatMoney(draftTax)} đ</td>
+        <td class="r" style="color:#52525b">\${formatMoney(draftTax)} đ</td>
         <td class="r font-bold" style="color:\${diff <= 0 ? '#15803d' : '#dc2626'}">
           \${diff < 0 ? '-' : '+'}\${formatMoney(Math.abs(diff))} đ
         </td>
@@ -3330,12 +5066,12 @@ function renderInsuranceSummary() {
         <td class="r">\${formatMoney(bhxhNLD)}</td>
         <td class="r">\${formatMoney(bhytNLD)}</td>
         <td class="r">\${formatMoney(bhtnNLD)}</td>
-        <td class="r font-bold" style="color:#7c3aed">\${formatMoney(totalNLD)}</td>
+        <td class="r font-bold" style="color:#3f3f46">\${formatMoney(totalNLD)}</td>
         <td class="r">\${formatMoney(bhxhDN)}</td>
         <td class="r">\${formatMoney(bhytDN)}</td>
         <td class="r">\${formatMoney(bhtnDN)}</td>
         <td class="r">\${formatMoney(kpcdDN)}</td>
-        <td class="r font-bold" style="color:#ea580c">\${formatMoney(totalDN)}</td>
+        <td class="r font-bold" style="color:#52525b">\${formatMoney(totalDN)}</td>
         <td class="r font-bold" style="color:var(--pd)">\${formatMoney(totalNLD + totalDN)} đ</td>
       </tr>
     \`;
@@ -3937,9 +5673,11 @@ const requestHandler = async (req: http.IncomingMessage, res: http.ServerRespons
         return;
       }
 
+      const matchedUser = findUserAccountForContext(targetTenant, targetRole);
       currentSession.tenantId = targetTenant;
       currentSession.role = targetRole;
-      currentSession.userId = `usr_${targetRole.toLowerCase()}_${targetTenant}`;
+      currentSession.userId = matchedUser.id;
+      currentSession.email = matchedUser.email;
       currentSession.lastActiveAt = Date.now();
 
       res.setHeader('Set-Cookie', `payroll_session=${currentSession.sessionId}; Path=/; HttpOnly; SameSite=Lax`);
@@ -3950,8 +5688,140 @@ const requestHandler = async (req: http.IncomingMessage, res: http.ServerRespons
           sessionId: currentSession.sessionId,
           tenantId: currentSession.tenantId,
           role: currentSession.role,
+        },
+        user: matchedUser
+      }));
+    } catch (err: any) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
+    return;
+  }
+
+  // API: Get Demo Accounts & Current Role User Profile
+  if (pathname === '/api/auth/demo-accounts' && req.method === 'GET') {
+    const activeUser = findUserAccountForContext(tenantId, userRole, currentSession.email);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      success: true,
+      accounts: Array.from(userAccountsStore.values()),
+      activeUser,
+    }));
+    return;
+  }
+
+  // API: Login with Email & Password (or Demo Account)
+  if (pathname === '/api/auth/login' && req.method === 'POST') {
+    try {
+      const body = await parseJsonBody(req);
+      const email = String(body.email || '').trim().toLowerCase();
+      const password = String(body.password || '').trim();
+
+      const account = userAccountsStore.get(email);
+      if (!account || (password && account.password !== password)) {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Email hoặc mật khẩu không chính xác! (Mật khẩu mặc định cho tài khoản Demo là Demo@2026)' }));
+        return;
+      }
+
+      currentSession.tenantId = account.tenantId;
+      currentSession.role = account.role;
+      currentSession.userId = account.id;
+      currentSession.email = account.email;
+      currentSession.lastActiveAt = Date.now();
+
+      res.setHeader('Set-Cookie', `payroll_session=${currentSession.sessionId}; Path=/; HttpOnly; SameSite=Lax`);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        success: true,
+        user: account,
+        session: {
+          sessionId: currentSession.sessionId,
+          tenantId: currentSession.tenantId,
+          role: currentSession.role,
         }
       }));
+    } catch (err: any) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
+    return;
+  }
+
+  // API: Register New Account for a Role
+  if (pathname === '/api/auth/register' && req.method === 'POST') {
+    try {
+      const body = await parseJsonBody(req);
+      const fullName = String(body.fullName || '').trim();
+      const email = String(body.email || '').trim().toLowerCase();
+      const password = String(body.password || 'Demo@2026').trim();
+      const targetTenant = String(body.tenantId || 'tenant-alpha-tech').trim();
+      const targetRole = String(body.role || 'EMPLOYEE').trim();
+      const department = String(body.department || 'Phòng Kỹ thuật & Phát triển').trim();
+      const jobTitle = String(body.jobTitle || 'Chuyên viên').trim();
+
+      if (!fullName || !email) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Vui lòng nhập đầy đủ Họ tên và Email!' }));
+        return;
+      }
+
+      if (userAccountsStore.has(email)) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Email này đã tồn tại trong hệ thống! Vui lòng chọn email khác hoặc đăng nhập.' }));
+        return;
+      }
+
+      const templateAcc = findUserAccountForContext(targetTenant, targetRole);
+      const newAcc: DemoUserAccount = {
+        id: `usr_custom_${Date.now()}`,
+        email,
+        password,
+        fullName,
+        role: targetRole,
+        roleLabel: templateAcc.roleLabel,
+        tenantId: targetTenant,
+        tenantName: targetTenant === 'tenant-beta-logistics' ? 'Bắc Nam Logistics' : 'Tân Phát Digital',
+        employeeId: templateAcc.employeeId,
+        employeeCode: templateAcc.employeeCode,
+        departmentName: department,
+        jobTitle,
+        phone: String(body.phone || '0909 888 999'),
+        joinDate: new Date().toISOString().slice(0, 10),
+        scopeSummary: templateAcc.scopeSummary,
+        permissions: { ...templateAcc.permissions },
+      };
+
+      userAccountsStore.set(email, newAcc);
+      currentSession.tenantId = newAcc.tenantId;
+      currentSession.role = newAcc.role;
+      currentSession.userId = newAcc.id;
+      currentSession.email = newAcc.email;
+      currentSession.lastActiveAt = Date.now();
+
+      res.setHeader('Set-Cookie', `payroll_session=${currentSession.sessionId}; Path=/; HttpOnly; SameSite=Lax`);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, user: newAcc }));
+    } catch (err: any) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
+    return;
+  }
+
+  // API: Update User Profile
+  if (pathname === '/api/auth/profile' && req.method === 'POST') {
+    try {
+      const body = await parseJsonBody(req);
+      const activeUser = findUserAccountForContext(tenantId, userRole, body.email || currentSession.email);
+      if (body.fullName) activeUser.fullName = String(body.fullName).trim();
+      if (body.phone !== undefined) activeUser.phone = String(body.phone).trim();
+      if (body.department !== undefined) activeUser.departmentName = String(body.department).trim();
+      if (body.jobTitle !== undefined) activeUser.jobTitle = String(body.jobTitle).trim();
+      if (body.bio !== undefined) activeUser.scopeSummary = String(body.bio).trim();
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, user: activeUser }));
     } catch (err: any) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ success: false, error: err.message }));
@@ -3977,6 +5847,12 @@ const requestHandler = async (req: http.IncomingMessage, res: http.ServerRespons
     '/settings': { tab: 'caidat', title: 'Cài đặt' },
     '/du-lieu': { tab: 'data', title: 'Dữ liệu & Khóa sổ' },
     '/backup': { tab: 'data', title: 'Dữ liệu & Khóa sổ' },
+    '/ho-so': { tab: 'hoso', title: 'Hồ sơ & Phân quyền' },
+    '/profile': { tab: 'hoso', title: 'Hồ sơ & Phân quyền' },
+    '/dang-nhap': { tab: 'auth', title: 'Đăng nhập & Đăng ký' },
+    '/login': { tab: 'auth', title: 'Đăng nhập & Đăng ký' },
+    '/dang-ky': { tab: 'auth', title: 'Đăng nhập & Đăng ký' },
+    '/register': { tab: 'auth', title: 'Đăng nhập & Đăng ký' },
   };
 
   const pageRoute = PAGE_ROUTES[pathname];

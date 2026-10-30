@@ -4,6 +4,7 @@
   "scripts": {
     "start": "node --experimental-strip-types template/app/src/payroll/server/standaloneAppServer.ts",
     "dev": "node --experimental-strip-types template/app/src/payroll/server/standaloneAppServer.ts",
+    "build": "node --check template/app/src/payroll/server/standaloneAppServer.ts",
     "test": "node --test --experimental-strip-types template/app/src/payroll/payrollEngine.test.ts template/app/src/payroll/server/backendEngine.test.ts template/app/src/payroll/server/multiTenantSecurity.test.ts template/app/src/payroll/server/qaRegression.test.ts template/app/src/payroll/server/securityAudit.test.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

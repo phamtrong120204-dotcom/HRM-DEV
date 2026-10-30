@@ -1,135 +1,278 @@
-## Welcome to your new SaaS App! 🎉
+ <div align="center">
 
-<div style="display: flex; gap: 16px; align-items: center;">
-  <a href="https://www.producthunt.com/products/open-saas?embed=true&utm_source=badge-top-post-topic-badge&utm_medium=badge&utm_source=badge-open&#0045;saas&#0045;2&#0045;0" target="_blank">
-    <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-topic-badge.svg?post_id=1023519&theme=neutral&period=weekly&topic_id=237&t=1760520428563" alt="Open&#0032;SaaS&#0032;2&#0046;0 - Free&#0044;&#0032;open&#0045;source&#0032;SaaS&#0032;starter&#0032;kit&#0032;with&#0032;superpowers | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
-  </a>
-  <a href="https://www.producthunt.com/products/open-saas?embed=true&utm_source=badge-top-post-badge&utm_medium=badge&utm_source=badge-open&#0045;saas&#0045;2&#0045;0" target="_blank">
-    <img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=1023519&theme=neutral&period=daily&t=1760520428563" alt="Open&#0032;SaaS&#0032;2&#0046;0 - Free&#0044;&#0032;open&#0045;source&#0032;SaaS&#0032;starter&#0032;kit&#0032;with&#0032;superpowers | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
-  </a>
+  <img src="docs/assets/elvo-logo.png" alt="elvo" width="280" />
+
+  <h1>HRM-DEV</h1>
+
+  **Human Resource Management System**
+
+  A workforce management solution by **elvo**.
+
+  <p>
+    <img src="https://img.shields.io/badge/PRODUCT-HRM--DEV-0F1B33?style=flat-square" alt="Product" />
+    <img src="https://img.shields.io/badge/BUILT%20BY-elvo-FF6B3D?style=flat-square" alt="Built by elvo" />
+    <img src="https://img.shields.io/badge/RUNTIME-Node.js-0F1B33?style=flat-square" alt="Node.js" />
+    <img src="https://img.shields.io/badge/LANGUAGE-TypeScript-3178C6?style=flat-square" alt="TypeScript" />
+  </p>
+
+  [Overview](#-overview) · [Features](#-core-features) · [Architecture](#-architecture) · [Getting Started](#-getting-started)
+
 </div>
 
-https://github.com/user-attachments/assets/3856276b-23e9-455e-a564-b5f26f4f0e98
+---
 
-You've decided to build a SaaS app with the Open SaaS template. Great choice!
+## Overview
 
-This template is:
+**HRM-DEV** is a Human Resource Management System developed by **elvo**, designed to support essential workforce operations through a structured and integrated software platform.
 
-1. fully open-source
-2. completely free to use and distribute
-3. comes with a ton of features out of the box!
-4. ready to work with your favorite AI coding tool or agent (Claude Code, Cursor, Codex, OpenCode, etc.)
+The system focuses on employee administration, department organization, attendance tracking, and payroll processing.
 
-🧑‍💻 Check it out in action here: [OpenSaaS.sh](https://opensaas.sh)
-📚 Check out the Docs here: [Open SaaS Docs](https://docs.opensaas.sh)
-🚂 Or deploy it to Railway in one click:
+Our goal is to simplify HR operations, improve data consistency, and provide a foundation for more efficient workforce management.
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/open-saas?referralCode=uA-ZC_)
+### Product Direction
 
-## What's inside?
+- **Simplify** — Reduce repetitive administrative work.
+- **Organize** — Centralize workforce information and operations.
+- **Calculate** — Support structured and consistent payroll processing.
+- **Protect** — Apply tenant-scoped data access and personal information safeguards.
 
-The template itself is built on top of some very powerful tools and frameworks, including:
+## Core Features
 
-- 🐝 [Wasp](https://wasp.sh) - a full-stack React, NodeJS, Prisma framework with superpowers
-- 🚀 [Astro](https://starlight.astro.build/) - Astro's lightweight "Starlight" template for documentation and blog
-- 💸 [Stripe](https://stripe.com), [Polar.sh](https://polar.sh), or [Lemon Squeezy](https://lemonsqueezy.com/) - for products and payments
-- 💅 [ShadCN UI](https://tailwindcss.com) - for components & styling (plus admin dashboard!)
-- 🤖 [AI-Ready](https://docs.opensaas.sh/) - Custom Plugins, Skills, & Rules for AI-assisted coding with Claude Code, Cursor, or your favorite AI-assisted coding tool
-- 📈 [Plausible](https://plausible.io) or [Google](https://analytics.google.com/) Analytics
-- 🤖 [OpenAI](https://openai.com) - OpenAI API w/ function calling example
-- 📦 [AWS S3](https://aws.amazon.com/s3/) - for file uploads
-- 📧 [SendGrid](https://sendgrid.com), [MailGun](https://mailgun.com), or SMTP - for email sending
-- 🧪 [Playwright](https://playwright.dev) - end-to-end tests with Playwright
+### 1. Employee Management
+- Employee records and personal information.
+- Employee identification and data handling.
+- Department assignment and workforce organization.
 
-Because we're using Wasp as the full-stack framework, we can leverage a lot of its features to build our SaaS in record time, including:
+### 2. Department Management
+- Department structure.
+- Employee organization by department.
+- Tenant-scoped data access.
 
-- 🔐 [Full-stack Authentication](https://wasp.sh/docs/auth/overview) - Email verified + social Auth in a few lines of code.
-- ⛑ [End-to-end Type Safety](https://wasp.sh/docs/data-model/operations/overview) - Type your backend functions and get inferred types on the front-end automatically, without the need to install or configure any third-party libraries. Oh, and type-safe Links, too!
-- 🤖 [Jobs](https://wasp.sh/docs/advanced/jobs) - Run cron jobs in the background or set up queues simply by defining a function in the config file.
-- 🚀 [One-command Deploy](https://wasp.sh/docs/advanced/deployment/overview) - Easily deploy your DB, Server, & Client with one command to [Railway](https://railway.app) or [Fly.io](https://fly.io) via the CLI. Or deploy manually to any other hosting service of your choice.
+### 3. Attendance Management
+- Daily attendance records.
+- Working days and leave tracking.
+- Business trips and overtime.
+- Attendance-related payroll inputs.
 
-You also get access to Wasp's diverse, helpful community if you get stuck or need help.
+### 4. Payroll Management
+- Payroll period management.
+- Payroll review and processing states.
+- Salary calculation and breakdown.
+- Allowances, bonuses, and deductions.
+- Net salary calculation.
 
-- 🤝 [Wasp Discord](https://discord.gg/aCamt5wCpS)
+### 5. Payroll Calculation Engine
+
+The payroll engine supports calculation scenarios including:
+
+- Time-based and piece-rate compensation.
+- Working days and attendance inputs.
+- Paid and unpaid leave.
+- Overtime and allowances.
+- Social insurance-related calculations.
+- Personal income tax calculations.
+- Salary advances and net pay.
+
+> Payroll formulas, tax brackets, insurance rates, and statutory thresholds must be reviewed against applicable Vietnamese regulations before production use.
+
+## Architecture
+
+HRM-DEV separates business calculations, application services, data access, and security-related utilities.
+
+```text
+HRM-DEV
+│
+├── Application Layer
+│   ├── Employee Management
+│   ├── Department Management
+│   ├── Attendance Management
+│   └── Payroll Management
+│
+├── Business Logic Layer
+│   ├── Payroll Calculation
+│   ├── Attendance Processing
+│   └── Financial Calculations
+│
+├── Data Access Layer
+│   ├── Tenant-scoped Repository
+│   └── In-memory Database Store
+│
+├── Security Layer
+│   ├── Session Handling
+│   ├── Personal Data Masking
+│   └── Input Sanitization
+│
+└── Quality Assurance
+    ├── Unit Tests
+    ├── Regression Tests
+    └── Security Tests
+```
+
+### Multi-Tenant Design
+
+The system includes tenant-scoped repository logic to separate data between organizations.
+
+The current standalone implementation uses an **in-memory data store**. Persistent database integration and production infrastructure should be configured separately before deployment.
+
+### Security & Data Protection
+
+Current source code includes utilities for:
+
+- Masking identification card numbers.
+- Masking bank account numbers.
+- Sanitizing employee personal information.
+- HTML escaping.
+- CSV cell sanitization.
+- Session and tenant-scoped data handling.
+
+These mechanisms are implementation-level safeguards and should not be interpreted as a completed production security certification.
+
+## Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Node.js | Runtime environment |
+| TypeScript | Application and business logic |
+| React | Frontend foundation |
+| Wasp / Open SaaS | Original project foundation |
+| Node.js Test Runner | Automated testing |
+| ESLint | Code quality |
+| Prettier | Code formatting |
+
+The standalone payroll server is currently executed directly through Node.js with TypeScript type stripping.
 
 ## Getting Started
 
-### Simple Instructions
+### Prerequisites
 
-First, to install the latest version of [Wasp](https://wasp.sh/) on macOS, Linux, or Windows with WSL, run the following command:
+- Node.js with support for `--experimental-strip-types`.
+- npm.
+
+### Installation
 
 ```bash
-npm i -g @wasp.sh/wasp-cli
+git clone https://github.com/phamtrong120204-dotcom/HRM-DEV.git
+
+cd HRM-DEV
+
+npm install
 ```
 
-Then, create a new SaaS app with the following command:
+### Run Development Server
 
 ```bash
-wasp new -t saas
+npm run dev
 ```
 
-This will create a **clean copy of the Open SaaS template** into a new directory, and you can start building your SaaS app right away!
+The default server address is:
 
-### One-click Deploy on Railway
-
-Prefer to start from a live deployment? The [Open SaaS Railway template](https://railway.com/deploy/open-saas?referralCode=uA-ZC_) deploys the database, server, and client to Railway in one click. Then eject it into your own GitHub repo, clone it, and develop locally — every push to `main` redeploys automatically. See the [deployment guide](https://docs.opensaas.sh/guides/deploying/#one-click-deploy-with-the-railway-template) for details.
-
-### Detailed Instructions
-
-For everything you need to know about getting started and using this template, check out the [Open SaaS Docs](https://docs.opensaas.sh).
-
-We've documented everything in great detail, including installation instructions, pulling updates to the template, guides for integrating services, SEO, deployment, and more. 🚀
-
-## Getting Help & Providing Feedback
-
-There are two ways to get help or provide feedback (and we try to always respond quickly!):
-
-1. [Open an issue](https://github.com/wasp-lang/open-saas/issues)
-2. [Wasp Discord](https://discord.gg/aCamt5wCpS) -- please direct questions to the #🙋questions forum channel
-
-## Development Tools
-
-### Code Quality Tools
-
-This repository includes comprehensive code quality tooling to help maintain code standards:
-
-#### Prettier (Code Formatting)
-
-Prettier is configured for automatic code formatting across all JavaScript, TypeScript, and other supported files.
-
-```bash
-# Check if files are formatted correctly
-npm run prettier:check
-
-# Automatically format all files
-npm run prettier:format
+```text
+http://localhost:3000
 ```
 
-#### ESLint (Code Linting)
-
-ESLint is configured with TypeScript and React support to catch potential bugs and enforce code quality standards.
+To use another port:
 
 ```bash
-# Run ESLint to check for issues
+PORT=4000 npm run dev
+```
+
+### Production Start Command
+
+```bash
+npm start
+```
+
+> The current standalone server uses in-memory storage and demo data. Restarting the server may reset application data. Configure persistent storage before using real organizational data.
+
+## Testing & Code Quality
+
+Run the automated test suite:
+
+```bash
+npm test
+```
+
+Run ESLint:
+
+```bash
 npm run lint
+```
 
-# Automatically fix fixable issues
+Automatically fix lint issues:
+
+```bash
 npm run lint:fix
 ```
 
-The ESLint configuration includes:
+Check code formatting:
 
-- TypeScript support with `@typescript-eslint`
-- React and React Hooks linting
-- Sensible defaults tuned for a SaaS application
-- Automatic support for CommonJS (.cjs), ES Modules (.mjs), and TypeScript files
+```bash
+npm run prettier:check
+```
 
-Both Prettier and ESLint checks are automatically run in CI/CD pipelines to ensure code quality.
+Format the codebase:
 
-For information about other development tools used to maintain derived projects (like opensaas.sh and template-test), see [tools/README.md](./tools/README.md).
+```bash
+npm run prettier:format
+```
 
-## Contributing
+## Project Structure
 
-Note that we've tried to get as many of the core features of a SaaS app into this template as possible, but there still might be some missing features or functionality.
+```text
+HRM-DEV/
+│
+├── template/
+│   └── app/
+│       └── src/
+│           └── payroll/
+│               ├── server/
+│               │   ├── standaloneAppServer.ts
+│               │   ├── engine/
+│               │   ├── backendEngine.test.ts
+│               │   ├── multiTenantSecurity.test.ts
+│               │   ├── qaRegression.test.ts
+│               │   └── securityAudit.test.ts
+│               │
+│               ├── utils/
+│               │   ├── payrollEngine.ts
+│               │   └── docSo.ts
+│               │
+│               └── payrollEngine.test.ts
+│
+├── package.json
+└── README.md
+```
 
-We could always use some help tying up loose ends: contributions are welcome! Check out [CONTRIBUTING.md](/CONTRIBUTING.md) for more details.
+## Project Status
+
+HRM-DEV is under active development.
+
+The repository currently contains payroll calculation logic, a standalone Node.js server, tenant-scoped data access, security utilities, and automated tests.
+
+Production deployment requires further work on persistent database integration, authentication and authorization configuration, infrastructure, and security validation.
+
+---
+
+## About elvo
+
+**elvo** is a technology brand focused on building modern digital products, business software, websites, and automation solutions.
+
+We combine thoughtful product design, engineering, and practical technology to help businesses operate more efficiently.
+
+**Build better systems. Move business forward.**
+
+<div align="center">
+
+  **elvo**
+
+  <sub>Technology · Software · Automation</sub>
+
+  <br />
+
+  [Website](https://elvo.com.vn)
+
+  <br />
+
+  <sub>© elvo. All rights reserved.</sub>
+
+</div>
