@@ -1,0 +1,173 @@
+import sitemap from "@astrojs/sitemap";
+import starlight from "@astrojs/starlight";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
+import { URL } from "node:url";
+import starlightBlog from "starlight-blog";
+import starlightVersions from "starlight-versions";
+import { getCurrentDocsPathname } from "./src/archivedDocsVersions.mjs";
+
+// https://astro.build/config
+export default defineConfig({
+  site: "https://docs.opensaas.sh",
+  trailingSlash: "always",
+  redirects: {
+    "/guides/seo/": "/guides/seo-performance/",
+  },
+  integrations: [
+    starlight({
+      title: "Open SaaS",
+      description:
+        "Docs for Open SaaS, the free, open-source SaaS template built with React, Node.js, Prisma & Postgres (powered by Wasp).",
+      customCss: ["./src/styles/tailwind.css"],
+      // Sets canonical URLs of old docs versions to their current equivalents
+      // and gives blog listing pages unique descriptions.
+      routeMiddleware: "./src/routeData.ts",
+      logo: {
+        src: "/src/assets/wasp-logo.svg",
+        alt: "Open SaaS",
+      },
+      head: [
+        {
+          tag: "meta",
+          attrs: {
+            name: "google-site-verification",
+            content: "0AMsAfi62u_qg8v_h_QIFmLvxn8k24WZaCq5q5Sfr68",
+          },
+        },
+        {
+          tag: "script",
+          attrs: {
+            defer: true,
+            "data-domain": "docs.opensaas.sh",
+            "data-api": "https://opensaas.sh/wasparadocs/wasp/event",
+            src: "https://opensaas.sh/wasparadocs/wasp/script.js",
+          },
+        },
+      ],
+      editLink: {
+        baseUrl:
+          "https://github.com/wasp-lang/open-saas/edit/main/opensaas-sh/blog",
+      },
+      components: {
+        Header: "./src/components/Header.astro",
+        SiteTitle: "./src/components/SiteTitle.astro",
+        Head: "./src/components/HeadWithOGImage.astro",
+        PageTitle: "./src/components/PageTitleWithBannerImage.astro",
+        PageFrame: "./src/components/PageFrameWithCookieConsent.astro",
+      },
+      social: [
+        {
+          icon: "github",
+          label: "GitHub",
+          href: "https://github.com/wasp-lang/open-saas",
+        },
+        {
+          icon: "twitter",
+          label: "Twitter",
+          href: "https://twitter.com/wasplang",
+        },
+        {
+          icon: "discord",
+          label: "Discord",
+          href: "https://discord.gg/aCamt5wCpS",
+        },
+      ],
+      sidebar: [
+        {
+          label: "Start Here",
+          items: [
+            { label: "Introduction", link: "/" },
+            { label: "Getting Started", link: "/start/getting-started/" },
+            { label: "Guided Tour", link: "/start/guided-tour/" },
+          ],
+        },
+        {
+          label: "Guides",
+          items: [
+            { label: "Analytics", link: "/guides/analytics/" },
+            { label: "Authentication", link: "/guides/authentication/" },
+            { label: "Authorization", link: "/guides/authorization/" },
+            { label: "Cookie Consent Modal", link: "/guides/cookie-consent/" },
+            {
+              label: "Payment Integrations",
+              items: [
+                { label: "Overview", link: "/guides/payment-integrations/" },
+                {
+                  label: "Stripe",
+                  link: "/guides/payment-integrations/stripe/",
+                },
+                {
+                  label: "Lemon Squeezy",
+                  link: "/guides/payment-integrations/lemon-squeezy/",
+                },
+                { label: "Polar", link: "/guides/payment-integrations/polar/" },
+                {
+                  label: "Paddle",
+                  link: "/guides/payment-integrations/paddle/",
+                },
+              ],
+            },
+            { label: "Deploying", link: "/guides/deploying/" },
+            { label: "SEO & Performance", link: "/guides/seo-performance/" },
+            { label: "Email Sending", link: "/guides/email-sending/" },
+            { label: "File Uploading", link: "/guides/file-uploading/" },
+            { label: "Tests", link: "/guides/tests/" },
+            {
+              label: "How (Not) to Update Your Open SaaS App",
+              link: "/guides/updating-opensaas/",
+            },
+            { label: "Using AI Coding Tools", link: "/guides/vibe-coding/" },
+          ],
+        },
+        {
+          label: "General",
+          items: [{ autogenerate: { directory: "/general/" } }],
+        },
+      ],
+      plugins: [
+        starlightVersions({
+          versions: [{ slug: "0.23", label: "Wasp ≤0.23" }],
+        }),
+        starlightBlog({
+          title: "Blog",
+          // Our SiteTitle override renders its own Blog link.
+          navigation: "none",
+          customCss: ["./src/styles/tailwind.css"],
+          authors: {
+            vince: {
+              name: "Vince",
+              title: "Dev Rel @ Wasp",
+              picture: "https://github.com/vincanger.png",
+              url: "https://wasp.sh",
+            },
+            matija: {
+              name: "Matija",
+              title: "CEO @ Wasp",
+              picture: "https://github.com/matijasos.png",
+              url: "https://wasp.sh",
+            },
+            milica: {
+              name: "Milica",
+              title: "Growth @ Wasp",
+              picture: "https://github.com/mmaksimovic.png",
+              url: "https://wasp.sh",
+            },
+            martin: {
+              name: "Martin",
+              title: "CTO @ Wasp",
+              picture: "https://github.com/martinsos.png",
+              url: "https://wasp.sh",
+            },
+          },
+        }),
+      ],
+    }),
+    // Explicitly added (instead of Starlight's built-in one) so we can exclude
+    // old docs versions from the sitemap.
+    sitemap({
+      filter: (page) => !getCurrentDocsPathname(new URL(page).pathname),
+    }),
+  ],
+  vite: { plugins: [tailwindcss()] },
+});

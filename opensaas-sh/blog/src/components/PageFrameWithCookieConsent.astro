@@ -1,0 +1,18 @@
+---
+/**
+ * Overriden component, for more info:
+ * @see {@link https://starlight.astro.build/guides/overriding-components/}
+ * @see {@link https://starlight.astro.build/reference/overrides/#pageframe}
+ */
+
+import Default from "@astrojs/starlight/components/PageFrame.astro";
+import CookieConsentBanner from "./CookieConsentBanner.astro";
+---
+
+<Default>
+  <slot name="header" slot="header" />
+  <slot name="sidebar" slot="sidebar" />
+  <slot />
+</Default>
+
+<CookieConsentBanner />

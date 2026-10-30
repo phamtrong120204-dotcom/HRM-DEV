@@ -1,0 +1,600 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+
+  email                     String?         @unique
+  username                  String?         @unique
+  isAdmin                   Boolean         @default(false)
+
+  paymentProcessorUserId    String?         @unique
+  lemonSqueezyCustomerPortalUrl String?     // You can delete this if you're not using Lemon Squeezy as your payments processor.
+  subscriptionStatus        String?         // 'active', 'cancel_at_period_end', 'past_due', 'deleted'
+  subscriptionPlan          String?         // 'hobby', 'pro'
+  datePaid                  DateTime?
+  credits                   Int             @default(3)
+
+  gptResponses              GptResponse[]
+  contactFormMessages       ContactFormMessage[]
+  tasks                     Task[]
+  files                     File[]
+
+  // Phân hệ Chấm công & Tính lương Đa doanh nghiệp
+  memberships               Membership[]
+  employees                 Employee[]
+  auditLogs                 AuditLog[]
+  importExportJobs          ImportExportJob[]
+}
+
+model ProcessedWebhookEvent {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+
+  paymentProcessorEventId   String          @unique // The payment processor's event id, e.g. `evt_...` for Stripe.
+  eventType                 String                  // The payment processor's event type, e.g. `invoice.paid`.
+}
+
+model GptResponse {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  user                      User            @relation(fields: [userId], references: [id])
+  userId                    String
+
+  content                   String
+}
+
+model Task {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+
+  user                      User            @relation(fields: [userId], references: [id])
+  userId                    String
+
+  description               String
+  time                      String          @default("1")
+  isDone                    Boolean         @default(false)
+}
+
+model File {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+
+  user                      User            @relation(fields: [userId], references: [id])
+  userId                    String
+
+  name                      String
+  type                      String
+  s3Key                     String
+}
+
+model DailyStats {
+  id                               Int             @id @default(autoincrement())
+  date                             DateTime        @default(now()) @unique
+
+  totalViews                       Int             @default(0)
+  prevDayViewsChangePercent        String          @default("0")
+  userCount                        Int             @default(0)
+  paidUserCount                    Int             @default(0)
+  userDelta                        Int             @default(0)
+  paidUserDelta                    Int             @default(0)
+  totalRevenue                     Float           @default(0)
+  totalProfit                      Float           @default(0)
+
+  sources                          PageViewSource[]
+}
+
+model PageViewSource {
+  @@id([date, name])
+  name                     String
+  date                     DateTime        @default(now())
+
+  dailyStats               DailyStats?     @relation(fields: [dailyStatsId], references: [id])
+  dailyStatsId             Int?
+
+  visitors                 Int
+}
+
+model Logs {
+  id                       Int             @id @default(autoincrement())
+  createdAt                DateTime        @default(now())
+
+  message                  String
+  level                    String
+}
+
+model ContactFormMessage {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+
+  user                      User            @relation(fields: [userId], references: [id])
+  userId                    String
+
+  content                   String
+  isRead                    Boolean         @default(false)
+  repliedAt                 DateTime?
+}
+
+// ==========================================================
+// PHÂN HỆ CHẤM CÔNG & TÍNH LƯƠNG ĐA DOANH NGHIỆP (MULTI-TENANT)
+// ==========================================================
+
+enum TenantRole {
+  OWNER         // Chủ sở hữu doanh nghiệp (Toàn quyền quản trị)
+  ADMIN         // Quản trị viên (Quản lý nhân sự, ca kíp)
+  ACCOUNTANT    // Kế toán tiền lương (Tính lương, xuất báo cáo)
+  HR_MANAGER    // Chuyên viên nhân sự / Chấm công
+  EMPLOYEE      // Nhân viên thông thường (Chỉ xem phiếu lương cá nhân)
+}
+
+model Tenant {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  name                      String          // Tên pháp nhân công ty
+  slug                      String          @unique // Đường dẫn định danh (ví dụ: cong-ty-abc)
+  taxId                     String?         // Mã số thuế doanh nghiệp
+  address                   String?         // Địa chỉ trụ sở
+  phoneNumber               String?         // Số điện thoại
+  email                     String?         // Email liên hệ
+  website                   String?         // Website
+  logoUrl                   String?         // Đường dẫn logo (S3 / Supabase Storage)
+
+  isActive                  Boolean         @default(true)
+  subscriptionTier          String          @default("starter") // 'starter', 'pro', 'enterprise'
+
+  memberships               Membership[]
+  departments               Department[]
+  employees                 Employee[]
+  shifts                    Shift[]
+  workSchedules             WorkSchedule[]
+  attendanceRecords         AttendanceRecord[]
+  payrollPeriods            PayrollPeriod[]
+  companySettings           CompanySetting[]
+  configurationVersions     ConfigurationVersion[]
+  auditLogs                 AuditLog[]
+  importExportJobs          ImportExportJob[]
+}
+
+model Membership {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  user                      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                    String
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  role                      TenantRole      @default(EMPLOYEE)
+
+  @@unique([userId, tenantId])
+  @@index([tenantId])
+}
+
+model Department {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  name                      String          // Tên phòng ban
+  code                      String?         // Mã phòng ban (ví dụ: KT, KD, SX)
+  description               String?
+
+  employees                 Employee[]
+  workSchedules             WorkSchedule[]
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+}
+
+enum EmployeeStatus {
+  WORKING       // Đang làm việc chính thức
+  PROBATION     // Đang thử việc
+  RESIGNED      // Đã nghỉ việc
+}
+
+model Employee {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  user                      User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId                    String?
+
+  // Định danh cá nhân
+  code                      String          // Mã nhân viên (ví dụ: NV001)
+  fullName                  String          // Họ và tên
+  gender                    String?         // 'Nam', 'Nữ'
+  dateOfBirth               DateTime?       // Ngày sinh
+  phoneNumber               String?         // Số điện thoại
+  email                     String?         // Email
+  idCardNumber              String?         // Số CCCD (được che giấu trên UI)
+  personalTaxCode           String?         // Mã số thuế cá nhân
+
+  // Vị trí công tác
+  department                Department?     @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  departmentId              String?
+  jobTitle                  String?         // Chức vụ
+  startDate                 DateTime?       // Ngày bắt đầu làm việc
+  status                    EmployeeStatus  @default(WORKING)
+
+  // Mức đãi ngộ & Lương (Đơn vị: VNĐ)
+  baseSalary                Float           @default(0) // Lương cơ bản tháng
+  insuranceSalary           Float           @default(0) // Lương làm căn cứ đóng BH
+  taxableAllowance          Float           @default(0) // Phụ cấp chịu thuế khác
+  nonTaxableAllowance       Float           @default(730000) // Phụ cấp miễn thuế (ăn ca...)
+  attendanceAllowance       Float           @default(0) // Phụ cấp chuyên cần tối đa
+  seniorityAllowancePerYear Float           @default(0) // Phụ cấp thâm niên (VNĐ / năm)
+  gasAllowance              Float           @default(0) // Phụ cấp xăng xe
+  pieceRateUnitPrice        Float           @default(0) // Đơn giá sản phẩm
+
+  // Khấu trừ & Thanh toán
+  dependentsCount           Int             @default(0) // Số người phụ thuộc
+  bankName                  String?         // Ngân hàng
+  bankAccountNumber         String?         // Số tài khoản
+
+  attendanceRecords         AttendanceRecord[]
+  payrollRecords            PayrollRecord[]
+  workSchedules             WorkSchedule[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId, status])
+  @@index([tenantId, departmentId])
+}
+
+enum AttendanceCode {
+  X     // Đi làm cả ngày (1 công lv, 1 công hl)
+  N     // Làm nửa ngày (0.5 công lv, 0.5 công hl)
+  CT    // Đi công tác (1 công lv, 1 công hl)
+  P     // Nghỉ phép năm có lương (1 công hl)
+  L     // Nghỉ lễ, Tết có lương (1 công hl)
+  O     // Nghỉ ốm hưởng BHXH (0 công hl)
+  KP    // Nghỉ không phép (1 ngày không lương)
+}
+
+model AttendanceRecord {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  employee                  Employee        @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employeeId                String
+
+  yearMonth                 String          // Định dạng YYYY-MM
+  day                       Int             // Ngày trong tháng (1 đến 31)
+  code                      AttendanceCode? // Mã công
+  overtimeHours             Float           @default(0) // Giờ làm thêm (OT)
+  note                      String?
+
+  @@unique([tenantId, employeeId, yearMonth, day])
+  @@index([tenantId, yearMonth])
+}
+
+enum PayrollStatus {
+  DRAFT         // Bản nháp đang nhập liệu
+  REVIEWING     // Đang chờ lãnh đạo duyệt
+  LOCKED        // Đã chốt và khóa sổ (Bất biến)
+  PAID          // Đã chi trả
+}
+
+model PayrollPeriod {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  yearMonth                 String          // Định dạng YYYY-MM
+  status                    PayrollStatus   @default(DRAFT)
+
+  standardWorkingDays       Float           @default(26)
+  standardWorkingHours      Float           @default(8)
+
+  totalGrossSalary          Float           @default(0)
+  totalNetSalary            Float           @default(0)
+  totalTaxAmount            Float           @default(0)
+  totalEmployeeInsurance    Float           @default(0)
+  totalEmployerCost         Float           @default(0)
+  employeeCount             Int             @default(0)
+
+  approvedByUserId          String?
+  approvedAt                DateTime?
+  lockedAt                  DateTime?
+
+  records                   PayrollRecord[]
+
+  @@unique([tenantId, yearMonth])
+  @@index([tenantId, status])
+}
+
+model PayrollRecord {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  payrollPeriod             PayrollPeriod   @relation(fields: [payrollPeriodId], references: [id], onDelete: Cascade)
+  payrollPeriodId           String
+
+  employee                  Employee        @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employeeId                String
+
+  // Snapshot thông tin nhân sự
+  employeeCode              String
+  employeeName              String
+  departmentName            String?
+  jobTitle                  String?
+
+  // 1. Dữ liệu công & lương thời gian
+  baseSalary                Float
+  standardDays              Float
+  actualWorkDays            Float
+  paidLeaveDays             Float
+  unpaidLeaveDays           Float
+  paidDaysCount             Float
+  timeBasedSalary           Float
+
+  // 2. Phụ cấp
+  attendanceAllowance       Float           @default(0)
+  isAttendanceQualified     Boolean         @default(true)
+  seniorityAllowance        Float           @default(0)
+  seniorityYears            Int             @default(0)
+  gasAllowance              Float           @default(0)
+  otherTaxableAllowance     Float           @default(0)
+  nonTaxableAllowance       Float           @default(0)
+
+  // 3. Lương sản phẩm & OT
+  pieceRateQuantity         Float           @default(0)
+  pieceRateUnitPrice        Float           @default(0)
+  pieceRateSalary           Float           @default(0)
+  overtimeHours             Float           @default(0)
+  overtimeSalary            Float           @default(0)
+  overtimeTaxExemptSalary   Float           @default(0)
+
+  // 4. Thưởng & Tổng Gross
+  bonusAmount               Float           @default(0)
+  grossSalary               Float
+
+  // 5. Bảo hiểm bắt buộc NLĐ (10.5%)
+  insuranceSalaryBase       Float           @default(0)
+  isInsuranceExempt14Days   Boolean         @default(false)
+  bhxhEmployeeAmount        Float           @default(0)
+  bhytEmployeeAmount        Float           @default(0)
+  bhtnEmployeeAmount        Float           @default(0)
+  totalEmployeeInsurance    Float           @default(0)
+
+  // 6. Chi phí bảo hiểm NSDLĐ (23.5%)
+  bhxhEmployerAmount        Float           @default(0)
+  bhytEmployerAmount        Float           @default(0)
+  bhtnEmployerAmount        Float           @default(0)
+  tradeUnionEmployerAmount  Float           @default(0)
+  totalEmployerCost         Float           @default(0)
+  totalCompanyExpense       Float           @default(0)
+
+  // 7. Thuế TNCN
+  taxableIncome             Float           @default(0)
+  dependentsCount           Int             @default(0)
+  familyDeductionAmount     Float           @default(0)
+  assessableIncome          Float           @default(0)
+  personalIncomeTax         Float           @default(0)
+
+  // 8. Tạm ứng, Khấu trừ & Net
+  advancePayment            Float           @default(0)
+  otherDeductions           Float           @default(0)
+  totalDeductions           Float
+  netSalary                 Float
+
+  bankName                  String?
+  bankAccountNumber         String?
+
+  @@unique([tenantId, payrollPeriodId, employeeId])
+  @@index([tenantId, payrollPeriodId])
+  @@index([tenantId, employeeId])
+}
+
+model CompanySetting {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String          @unique
+
+  standardWorkingDays       Float           @default(26)
+  standardWorkingHours      Float           @default(8)
+  overtimeRateNormal        Float           @default(1.5)
+  overtimeRateWeekend       Float           @default(2.0)
+  overtimeRateHoliday       Float           @default(3.0)
+  maxAllowedUnpaidDays      Float           @default(0)
+  weekendDaysSetting        String          @default("CN") // 'CN' hoặc 'T7CN'
+
+  baseSalaryForInsuranceCap Float           @default(2340000)
+  regionMinimumWageCap      Float           @default(4960000)
+  bhxhEmployeeRate          Float           @default(8.0)
+  bhytEmployeeRate          Float           @default(1.5)
+  bhtnEmployeeRate          Float           @default(1.0)
+  bhxhEmployerRate          Float           @default(17.5)
+  bhytEmployerRate          Float           @default(3.0)
+  bhtnEmployerRate          Float           @default(1.0)
+  tradeUnionEmployerRate    Float           @default(2.0)
+
+  personalTaxDeduction      Float           @default(11000000)
+  dependentTaxDeduction     Float           @default(4400000)
+  taxBracketVersion         String          @default("LEGACY_7_TIER")
+
+  signatoryCreatorTitle     String          @default("Người lập biểu")
+  signatoryAccountantTitle  String          @default("Kế toán trưởng")
+  signatoryDirectorTitle    String          @default("Giám đốc")
+
+  @@index([tenantId])
+}
+
+model ConfigurationVersion {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  category                  String          // 'TAX_RULES', 'INSURANCE_RATES', 'WORKING_RULES'
+  effectiveFrom             DateTime
+  effectiveTo               DateTime?
+  configJson                String
+
+  createdById               String?
+  comment                   String?
+
+  @@index([tenantId, category, effectiveFrom])
+}
+
+model AuditLog {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  user                      User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId                    String?
+
+  action                    String          // 'CREATE_EMPLOYEE', 'UPDATE_PAYROLL', 'LOCK_PERIOD'
+  entityType                String          // 'Employee', 'PayrollPeriod', 'CompanySetting'
+  entityId                  String?
+
+  oldValuesJson             String?
+  newValuesJson             String?
+  ipAddress                 String?
+  userAgent                 String?
+
+  @@index([tenantId, entityType, createdAt])
+  @@index([tenantId, userId])
+}
+
+// ==========================================================
+// CA LÀM VIỆC & PHÂN LỊCH (SHIFTS & WORK SCHEDULES)
+// ==========================================================
+
+model Shift {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  name                      String          // Tên ca: 'Ca hành chính', 'Ca sáng', 'Ca tối'
+  code                      String          // Mã ca: 'HC', 'CA1', 'CA2', 'CA3'
+  startTime                 String          // Giờ bắt đầu '08:00'
+  endTime                   String          // Giờ kết thúc '17:00'
+  breakMinutes              Int             @default(60) // Số phút nghỉ giữa ca
+  workUnits                 Float           @default(1.0) // Số công tương ứng (1.0 công, 0.5 công)
+  isOvertime                Boolean         @default(false)
+  overtimeRate              Float           @default(1.0)
+  color                     String          @default("#3B82F6")
+  isActive                  Boolean         @default(true)
+
+  workSchedules             WorkSchedule[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId, isActive])
+}
+
+model WorkSchedule {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  name                      String          // 'Lịch làm việc văn phòng', 'Lịch ca luân phiên'
+
+  shift                     Shift           @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+  shiftId                   String
+
+  department                Department?     @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  departmentId              String?
+
+  employee                  Employee?       @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employeeId                String?
+
+  appliedDays               String          @default("2,3,4,5,6,7") // Các thứ trong tuần áp dụng (2=Thứ 2... CN=Chủ nhật)
+  effectiveFrom             DateTime        // Ngày bắt đầu áp dụng
+  effectiveTo               DateTime?       // Ngày kết thúc (nếu có)
+
+  @@index([tenantId, departmentId])
+  @@index([tenantId, employeeId])
+  @@index([tenantId, effectiveFrom])
+}
+
+// ==========================================================
+// TÁC VỤ NHẬP / XUẤT TẬP TIN DỮ LIỆU (IMPORT & EXPORT JOBS)
+// ==========================================================
+
+enum JobType {
+  IMPORT_ATTENDANCE       // Nhập bảng chấm công từ Excel/máy chấm công
+  EXPORT_PAYROLL_EXCEL    // Xuất bảng lương tổng hợp ra Excel
+  EXPORT_BHXH_C70A        // Xuất mẫu kê khai bảo hiểm C70a-HD
+  EXPORT_TAX_05_1         // Xuất bảng kê thuế TNCN 05-1/BK-TNCN
+}
+
+enum JobStatus {
+  PENDING                 // Đang chờ xử lý trong hàng đợi
+  PROCESSING              // Đang đọc/ghi file
+  COMPLETED               // Hoàn thành thành công
+  FAILED                  // Thất bại
+}
+
+model ImportExportJob {
+  id                        String          @id @default(uuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+
+  tenant                    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId                  String
+
+  user                      User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId                    String?
+
+  type                      JobType
+  status                    JobStatus       @default(PENDING)
+
+  fileName                  String          // Tên file gốc hoặc tên file kết quả
+  fileUrl                   String?         // URL lưu trữ đám mây (Supabase Storage / S3)
+  fileSize                  Int?            // Kích thước (bytes)
+  mimeType                  String?         // Định dạng mime
+
+  totalRows                 Int             @default(0)
+  processedRows             Int             @default(0)
+  errorLogJson              String?         // Chi tiết lỗi từng dòng (nếu có)
+  completedAt               DateTime?
+
+  @@index([tenantId, type, status])
+  @@index([tenantId, createdAt])
+}
+
+
